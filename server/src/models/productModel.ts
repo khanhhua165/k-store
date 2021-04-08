@@ -1,3 +1,4 @@
+import { IProductType } from "./productTypeModel";
 import { Schema, model, Document, Model } from "mongoose";
 
 export interface IProduct extends Document {
@@ -5,7 +6,7 @@ export interface IProduct extends Document {
   name_vn: string;
   description_en: string;
   description_vi: string;
-  productType: string;
+  productType: IProductType["_id"];
   image: string;
   price: number;
   stock: number;
@@ -16,7 +17,11 @@ const ProductSchema: Schema = new Schema({
   name_vn: { type: String, required: true },
   description_en: { type: String, required: true },
   description_vi: { type: String, required: true },
-  productType: { type: String, required: true },
+  productType: {
+    type: Schema.Types.ObjectId,
+    ref: "ProductType",
+    required: true,
+  },
   image: { type: String, required: true },
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
