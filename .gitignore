@@ -2,5 +2,7 @@
 /client/node_modules
 /server/node_modules
 
+# build
+/server/build
 # Env variables
 /server/nodemon.json
