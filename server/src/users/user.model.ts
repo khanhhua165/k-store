@@ -1,16 +1,5 @@
-import { IProduct } from "./productModel";
-import { Schema, model, Document } from "mongoose";
-
-export interface IUser extends Document {
-  firstName: string;
-  lastName: string;
-  userName: string;
-  password: string;
-  email: string;
-  addrress?: string;
-  phone: number;
-  favorite: IProduct["_id"][];
-}
+import { model, Schema } from "mongoose";
+import { IUser } from "./user.interface";
 
 const UserSchema: Schema = new Schema({
   firstName: { type: String, required: true },

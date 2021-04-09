@@ -1,19 +1,5 @@
-import { IProduct } from "./productModel";
-import { IUser } from "./userModel";
-import { Schema, model, Document } from "mongoose";
-
-interface IOrder extends Document {
-  user: IUser["_id"];
-  items: { product: IProduct["_id"]; quantity: number }[];
-  firstName: string;
-  lastName: string;
-  address: string;
-  email: string;
-  phone: string;
-  status: string;
-  createdAt: Schema.Types.Date;
-  totalPrice: number;
-}
+import { model, Schema } from "mongoose";
+import { IOrder } from "./order.interface";
 
 const OrderSchema: Schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },

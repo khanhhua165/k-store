@@ -1,29 +1,59 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
-import HttpError from "./models/httpError";
-import productTypeRoutes from "./routes/productTypeRoutes";
+import mongoose from "mongoose";
+import HttpError from "./exceptions/httpError";
+import Controller from "./interfaces/controller.interface";
 
-const app = express();
+class App {
+  public app: express.Application;
+  public port: number;
 
-app.use(cors());
-app.use(express.json());
+  constructor(controllers: Controller[], port: number) {
+    this.app = express();
+    this.port = port;
 
-app.use(productTypeRoutes);
-
-app.use(
-  (
-    error: HttpError | Error,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    if (res.headersSent) {
-      return next(error);
-    }
-    res
-      .status((error as HttpError).code || 500)
-      .json({ message: error.message || "There was an unexpected error" });
+    this.connectToDatabase();
+    this.initializeMiddlewares();
+    this.initializeControllers(controllers);
   }
-);
 
-export default app;
+  private initializeMiddlewares() {
+    this.app.use(express.json());
+    this.app.use(cors());
+  }
+
+  private initializeControllers(controllers: Controller[]) {
+    controllers.forEach((controller) => {
+      this.app.use(controller.router);
+    });
+    this.app.use(
+      (error: HttpError, req: Request, res: Response, next: NextFunction) => {
+        if (res.headersSent) {
+          return next(error);
+        }
+        res
+          .status(error.code || 500)
+          .json({ message: error.message || "There was an unexpected error" });
+      }
+    );
+  }
+
+  private connectToDatabase() {
+    const mongodbUrl = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.73vlw.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+
+    mongoose.connect(mongodbUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    });
+  }
+
+  public listen() {
+    this.app.listen(this.port, () => {
+      console.log(`listening on port ${this.port}`);
+    });
+  }
+}
+
+export default App;
