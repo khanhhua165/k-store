@@ -1,11 +1,15 @@
 import { model, Schema } from "mongoose";
 import { IOrder } from "./order.interface";
 
-const OrderSchema: Schema = new Schema({
-  user: { type: Schema.Types.ObjectId, ref: "User" },
+const orderSchema: Schema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
   items: [
     {
-      product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+      productId: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
       quantity: { type: Number, required: true },
     },
   ],
@@ -19,4 +23,4 @@ const OrderSchema: Schema = new Schema({
   totalPrice: { type: Number, required: true },
 });
 
-export default model<IOrder>("Order", OrderSchema);
+export default model<IOrder>("Order", orderSchema);

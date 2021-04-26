@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
   ];
   const NavItems = navItems.map((navItem) => (
     <Link href={navItem.path} key={navItem.name}>
-      <a className="font-serif text-xl font-semibold">{navItem.name}</a>
+      <a className="text-xl font-semibold">{navItem.name}</a>
     </Link>
   ));
   return (
@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
       <div className="flex items-center justify-between px-4 py-4 mx-auto sm:px-14 max-w-[100rem]">
         <div className="flex space-x-5 justify-left">
           <Link href="/">
-            <a className="font-sans text-2xl font-bold tracking-widest uppercase">
+            <a className="text-2xl font-bold tracking-widest uppercase font-cursive">
               K-Store
             </a>
           </Link>
@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-center space-x-7">
           {NavItems}
         </div>
-        <div className="">sdafdsafadsf</div>
+        <div className="">Dang Nhap</div>
       </div>
     </div>
   );
