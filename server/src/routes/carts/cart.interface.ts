@@ -1,4 +1,4 @@
-import { Schema, Document } from "mongoose";
+import { Document } from "mongoose";
 import { IProduct } from "../products/product.interface";
 import { IUser } from "../users/user.interface";
 

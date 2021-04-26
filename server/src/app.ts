@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import HttpError from "./exceptions/httpError";
 import Controller from "./interfaces/controller.interface";
+import errorMiddleware from "./middlewares/error.middleware";
 
 class App {
   public app: express.Application;
@@ -15,6 +16,7 @@ class App {
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
+    this.initializeErrorHandling();
   }
 
   private initializeMiddlewares() {
@@ -26,16 +28,10 @@ class App {
     controllers.forEach((controller) => {
       this.app.use(controller.router);
     });
-    this.app.use(
-      (error: HttpError, req: Request, res: Response, next: NextFunction) => {
-        if (res.headersSent) {
-          return next(error);
-        }
-        res
-          .status(error.code || 500)
-          .json({ message: error.message || "There was an unexpected error" });
-      }
-    );
+  }
+
+  private initializeErrorHandling() {
+    this.app.use(errorMiddleware);
   }
 
   private connectToDatabase() {

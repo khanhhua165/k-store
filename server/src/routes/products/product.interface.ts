@@ -1,11 +1,9 @@
 import { Document } from "mongoose";
 
 export interface IProduct extends Document {
-  name_en: string;
-  name_vi: string;
-  description_en: string;
-  description_vi: string;
-  productType: "meat" | "organ" | "supplement";
+  name: string;
+  description: string;
+  productType: "meat" | "organ" | "supplement" | "package";
   subType:
     | "Beef Steaks"
     | "Beef Whole Cuts"

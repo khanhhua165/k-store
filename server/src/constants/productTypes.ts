@@ -1,4 +1,4 @@
-export const productTypes = ["meat", "supplement", "organ"];
+export const productTypes = ["meat", "supplement", "organ", "package"];
 export const subTypes = [
   "Beef Steaks",
   "Beef Whole Cuts",
