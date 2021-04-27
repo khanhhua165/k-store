@@ -20,4 +20,7 @@ export default class AddProductDto {
 
   @IsNumber()
   public stock!: number;
+
+  @IsNumber()
+  public sold!: number;
 }

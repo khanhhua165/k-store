@@ -19,4 +19,5 @@ export interface IProduct extends Document {
   image: string;
   price: number;
   stock: number;
+  sold: number;
 }
