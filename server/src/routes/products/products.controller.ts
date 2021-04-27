@@ -3,8 +3,10 @@ import express, { NextFunction, Request, Response } from "express";
 import HttpError from "../../exceptions/httpError";
 import Controller from "../../interfaces/controller.interface";
 import productModel from "./product.model";
+import validationMiddleware from "../../middlewares/validation.middleware";
+import AddProductDto from "./product.dto";
 
-class ProductsController implements Controller {
+export default class ProductsController implements Controller {
   public path = "/products";
   public router = express.Router();
   private product = productModel;
@@ -16,14 +18,20 @@ class ProductsController implements Controller {
   private initializeRoutes() {
     this.router.get(this.path, this.getAllProducts);
     this.router.get(`${this.path}/:id`, this.getProductById);
-    this.router.post(this.path, this.addProduct);
+    this.router.post(
+      this.path,
+      validationMiddleware(AddProductDto),
+      this.addProduct
+    );
+    this.router.patch(`${this.path}/:id`, this.modifyProduct);
+    this.router.delete(`${this.router}/:id`, this.deleteProduct);
   }
 
-  private async getAllProducts(
+  private getAllProducts = async (
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ) => {
     try {
       const allProducts = await this.product.find();
       if (!allProducts) {
@@ -34,13 +42,13 @@ class ProductsController implements Controller {
     } catch (e: unknown) {
       return next(new HttpError());
     }
-  }
+  };
 
-  private async getProductById(
+  private getProductById = async (
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ) => {
     const id = req.params.id;
     try {
       const product = this.product.findById(id);
@@ -52,16 +60,62 @@ class ProductsController implements Controller {
     } catch (e: unknown) {
       return next(new HttpError());
     }
-  }
+  };
 
-  private async addProduct(req: Request, res: Response, next: NextFunction) {
+  private addProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     const productData: IProduct = req.body;
     const createdProduct = new this.product(productData);
     try {
-      await createdProduct.save();
-      res.status(201).json({ product: createdProduct });
+      const savedProduct = await createdProduct.save();
+      res.status(201).json({ product: savedProduct });
     } catch (e: unknown) {
       return next(new HttpError());
     }
-  }
+  };
+
+  private modifyProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const id = req.params.id;
+    const productData: IProduct = req.body;
+    const modifiedProduct = new this.product(productData);
+    try {
+      const updatedProduct = await this.product.findByIdAndUpdate(
+        id,
+        modifiedProduct,
+        { new: true }
+      );
+      if (!updatedProduct) {
+        const error = new HttpError(404, "Product not found");
+        return next(error);
+      }
+      res.status(200).json({ product: updatedProduct });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
+  private deleteProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const id = req.params.id;
+    try {
+      const deletedProduct = await this.product.findByIdAndDelete(id);
+      if (!deletedProduct) {
+        const error = new HttpError(404, "Product not found");
+        return next(error);
+      }
+      res.status(200).json({ product: deletedProduct });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
 }
