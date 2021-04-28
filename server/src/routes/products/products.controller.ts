@@ -5,6 +5,7 @@ import Controller from "../../interfaces/controller.interface";
 import productModel from "./product.model";
 import validationMiddleware from "../../middlewares/validation.middleware";
 import AddProductDto from "./product.dto";
+import authMiddleware from "../../middlewares/auth.middleware";
 
 export default class ProductsController implements Controller {
   public path = "/products";
@@ -18,6 +19,7 @@ export default class ProductsController implements Controller {
   private initializeRoutes() {
     this.router.get(this.path, this.getAllProducts);
     this.router.get(`${this.path}/:id`, this.getProductById);
+    this.router.use(authMiddleware);
     this.router.post(
       this.path,
       validationMiddleware(AddProductDto),

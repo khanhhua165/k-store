@@ -16,6 +16,7 @@
     "@types/bcrypt": "^3.0.1",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/mongodb": "^3.6.12",
     "@types/mongoose": "^5.10.4",
     "@types/node": "^14.14.37",
@@ -28,6 +29,7 @@
     "class-validator": "^0.13.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.3"
   }
