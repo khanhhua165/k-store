@@ -25,7 +25,7 @@ export default class ProductsController implements Controller {
     );
     this.router.patch(
       `${this.path}/:id`,
-      validationMiddleware(AddProductDto),
+      validationMiddleware(AddProductDto, true),
       this.modifyProduct
     );
     this.router.delete(`${this.router}/:id`, this.deleteProduct);
