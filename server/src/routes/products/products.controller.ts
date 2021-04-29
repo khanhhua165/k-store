@@ -90,11 +90,10 @@ export default class ProductsController implements Controller {
   ) => {
     const id = req.params.id;
     const productData: IProduct = req.body;
-    const modifiedProduct = new this.product(productData);
     try {
       const updatedProduct = await this.product.findByIdAndUpdate(
         id,
-        modifiedProduct,
+        productData,
         { new: true }
       );
       if (!updatedProduct) {

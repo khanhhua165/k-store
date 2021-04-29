@@ -1,20 +1,6 @@
 import { model, Schema } from "mongoose";
 import { IUser } from "./user.interface";
 
-const CartSchema: Schema = new Schema({
-  items: [
-    {
-      product: {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
-      },
-      quantity: { type: Number, required: true },
-    },
-  ],
-  totalPrice: { type: Number, required: true },
-});
-
 const UserSchema: Schema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -30,8 +16,6 @@ const UserSchema: Schema = new Schema({
       required: true,
     },
   ],
-  cart: CartSchema,
-  order: [{ type: Schema.Types.ObjectId, ref: "Order", required: true }],
 });
 
 export default model<IUser>("User", UserSchema);

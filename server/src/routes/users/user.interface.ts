@@ -9,10 +9,5 @@ export interface IUser extends Document {
   email: string;
   addrress?: string;
   phone?: string;
-  favorite: IProduct["_id"][];
-  cart: {
-    items: { productId: IProduct["_id"]; quantity: number }[];
-    totalPrice: number;
-  };
-  order: IOrder["_id"][];
+  favorite: string[];
 }

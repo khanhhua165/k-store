@@ -3,8 +3,8 @@ import { IProduct } from "../products/product.interface";
 import { IUser } from "../users/user.interface";
 
 export interface IOrder extends Document {
-  userId: IUser["_id"];
-  items: { productId: IProduct["_id"]; quantity: number }[];
+  userId: string;
+  items: { productId: string; quantity: number }[];
   firstName: string;
   lastName: string;
   address: string;

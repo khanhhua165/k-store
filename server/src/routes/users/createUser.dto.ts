@@ -1,10 +1,4 @@
-import {
-  IsString,
-  IsEmail,
-  MinLength,
-  IsNumber,
-  MaxLength,
-} from "class-validator";
+import { IsString, IsEmail, MinLength } from "class-validator";
 
 export default class CreateUserDto {
   @IsString()

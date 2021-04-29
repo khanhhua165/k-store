@@ -10,11 +10,13 @@ import LogInDto from "./logIn.dto";
 import TokenData from "../../interfaces/tokenData.interface";
 import DataStoredInToken from "../../interfaces/dataStoredInToken";
 import jwt from "jsonwebtoken";
+import cartModel from "../cart/cart.model";
 
 export default class UsersController implements Controller {
   public path = "/user";
   public router = express.Router();
   private user = userModel;
+  private cart = cartModel;
   constructor() {
     this.initializeRoutes();
   }
@@ -46,10 +48,9 @@ export default class UsersController implements Controller {
       ...userData,
       password: hashedPassword,
       favorite: [],
-      cart: { items: [], totalPrice: 0 },
-      order: [],
     });
     user.password = "";
+    await this.cart.create({ userId: user._id, items: [], totalPrice: 0 });
     const tokenData = this.createToken(user);
     res.status(201).json({ user, tokenData });
   };
