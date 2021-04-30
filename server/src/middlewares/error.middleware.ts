@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import fs from "fs";
 import HttpError from "../exceptions/httpError";
 
 const errorMiddleware = (
@@ -7,6 +8,11 @@ const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
+  if (req.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+  }
   if (res.headersSent) {
     return next(error);
   }

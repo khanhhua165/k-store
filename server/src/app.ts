@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
+import path from "path";
 import cors from "cors";
 import mongoose from "mongoose";
 import HttpError from "./exceptions/httpError";
@@ -22,6 +23,10 @@ class App {
   private initializeMiddlewares() {
     this.app.use(express.json());
     this.app.use(cors());
+    this.app.use(
+      "/uploads/images",
+      express.static(path.join("uploads", "images"))
+    );
   }
 
   private initializeControllers(controllers: Controller[]) {
