@@ -15,7 +15,8 @@ export interface IProduct extends Document {
     | "Cheese"
     | "Fish Products"
     | "Salt"
-    | "Honey";
+    | "Honey"
+    | "none";
   image: string;
   price: number;
   stock: number;
