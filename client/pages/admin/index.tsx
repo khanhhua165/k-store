@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddProductForm from "../../components/AddProductForm";
+import AddProductForm from "../../components/forms/AddProductForm";
 
 export default function Admin() {
   const [currentTab, setCurrentTab] = useState("add product");

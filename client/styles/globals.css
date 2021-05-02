@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .input-style {
-  @apply py-1 pl-3 mt-2 border border-blue-600 rounded-md;
+  @apply py-1 pl-3 mt-1 border border-blue-600 rounded-md;
 }
 
 .input-error {
@@ -23,5 +23,5 @@ input[type="number"] {
 }
 
 .label-style {
-  @apply text-base font-semibold text-gray-600;
+  @apply mt-1 text-base font-semibold text-gray-600;
 }

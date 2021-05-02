@@ -27,7 +27,14 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-center space-x-7">
           {NavItems}
         </div>
-        <div className="">Dang Nhap</div>
+        <div className="flex justify-center space-x-4 text-lg font-semibold">
+          <Link href="/signup">
+            <a>SignUp</a>
+          </Link>
+          <Link href="/signin">
+            <a>SignIn</a>
+          </Link>
+        </div>
       </div>
     </div>
   );

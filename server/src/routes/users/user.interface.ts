@@ -3,8 +3,7 @@ import { Document } from "mongoose";
 import { IProduct } from "../products/product.interface";
 
 export interface IUser extends Document {
-  firstName: string;
-  lastName: string;
+  name: string;
   password: string;
   email: string;
   addrress?: string;

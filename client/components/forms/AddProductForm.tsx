@@ -122,7 +122,7 @@ const AddProductForm: React.FC = () => {
         className="input-style"
         placeholder="Product Price"
         {...register("stock", {
-          required: "You must input a stock value",
+          required: "You need to input a stock value",
           valueAsNumber: true,
           validate: (value) =>
             value > 0 || "Stock cannot be negative or a string",
