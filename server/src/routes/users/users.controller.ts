@@ -23,7 +23,7 @@ export default class UsersController implements Controller {
 
   private initializeRoutes() {
     this.router.post(
-      `${this.path}/register`,
+      `${this.path}/signup`,
       validationMiddleware(CreateUserDto),
       this.registration
     );
@@ -43,7 +43,7 @@ export default class UsersController implements Controller {
     if (await this.user.findOne({ email: userData.email })) {
       return next(new HttpError(400, "User with that email already exists"));
     }
-    const hashedPassword = await bcrypt.hash(userData.password, 12);
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
     const user = await this.user.create({
       ...userData,
       password: hashedPassword,

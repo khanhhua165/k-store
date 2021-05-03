@@ -1,21 +1,31 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
+import { connect, ConnectedProps } from "react-redux";
+import { startSignup } from "../../actions/UserActions";
 
-type SignUpInputs = {
+export type SignUpInputs = {
   name: string;
   email: string;
   password: string;
 };
-const SignUpForm: React.FC = () => {
+
+const mapDispatchToProps = {
+  startSignup,
+};
+const connector = connect(null, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const SignUpForm: React.FC<PropsFromRedux> = ({ startSignup }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignUpInputs>();
   const onSubmit: SubmitHandler<SignUpInputs> = (data, e) => {
-    console.log(data);
     e?.preventDefault();
+    console.log("vovovo");
+    startSignup(data);
   };
   return (
     <form
@@ -59,7 +69,7 @@ const SignUpForm: React.FC = () => {
       <span className="label-style">Password</span>
       <input
         className="input-style"
-        type="text"
+        type="password"
         placeholder="Password"
         {...register("password", {
           required: "You need to input a password",
@@ -86,4 +96,4 @@ const SignUpForm: React.FC = () => {
   );
 };
 
-export default SignUpForm;
+export default connector(SignUpForm);
