@@ -1,8 +1,10 @@
+import axios from "axios";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
-import { connect, ConnectedProps } from "react-redux";
-import { startSignup } from "../../actions/UserActions";
+import { API_URL } from "../../constants/api";
+import UserContext from "../../contexts/user/UserContext";
+import useSettingUser from "../../contexts/user/useSettingUser";
 
 export type SignUpInputs = {
   name: string;
@@ -10,22 +12,25 @@ export type SignUpInputs = {
   password: string;
 };
 
-const mapDispatchToProps = {
-  startSignup,
-};
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const SignUpForm: React.FC<PropsFromRedux> = ({ startSignup }) => {
+const SignUpForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignUpInputs>();
-  const onSubmit: SubmitHandler<SignUpInputs> = (data, e) => {
+  const { clearUser, setUser, userId } = useSettingUser();
+  const onSubmit: SubmitHandler<SignUpInputs> = async (data, e) => {
     e?.preventDefault();
     console.log("vovovo");
-    startSignup(data);
+    try {
+      const result = await axios.post<{ userId: string; tokenData: string }>(
+        `${API_URL}/user/signup`,
+        { ...data }
+      );
+      console.log("ok");
+    } catch (e) {
+      console.log("hehe");
+    }
   };
   return (
     <form
@@ -96,4 +101,4 @@ const SignUpForm: React.FC<PropsFromRedux> = ({ startSignup }) => {
   );
 };
 
-export default connector(SignUpForm);
+export default SignUpForm;

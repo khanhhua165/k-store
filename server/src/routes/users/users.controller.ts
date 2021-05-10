@@ -49,10 +49,9 @@ export default class UsersController implements Controller {
       password: hashedPassword,
       favorite: [],
     });
-    user.password = "";
     await this.cart.create({ userId: user._id, items: [], totalPrice: 0 });
     const tokenData = this.createToken(user);
-    res.status(201).json({ user, tokenData });
+    res.status(201).json({ userId: user._id, tokenData: tokenData.token });
   };
 
   private loggingIn = async (
