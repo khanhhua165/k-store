@@ -8,5 +8,4 @@ export interface IUser extends Document {
   email: string;
   addrress?: string;
   phone?: string;
-  favorite: string[];
 }

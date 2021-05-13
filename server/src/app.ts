@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 import path from "path";
 import cors from "cors";
 import mongoose from "mongoose";
-import HttpError from "./exceptions/httpError";
 import Controller from "./interfaces/controller.interface";
 import errorMiddleware from "./middlewares/error.middleware";
 

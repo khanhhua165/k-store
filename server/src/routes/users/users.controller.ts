@@ -23,7 +23,7 @@ export default class UsersController implements Controller {
 
   private initializeRoutes() {
     this.router.post(
-      `${this.path}/signup`,
+      `${this.path}/register`,
       validationMiddleware(CreateUserDto),
       this.registration
     );
@@ -39,6 +39,7 @@ export default class UsersController implements Controller {
     res: Response,
     next: NextFunction
   ) => {
+    console.log("cheesus");
     const userData: CreateUserDto = req.body;
     if (await this.user.findOne({ email: userData.email })) {
       return next(new HttpError(400, "User with that email already exists"));
@@ -50,8 +51,9 @@ export default class UsersController implements Controller {
       favorite: [],
     });
     await this.cart.create({ userId: user._id, items: [], totalPrice: 0 });
+    user.password = "";
     const tokenData = this.createToken(user);
-    res.status(201).json({ userId: user._id, tokenData: tokenData.token });
+    res.status(201).json({ user, tokenData });
   };
 
   private loggingIn = async (

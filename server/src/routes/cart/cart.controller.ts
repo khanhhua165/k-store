@@ -16,10 +16,11 @@ export default class CartController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.use(authMiddleware);
-    this.router.get(this.path, this.getCartByUserId);
-    this.router.patch(this.path, this.updateCart);
-    this.router.delete(this.path, this.clearCart);
+    this.router
+      .all(this.path, authMiddleware)
+      .get(this.path, this.getCartByUserId)
+      .patch(this.path, this.updateCart)
+      .delete(this.path, this.clearCart);
   }
 
   private getCartByUserId = async (

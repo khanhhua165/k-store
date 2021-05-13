@@ -2,9 +2,9 @@ import axios from "axios";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
-import { API_URL } from "../../constants/api";
-import UserContext from "../../contexts/user/UserContext";
-import useSettingUser from "../../contexts/user/useSettingUser";
+import { API_URL, USER_ROUTE } from "../../constants/api";
+import UserContainer from "../../containers/user/UserContainer";
+import { SignupResponse } from "../../interfaces/User.interface";
 
 export type SignUpInputs = {
   name: string;
@@ -18,16 +18,24 @@ const SignUpForm: React.FC = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignUpInputs>();
-  const { clearUser, setUser, userId } = useSettingUser();
+
+  const { login, token, user } = UserContainer.useContainer();
   const onSubmit: SubmitHandler<SignUpInputs> = async (data, e) => {
     e?.preventDefault();
-    console.log("vovovo");
     try {
-      const result = await axios.post<{ userId: string; tokenData: string }>(
-        `${API_URL}/user/signup`,
+      const result = await axios.post<SignupResponse>(
+        `${API_URL}${USER_ROUTE}/register`,
         { ...data }
       );
-      console.log("ok");
+      const userSignUpData = result.data.user;
+
+      login(
+        { _id: userSignUpData._id, name: userSignUpData.name },
+        result.data.tokenData.token,
+        new Date(new Date().getTime() + 1000 * 60 * 60)
+      );
+      console.log(token);
+      console.log(user);
     } catch (e) {
       console.log("hehe");
     }

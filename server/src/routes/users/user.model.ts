@@ -7,14 +7,6 @@ const UserSchema: Schema = new Schema({
   email: { type: String, required: true, unique: true },
   address: { type: String },
   phone: { type: String },
-  favorite: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-      unique: true,
-      required: true,
-    },
-  ],
 });
 
 export default model<IUser>("User", UserSchema);

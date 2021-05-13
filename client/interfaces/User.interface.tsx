@@ -1,16 +1,13 @@
 export interface User {
   _id: string;
   name: string;
-  favorite: string[];
+  address?: string;
+  phone?: string;
 }
 
-export interface UserState {
-  user: User | null;
-  loaded: boolean;
-}
-export interface UserPayload {
-  user: User;
-  name: string;
+interface TokenData {
+  expiresIn: number;
+  token: string;
 }
 
 export interface UserSignupResponse {
@@ -18,11 +15,8 @@ export interface UserSignupResponse {
   name: string;
   password: string;
   email: string;
-  addrress?: string;
-  phone?: string;
-  favorite: string[];
 }
 export interface SignupResponse {
   user: UserSignupResponse;
-  tokenData: string;
+  tokenData: TokenData;
 }

@@ -19,18 +19,23 @@ export default class ProductsController implements Controller {
   private initializeRoutes() {
     this.router.get(this.path, this.getAllProducts);
     this.router.get(`${this.path}/:id`, this.getProductById);
-    this.router.use(authMiddleware);
     this.router.post(
       this.path,
+      authMiddleware,
       validationMiddleware(AddProductDto),
       this.addProduct
     );
     this.router.patch(
       `${this.path}/:id`,
+      authMiddleware,
       validationMiddleware(AddProductDto, true),
       this.modifyProduct
     );
-    this.router.delete(`${this.router}/:id`, this.deleteProduct);
+    this.router.delete(
+      `${this.router}/:id`,
+      authMiddleware,
+      this.deleteProduct
+    );
   }
 
   private getAllProducts = async (
@@ -57,7 +62,7 @@ export default class ProductsController implements Controller {
   ) => {
     const id = req.params.id;
     try {
-      const product = this.product.findById(id);
+      const product = await this.product.findById(id);
       if (!product) {
         const error = new HttpError(204, "Product not found");
         return next(error);
