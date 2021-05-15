@@ -39,7 +39,6 @@ export default class UsersController implements Controller {
     res: Response,
     next: NextFunction
   ) => {
-    console.log("cheesus");
     const userData: CreateUserDto = req.body;
     if (await this.user.findOne({ email: userData.email })) {
       return next(new HttpError(400, "User with that email already exists"));
@@ -51,9 +50,11 @@ export default class UsersController implements Controller {
       favorite: [],
     });
     await this.cart.create({ userId: user._id, items: [], totalPrice: 0 });
-    user.password = "";
     const tokenData = this.createToken(user);
-    res.status(201).json({ user, tokenData });
+    res.status(201).json({
+      user: { _id: user._id, name: user.name, email: user.email },
+      token: tokenData.token,
+    });
   };
 
   private loggingIn = async (
@@ -75,7 +76,7 @@ export default class UsersController implements Controller {
     }
     user.password = "";
     const tokenData = this.createToken(user);
-    res.status(200).json({ user, tokenData });
+    res.status(200).json({ user, token: tokenData.token });
   };
 
   private createToken(user: IUser): TokenData {

@@ -6,3 +6,5 @@
 /server/build
 # Env variables
 /server/nodemon.json
+#vscode
+/server/.vscode

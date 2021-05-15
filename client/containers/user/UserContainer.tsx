@@ -10,10 +10,11 @@ const useAuth = () => {
     useState<Date | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const login = useCallback(
-    (user: User, token: string, expirationDate: Date) => {
-      setToken(token);
+    (user: User, resToken: string, expirationDate: Date) => {
+      setToken(resToken);
       setUser(user);
       const tokenExpirationDate =
         expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
@@ -22,7 +23,7 @@ const useAuth = () => {
         "userData",
         JSON.stringify({
           user,
-          token: token,
+          token: resToken,
           expiration: tokenExpirationDate.toISOString(),
         })
       );
@@ -56,15 +57,12 @@ const useAuth = () => {
       storedData.token &&
       new Date(storedData.expiration) > new Date()
     ) {
-      login(
-        storedData.userId,
-        storedData.token,
-        new Date(storedData.expiration)
-      );
+      login(storedData.user, storedData.token, new Date(storedData.expiration));
     }
+    setIsInitialized(true);
   }, [login]);
 
-  return { token, login, logout, user, isLoggedIn };
+  return { token, login, logout, user, isLoggedIn, isInitialized };
 };
 const UserContainer = createContainer(useAuth);
 export default UserContainer;

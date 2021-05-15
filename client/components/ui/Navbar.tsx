@@ -1,7 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import UserContainer from "../../containers/user/UserContainer";
 
 const Navbar: React.FC = () => {
+  const { isLoggedIn, user, logout } = UserContainer.useContainer();
   const navItems = [
     { path: "/shop", name: "Shop" },
     { path: "/blog", name: "Blog" },
@@ -28,12 +30,31 @@ const Navbar: React.FC = () => {
           {NavItems}
         </div>
         <div className="flex justify-center space-x-4 text-lg font-semibold">
-          <Link href="/signup">
-            <a>SignUp</a>
-          </Link>
-          <Link href="/signin">
-            <a>SignIn</a>
-          </Link>
+          {isLoggedIn && user?.email === "admin@admin.com" && (
+            <Link href="/admin">
+              <a>Admin</a>
+            </Link>
+          )}
+          {isLoggedIn && (
+            <>
+              <Link href={`/user/${user!._id}`}>
+                <a>{user!.name}</a>
+              </Link>
+              <div className="cursor-pointer" onClick={logout}>
+                SignOut
+              </div>
+            </>
+          )}
+          {!isLoggedIn && (
+            <>
+              <Link href="/signup">
+                <a>SignUp</a>
+              </Link>
+              <Link href="/signin">
+                <a>SignIn</a>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -1,43 +1,45 @@
 import axios, { AxiosError } from "axios";
+import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import { API_URL, USER_ROUTE } from "../../constants/api";
 import UserContainer from "../../containers/user/UserContainer";
-import { SignupResponse } from "../../interfaces/User.interface";
+import { SigninResponse } from "../../interfaces/User.interface";
 
-export type SignUpInputs = {
-  name: string;
+export type SignInInputs = {
   email: string;
   password: string;
 };
 
-const SignUpForm: React.FC = () => {
+const SignInForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<SignUpInputs>();
-
+  } = useForm<SignInInputs>();
+  const router = useRouter();
   const { login } = UserContainer.useContainer();
-  const [mailErr, setMailErr] = useState("");
-  const onSubmit: SubmitHandler<SignUpInputs> = async (data, e) => {
+  const [loginErr, setLoginErr] = useState("");
+  const onSubmit: SubmitHandler<SignInInputs> = async (data, e) => {
     e?.preventDefault();
     try {
-      const result = await axios.post<SignupResponse>(
-        `${API_URL}${USER_ROUTE}/register`,
+      const result = await axios.post<SigninResponse>(
+        `${API_URL}${USER_ROUTE}/login`,
         { ...data }
       );
       const userSignUpData = result.data.user;
-      setMailErr("");
+      setLoginErr("");
+      console.log(result.data.token);
       login(
         userSignUpData,
         result.data.token,
         new Date(new Date().getTime() + 1000 * 60 * 60)
       );
+      router.push("/");
     } catch (e) {
       if (e.response) {
-        setMailErr(e.response.data.message);
+        setLoginErr("Cannot sign in with current credentials!");
       }
     }
   };
@@ -46,21 +48,6 @@ const SignUpForm: React.FC = () => {
       className="flex flex-col w-3/4 max-w-md mx-auto mb-4 mt-28 sm:text-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <span className="label-style">Name</span>
-      <input
-        className="input-style"
-        type="text"
-        placeholder="Your Name"
-        {...register("name", {
-          required: "You need to input your name",
-        })}
-      />
-      {errors.name && (
-        <p className="input-error">
-          <AiOutlineWarning />
-          <span>{errors.name.message}</span>
-        </p>
-      )}
       <span className="label-style">Email</span>
       <input
         type="text"
@@ -80,12 +67,7 @@ const SignUpForm: React.FC = () => {
           <span>{errors.email.message}</span>
         </p>
       )}
-      {mailErr && (
-        <p className="input-error">
-          <AiOutlineWarning />
-          <span>{mailErr}</span>
-        </p>
-      )}
+
       <span className="label-style">Password</span>
       <input
         className="input-style"
@@ -105,15 +87,21 @@ const SignUpForm: React.FC = () => {
           <span>{errors.password.message}</span>
         </p>
       )}
+      {loginErr && (
+        <p className="input-error">
+          <AiOutlineWarning />
+          <span>{loginErr}</span>
+        </p>
+      )}
       <button
         disabled={isSubmitting}
         type="submit"
         className="flex justify-center py-2 mt-3 bg-blue-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 hover:bg-blue-700 focus:bg-blue-800"
       >
-        SIGN UP
+        SIGN IN
       </button>
     </form>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

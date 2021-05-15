@@ -1,22 +1,23 @@
 export interface User {
   _id: string;
   name: string;
+  email: string;
   address?: string;
   phone?: string;
-}
-
-interface TokenData {
-  expiresIn: number;
-  token: string;
+  password?: string;
 }
 
 export interface UserSignupResponse {
   _id: string;
   name: string;
-  password: string;
   email: string;
 }
 export interface SignupResponse {
   user: UserSignupResponse;
-  tokenData: TokenData;
+  token: string;
+}
+
+export interface SigninResponse {
+  user: User;
+  token: string;
 }
