@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

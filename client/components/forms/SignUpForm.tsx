@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
@@ -22,7 +22,7 @@ const SignUpForm: React.FC = () => {
   const { login } = UserContainer.useContainer();
   const [mailErr, setMailErr] = useState("");
   const onSubmit: SubmitHandler<SignUpInputs> = async (data, e) => {
-    e?.preventDefault();
+    e!.preventDefault();
     try {
       const result = await axios.post<SignupResponse>(
         `${API_URL}${USER_ROUTE}/register`,

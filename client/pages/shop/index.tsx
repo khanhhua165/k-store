@@ -1,8 +1,8 @@
-import Searchbar from "../../components/ui/Searchbar";
+import Searchbar from "../../components/forms/Searchbar";
 
 export default function Shop() {
   return (
-    <div className="">
+    <div className="flex mt-36">
       <Searchbar />
     </div>
   );

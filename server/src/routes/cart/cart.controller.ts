@@ -30,7 +30,10 @@ export default class CartController implements Controller {
   ) => {
     const userId = req.userId;
     try {
-      const userCart = await this.cart.findOne({ userId }).exec();
+      const userCart = await this.cart
+        .findOne({ userId })
+        .populate("items.productId")
+        .exec();
       res.status(200).json({ userCart });
     } catch (e: unknown) {
       return next(new HttpError());

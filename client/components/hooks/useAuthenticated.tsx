@@ -10,7 +10,7 @@ const useAuthenticated = () => {
       setIsLoading(false);
     }
   }, [isInitialized]);
-  return { isLoading, isLoggedIn, user };
+  return { isLoading, isLoggedIn, user, isInitialized };
 };
 
 export default useAuthenticated;

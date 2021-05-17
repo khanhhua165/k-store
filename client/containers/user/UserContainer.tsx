@@ -3,6 +3,7 @@ import { createContainer } from "unstated-next";
 import { User } from "../../interfaces/User.interface";
 
 let logoutTimer: NodeJS.Timeout;
+const HOUR_IN_MILLISECOND = 1000 * 60 * 60;
 
 const useAuth = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -17,7 +18,7 @@ const useAuth = () => {
       setToken(resToken);
       setUser(user);
       const tokenExpirationDate =
-        expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+        expirationDate || new Date(new Date().getTime() + HOUR_IN_MILLISECOND);
       setTokenExpirationDate(tokenExpirationDate);
       localStorage.setItem(
         "userData",

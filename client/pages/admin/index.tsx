@@ -8,11 +8,11 @@ export default function Admin() {
   const router = useRouter();
   const { isLoading, isLoggedIn, user } = useAuthenticated();
   if (isLoggedIn && user!.email !== "admin@admin.com") {
+    console.log("yaya");
     router.push("/");
   }
-  if (isLoading) {
-    return null;
-  } else {
+
+  if (isLoading && isLoggedIn && user!.email === "admin@admin.com") {
     return (
       <div className="flex flex-col mt-20">
         <div className="flex ml-5">
@@ -23,5 +23,8 @@ export default function Admin() {
         <AddProductForm />
       </div>
     );
+  }
+  if (isLoading) {
+    return null;
   }
 }
