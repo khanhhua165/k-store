@@ -15,3 +15,10 @@ export interface ProductCartItem {
   quantity: number;
   totalPrice: number;
 }
+
+export interface CartResponse {
+  userId: string;
+  items: ProductCartItem[];
+  totalPrice: number;
+  totalItems: number;
+}

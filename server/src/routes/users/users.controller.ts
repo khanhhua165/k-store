@@ -49,7 +49,12 @@ export default class UsersController implements Controller {
       password: hashedPassword,
       favorite: [],
     });
-    await this.cart.create({ userId: user._id, items: [], totalPrice: 0 });
+    await this.cart.create({
+      userId: user._id,
+      items: [],
+      totalPrice: 0,
+      totalItem: 0,
+    });
     const tokenData = this.createToken(user);
     res.status(201).json({
       user: { _id: user._id, name: user.name, email: user.email },

@@ -9,7 +9,6 @@ const useCart = () => {
   const [cartItem, setCartItem] = useState<ProductCartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItem, setTotalItem] = useState(0);
-  const { isInitialized, isLoggedIn, user } = useAuthenticated();
 
   const setAllPrice = useCallback(() => {
     const totalPrice = cartItem.reduce(
@@ -75,15 +74,6 @@ const useCart = () => {
     setTotalItem(0);
   }, []);
 
-  useEffect(() => {
-    const fetchCart = async (userId: string) => {
-      await axios.get(`${API_URL}${CART_ROUTE}`);
-    };
-    if (isInitialized && isLoggedIn) {
-      fetchCart(user!._id);
-    }
-  }, [isInitialized]);
-
   return {
     cartItem,
     totalItem,
@@ -92,6 +82,9 @@ const useCart = () => {
     removeProduct,
     updateQuantity,
     clearCart,
+    setCartItem,
+    setTotalPrice,
+    setTotalItem,
   };
 };
 

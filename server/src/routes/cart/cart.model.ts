@@ -5,15 +5,17 @@ const OrderSchema: Schema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User" },
   items: [
     {
-      productId: {
+      product: {
         type: Schema.Types.ObjectId,
         ref: "Product",
         required: true,
       },
       quantity: { type: Number, required: true },
+      totalPrice: { type: Number, required: true },
     },
   ],
   totalPrice: { type: Number, required: true },
+  totalItems: { type: Number, required: true },
 });
 
 export default model<ICart>("Cart", OrderSchema);
