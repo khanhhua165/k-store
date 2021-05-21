@@ -15,7 +15,7 @@ const OrderSchema: Schema = new Schema({
     },
   ],
   totalPrice: { type: Number, required: true },
-  totalItems: { type: Number, required: true },
+  totalItem: { type: Number, required: true },
 });
 
 export default model<ICart>("Cart", OrderSchema);

@@ -1,9 +1,11 @@
-import Searchbar from "../../components/forms/Searchbar";
+import Menubar from "../../components/ui/Menubar";
 
 export default function Shop() {
   return (
     <div className="flex mt-36">
-      <Searchbar />
+      <div className="flex flex-col sm:flex-row">
+        <Menubar />
+      </div>
     </div>
   );
 }

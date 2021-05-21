@@ -1,6 +1,5 @@
-import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
-import UserContainer from "../../containers/user/UserContainer";
+import UserContainer from "../containers/user/UserContainer";
 
 const useAuthenticated = () => {
   const [isLoading, setIsLoading] = useState(true);

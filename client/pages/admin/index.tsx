@@ -1,7 +1,7 @@
 import { useRouter } from "next/dist/client/router";
 import { useState } from "react";
 import AddProductForm from "../../components/forms/AddProductForm";
-import useAuthenticated from "../../components/hooks/useAuthenticated";
+import useAuthenticated from "../../hooks/useAuthenticated";
 
 export default function Admin() {
   const [currentTab, setCurrentTab] = useState("add product");

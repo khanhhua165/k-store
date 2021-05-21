@@ -1,8 +1,5 @@
-import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { createContainer } from "unstated-next";
-import useAuthenticated from "../../components/hooks/useAuthenticated";
-import { API_URL, CART_ROUTE } from "../../constants/api";
 import { Product, ProductCartItem } from "../../interfaces/Product.interface";
 
 const useCart = () => {
@@ -16,6 +13,14 @@ const useCart = () => {
       0
     );
     setTotalPrice(totalPrice);
+  }, []);
+
+  const setAllTotalItme = useCallback(() => {
+    const totalItem = cartItem.reduce(
+      (total, product) => total + product.quantity,
+      0
+    );
+    setTotalItem(totalItem);
   }, []);
 
   const addProduct = useCallback((product: Product, quantity: number) => {
@@ -41,7 +46,7 @@ const useCart = () => {
         { product, quantity, totalPrice: product.price * quantity },
       ]);
     }
-    setTotalItem((oldItemValue) => oldItemValue + quantity);
+    setAllTotalItme();
     setAllPrice();
   }, []);
 
@@ -50,6 +55,7 @@ const useCart = () => {
       return product.product._id !== productId;
     });
     setCartItem(newCart);
+    setAllTotalItme();
     setAllPrice();
   }, []);
 
@@ -63,6 +69,7 @@ const useCart = () => {
         }
       });
       setCartItem(newCart);
+      setAllTotalItme();
       setAllPrice();
     },
     []

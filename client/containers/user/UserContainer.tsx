@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { createContainer } from "unstated-next";
+import { HOUR_IN_MILLISECOND } from "../../constants/time";
 import { User } from "../../interfaces/User.interface";
 
 let logoutTimer: NodeJS.Timeout;
-const HOUR_IN_MILLISECOND = 1000 * 60 * 60;
 
 const useAuth = () => {
   const [token, setToken] = useState<string | null>(null);

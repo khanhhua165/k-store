@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import { API_URL, USER_ROUTE } from "../../constants/api";
+import { HOUR_IN_MILLISECOND } from "../../constants/time";
 import UserContainer from "../../containers/user/UserContainer";
 import { SigninResponse } from "../../interfaces/User.interface";
 
@@ -34,7 +35,7 @@ const SignInForm: React.FC = () => {
       login(
         userSignUpData,
         result.data.token,
-        new Date(new Date().getTime() + 1000 * 60 * 60)
+        new Date(new Date().getTime() + HOUR_IN_MILLISECOND)
       );
       router.push("/");
     } catch (e) {
