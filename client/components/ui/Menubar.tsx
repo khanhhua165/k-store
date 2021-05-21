@@ -5,6 +5,33 @@ import Link from "next/link";
 import { Disclosure, Transition } from "@headlessui/react";
 
 const Menubar: React.FC = () => {
+  const meatMenu = [
+    { url: "/shop/meat/beef-steaks", name: "Beef Steaks" },
+    { url: "/shop/meat/beef-whole-cuts", name: "Beef Whole Cuts" },
+    {
+      url: "/shop/meat/ground-beef-and-burgers",
+      name: "Ground Beef and Burgers",
+    },
+    { url: "/shop/meat/poultry", name: "Poultry" },
+    { url: "/shop/meat/lamb", name: "Lamb" },
+    { url: "/shop/meat/veal", name: "Veal" },
+  ];
+  const meatLinks = meatMenu.map((meatItem) => (
+    <Link href={meatItem.url} key={meatItem.name}>
+      <a className="hover:text-blue-700">{meatItem.name}</a>
+    </Link>
+  ));
+  const supplementMenu = [
+    { url: "/shop/sup/cheese", name: "Cheese" },
+    { url: "/shop/sup/salt", name: "Salt" },
+    { url: "/shop/sup/honey", name: "Honey" },
+    { url: "/shop/sup/fish-products", name: "Fish Products" },
+  ];
+  const supplementLinks = supplementMenu.map((supItem) => (
+    <Link href={supItem.url} key={supItem.name}>
+      <a className="hover:text-blue-700">{supItem.name}</a>
+    </Link>
+  ));
   return (
     <div className="flex flex-col">
       <Searchbar />
@@ -22,7 +49,7 @@ const Menubar: React.FC = () => {
                 <HiChevronUp
                   className={`${
                     open ? "transform rotate-180" : ""
-                  } w-5 h-5 text-blue-500`}
+                  } w-5 h-5 text-blue-500 transition`}
                 />
               </Disclosure.Button>
               <Transition
@@ -35,12 +62,7 @@ const Menubar: React.FC = () => {
                 leaveTo="transform scale-95 opacity-0"
               >
                 <Disclosure.Panel className="flex flex-col px-3 py-2 space-y-2">
-                  <Link href="/shop/meats/beef-steak">
-                    <a className="">Beef Steak</a>
-                  </Link>
-                  <Link href="/shop/meats/beef-whole-cuts">
-                    <a className="">Beef Whole Cuts</a>
-                  </Link>
+                  {meatLinks}
                 </Disclosure.Panel>
               </Transition>
             </>
@@ -59,7 +81,7 @@ const Menubar: React.FC = () => {
                 <HiChevronUp
                   className={`${
                     open ? "transform rotate-180" : ""
-                  } w-5 h-5 text-blue-500`}
+                  } w-5 h-5 text-blue-500 transition`}
                 />
               </Disclosure.Button>
               <Transition
@@ -72,18 +94,7 @@ const Menubar: React.FC = () => {
                 leaveTo="transform scale-95 opacity-0"
               >
                 <Disclosure.Panel className="flex flex-col px-3 py-2 space-y-2">
-                  <Link href="/shop/supplements/cheese">
-                    <a className="hover:text-blue-700">Cheese</a>
-                  </Link>
-                  <Link href="/shop/supplements/fish-product">
-                    <a className="">Fish Products</a>
-                  </Link>
-                  <Link href="/shop/supplements/salt">
-                    <a className="">Salt</a>
-                  </Link>
-                  <Link href="/shop/supplements/honey">
-                    <a className="">Honey</a>
-                  </Link>
+                  {supplementLinks}
                 </Disclosure.Panel>
               </Transition>
             </>

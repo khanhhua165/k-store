@@ -1,11 +1,9 @@
-import Menubar from "../../components/ui/Menubar";
+import WithSideMenu from "../../components/layout/WithSideMenu";
 
-export default function Shop() {
-  return (
-    <div className="flex mt-36">
-      <div className="flex flex-col sm:flex-row">
-        <Menubar />
-      </div>
-    </div>
-  );
+function Shop() {
+  return <div className="flex mt-36"></div>;
 }
+
+Shop.Layout = WithSideMenu;
+
+export default Shop;
