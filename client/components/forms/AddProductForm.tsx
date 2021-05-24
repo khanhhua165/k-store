@@ -1,6 +1,11 @@
+import axios from "axios";
+import imageCompression from "browser-image-compression";
 import React, { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
+import { API_URL, PRODUCT_ROUTE } from "../../constants/api";
+import CartContainer from "../../containers/cart/CartContainer";
+import UserContainer from "../../containers/user/UserContainer";
 
 type ProductInputs = {
   name: string;
@@ -19,12 +24,13 @@ type ProductInputs = {
     | "Salt"
     | "Honey"
     | "none";
-  image: FileList;
+  image: FileList | null;
   price: number;
   stock: number;
 };
 
 const AddProductForm: React.FC = () => {
+  const { token } = UserContainer.useContainer();
   const {
     register,
     handleSubmit,
@@ -40,10 +46,36 @@ const AddProductForm: React.FC = () => {
       setCurentImageURL(URL.createObjectURL(e.target.files![0]));
     }
   };
-  const onSubmit: SubmitHandler<ProductInputs> = (data, e) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<ProductInputs> = async (
+    { description, image, name, price, productType, stock, subType },
+    e
+  ) => {
     e?.preventDefault();
+    const options = { maxWidthOrHeight: 250 };
+    const resizedImage = await imageCompression(
+      (image as FileList)[0],
+      options
+    );
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("image", resizedImage);
+    formData.append("price", price.toString());
+    formData.append("productType", productType);
+    formData.append("subType", subType);
+    formData.append("stock", stock.toString());
+    try {
+      const result = await axios.post(`${API_URL}${PRODUCT_ROUTE}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(result);
+    } catch (e) {
+      if (e.response) {
+        console.log(e.response.data.message);
+      }
+    }
   };
+
   return (
     <form
       className="flex flex-col w-3/4 max-w-md mx-auto mt-10 mb-4 sm:text-lg"
@@ -120,7 +152,7 @@ const AddProductForm: React.FC = () => {
       <input
         type="text"
         className="input-style"
-        placeholder="Product Price"
+        placeholder="Stock Value"
         {...register("stock", {
           required: "You need to input a stock value",
           valueAsNumber: true,
@@ -137,6 +169,7 @@ const AddProductForm: React.FC = () => {
       <input
         className="hidden"
         type="file"
+        accept=".jpg,.png,.jpeg"
         {...rest}
         onChange={fileSelectedHandler}
         ref={(e) => {

@@ -6,6 +6,7 @@ import productModel from "./product.model";
 import validationMiddleware from "../../middlewares/validation.middleware";
 import AddProductDto from "./product.dto";
 import authMiddleware from "../../middlewares/auth.middleware";
+import fileUpload from "../../middlewares/file-upload.middleware";
 
 export default class ProductsController implements Controller {
   public path = "/products";
@@ -22,6 +23,7 @@ export default class ProductsController implements Controller {
     this.router.post(
       this.path,
       authMiddleware,
+      fileUpload.single("image"),
       validationMiddleware(AddProductDto),
       this.addProduct
     );
@@ -78,8 +80,19 @@ export default class ProductsController implements Controller {
     res: Response,
     next: NextFunction
   ) => {
-    const productData: IProduct = req.body;
-    const createdProduct = new this.product(productData);
+    const { name, description, productType, subType, price, stock }: IProduct =
+      req.body;
+    console.log("o day");
+    const createdProduct = new this.product({
+      name,
+      description,
+      productType,
+      subType,
+      price: +price,
+      stock: +stock,
+      sold: 0,
+      image: req.file.path,
+    });
     try {
       const savedProduct = await createdProduct.save();
       res.status(201).json({ product: savedProduct });

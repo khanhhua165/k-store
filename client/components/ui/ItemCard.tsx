@@ -17,12 +17,24 @@ const ItemCard: React.FC<Props> = ({
   description,
 }) => {
   return (
-    <div className="flex flex-col px-3 pt-6 pb-3 bg-white rounded-xl">
-      <Image src={image} alt={name} width={300} height={300} objectFit="fill" />
-      <div className="pl-4 mb-3 text-lg text-blue-500 capitalize cursor-pointer hover:text-red-500">
+    <div className="flex flex-col pt-4 bg-white rounded-xl w-[250px] shadow-lg justify-between">
+      <div className="flex flex-wrap px-3 mb-1 text-xl font-bold text-blue-600 uppercase cursor-pointer cap hover:text-red-500 overflow-clip">
         {name}
       </div>
-      <div className="pl-4 text-xl font-bold">${price}</div>
+      <div className="px-3 mb-2 text-sm line-clamp-3">{description}</div>
+      <Image
+        src={`http://localhost:5000/${image}`}
+        alt={name}
+        width={250}
+        height={250}
+        objectFit="contain"
+      />
+      <div className="flex items-center justify-between px-3 py-2 bg-blue-700 rounded-b-xl">
+        <div className="text-xl font-bold text-white">${price}</div>
+        <div className="px-1 font-bold rounded cursor-pointer bg-gray-50 hover:bg-indigo-100">
+          Add to cart
+        </div>
+      </div>
     </div>
   );
 };

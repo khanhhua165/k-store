@@ -15,7 +15,7 @@ const useCart = () => {
     setTotalPrice(totalPrice);
   }, []);
 
-  const setAllTotalItme = useCallback(() => {
+  const setAllTotalItem = useCallback(() => {
     const totalItem = cartItem.reduce(
       (total, product) => total + product.quantity,
       0
@@ -46,7 +46,7 @@ const useCart = () => {
         { product, quantity, totalPrice: product.price * quantity },
       ]);
     }
-    setAllTotalItme();
+    setAllTotalItem();
     setAllPrice();
   }, []);
 
@@ -55,7 +55,7 @@ const useCart = () => {
       return product.product._id !== productId;
     });
     setCartItem(newCart);
-    setAllTotalItme();
+    setAllTotalItem();
     setAllPrice();
   }, []);
 
@@ -69,7 +69,7 @@ const useCart = () => {
         }
       });
       setCartItem(newCart);
-      setAllTotalItme();
+      setAllTotalItem();
       setAllPrice();
     },
     []

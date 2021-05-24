@@ -1,4 +1,4 @@
-import { IsString, IsNumber } from "class-validator";
+import { IsString, IsNumberString } from "class-validator";
 export default class AddProductDto {
   @IsString()
   public name!: string;
@@ -12,15 +12,9 @@ export default class AddProductDto {
   @IsString()
   public subType!: string;
 
-  @IsString()
-  public image!: string;
+  @IsNumberString()
+  public price!: string;
 
-  @IsNumber()
-  public price!: number;
-
-  @IsNumber()
-  public stock!: number;
-
-  @IsNumber()
-  public sold!: number;
+  @IsNumberString()
+  public stock!: string;
 }

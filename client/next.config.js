@@ -1,6 +1,6 @@
 // next.config.js
 module.exports = {
   images: {
-    domains: ["cdn.shopify.com"],
+    domains: ["cdn.shopify.com", "localhost"],
   },
 };

@@ -2,6 +2,7 @@ import axios from "axios";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { getLayoutWithSideMenu } from "../../components/layout/WithSideMenu";
 import ItemCard from "../../components/ui/ItemCard";
+import ItemCards from "../../components/ui/ItemCards";
 import { API_URL, PRODUCT_ROUTE } from "../../constants/api";
 import { Product } from "../../interfaces/Product.interface";
 
@@ -14,23 +15,12 @@ export const getStaticProps = async () => {
   } catch (e: unknown) {}
   return {
     props: { data },
-    revalidate: 10,
+    revalidate: 1,
   };
 };
 
 const Shop = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  console.log(data);
-  const itemCards = data.map((product) => (
-    <ItemCard
-      key={product._id}
-      description={product.description}
-      _id={product._id}
-      image={product.image}
-      name={product.name}
-      price={product.price}
-    />
-  ));
-  return <div className="flex flex-wrap space-x-6">{itemCards}</div>;
+  return <ItemCards items={data} />;
 };
 
 Shop.getLayout = getLayoutWithSideMenu;

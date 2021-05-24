@@ -8,3 +8,5 @@
 /server/nodemon.json
 #vscode
 /server/.vscode
+#uploads
+/server/uploads

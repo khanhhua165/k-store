@@ -20,6 +20,7 @@ const Navbar: React.FC = () => {
       </a>
     </Link>
   ));
+  console.log(totalItem);
   const cartNumbeOfItem = classNames({ hidden: totalItem === 0 });
   return (
     <div className="fixed top-0 left-0 z-50 w-full bg-blue-800 shadow-md text-gray-50">
