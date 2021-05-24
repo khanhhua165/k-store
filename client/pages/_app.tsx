@@ -6,21 +6,16 @@ import UserContainer from "../containers/user/UserContainer";
 import CartContainer from "../containers/cart/CartContainer";
 import WithNavbar from "../components/layout/withNavbar";
 
-// interface CustomAppProps extends AppProps {
-//   Component.Type: JSX.element;
-// }
-
 function MyApp({ Component, pageProps }: any) {
-  const Layout = Component.Layout || WithNavbar;
+  const getLayout =
+    Component.getLayout || ((page: any) => <WithNavbar>{page}</WithNavbar>);
   return (
     <UserContainer.Provider>
       <CartContainer.Provider>
         <Head>
           <title>K-Store</title>
         </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        {getLayout(<Component {...pageProps} />)}
       </CartContainer.Provider>
     </UserContainer.Provider>
   );

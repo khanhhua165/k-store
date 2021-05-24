@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
         <div className="flex space-x-5 justify-left">
           <Link href="/">
             <a className="text-2xl font-bold tracking-widest uppercase font-cursive">
-              K-Store
+              V-Store
             </a>
           </Link>
         </div>

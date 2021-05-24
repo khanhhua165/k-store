@@ -4,13 +4,16 @@ import WithNavbar from "./withNavbar";
 
 const WithSideMenu: React.FC = ({ children }) => {
   return (
-    <WithNavbar>
-      <div className="flex space-x-2 mt-36">
-        <Menubar />
-        {children}
-      </div>
-    </WithNavbar>
+    <div className="flex space-x-14 mt-36">
+      <Menubar />
+      {children}
+    </div>
   );
 };
 
+export const getLayoutWithSideMenu = (page: any) => (
+  <WithNavbar>
+    <WithSideMenu>{page}</WithSideMenu>
+  </WithNavbar>
+);
 export default WithSideMenu;
