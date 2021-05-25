@@ -20,5 +20,5 @@ export interface CartResponse {
   userId: string;
   items: ProductCartItem[];
   totalPrice: number;
-  totalItems: number;
+  totalItem: number;
 }

@@ -26,7 +26,5 @@ export default function Admin() {
       </div>
     );
   }
-  if (isLoading || !user || user.email !== "admin@admin.com") {
-    return null;
-  }
+  return null;
 }

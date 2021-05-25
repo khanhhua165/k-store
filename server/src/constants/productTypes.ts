@@ -11,4 +11,5 @@ export const subTypes = [
   "Fish Products",
   "Salt",
   "Honey",
+  "Fat",
 ];

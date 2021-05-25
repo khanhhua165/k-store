@@ -117,7 +117,6 @@ const AddProductForm: React.FC = () => {
       </select>
       <span className="mt-2 label-style">Product Subtype</span>
       <select className="input-style" {...register("subType")}>
-        <option value="none">none</option>
         <option value="Beef Steaks">Beef Steaks</option>
         <option value="Beef Whole Cuts">Beef Whole Cuts</option>
         <option value="Ground Beef and Burgers">Ground Beef and Burgers</option>
@@ -129,6 +128,7 @@ const AddProductForm: React.FC = () => {
         <option value="Fish Products">Fish Products</option>
         <option value="Salt">Salt</option>
         <option value="Honey">Honey</option>
+        <option value="Fat">Fat</option>
       </select>
       <span className="mt-2 label-style">Product Price($)</span>
       <input

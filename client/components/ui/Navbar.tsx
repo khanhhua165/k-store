@@ -44,15 +44,15 @@ const Navbar: React.FC = () => {
               {totalItem}
             </div>
           </div>
-          {isLoggedIn && user?.email === "admin@admin.com" && (
+          {isLoggedIn && user && user.email === "admin@admin.com" && (
             <Link href="/admin">
               <a>Admin</a>
             </Link>
           )}
-          {isLoggedIn && (
+          {isLoggedIn && user && (
             <>
               <Link href={`/user/${user!._id}`}>
-                <a>{user!.name}</a>
+                <a>{user.name}</a>
               </Link>
               <div className="cursor-pointer" onClick={logout}>
                 SignOut

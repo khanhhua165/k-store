@@ -18,15 +18,16 @@ const useCartAuthenticated = () => {
   } = CartContainer.useContainer();
 
   const fetchCart = useCallback(async (userId: string, tokenString: string) => {
+    console.log(tokenString);
     try {
-      const { totalPrice, items, totalItems } = (
-        await axios.get<CartResponse>(`${API_URL}${CART_ROUTE}`, {
+      const data = (
+        await axios.get<{ userCart: CartResponse }>(`${API_URL}${CART_ROUTE}`, {
           headers: { Authorization: `Bearer ${tokenString}` },
         })
-      ).data;
-      setCartItem(items);
-      setTotalPrice(totalPrice);
-      setTotalItem(totalItems);
+      ).data.userCart;
+      setCartItem(data.items);
+      setTotalPrice(data.totalPrice);
+      setTotalItem(data.totalItem);
     } catch (e) {
       if (e.response) {
         console.log(e.response.data.message);
@@ -49,7 +50,6 @@ const useCartAuthenticated = () => {
   }, []);
 
   useEffect(() => {
-    console.log(token);
     if (isInitialized && isLoggedIn && token) {
       fetchCart(user!._id, token);
     }

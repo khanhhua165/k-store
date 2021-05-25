@@ -12,7 +12,6 @@ export default function authMiddleware(
   try {
     console.log("duma");
     const token = req.headers.authorization!.split(" ")[1];
-    console.log(token);
     if (!token) {
       return next(new HttpError(401, "Authentication failed"));
     }

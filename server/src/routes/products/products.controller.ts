@@ -82,7 +82,6 @@ export default class ProductsController implements Controller {
   ) => {
     const { name, description, productType, subType, price, stock }: IProduct =
       req.body;
-    console.log("o day");
     const createdProduct = new this.product({
       name,
       description,

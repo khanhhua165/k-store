@@ -13,7 +13,11 @@ const ItemCards: React.FC<{ items: Product[] }> = ({ items }) => {
       price={product.price}
     />
   ));
-  return <div className="grid self-start grid-cols-4 gap-6">{itemCards}</div>;
+  return (
+    <div className="grid self-start grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {itemCards}
+    </div>
+  );
 };
 
 export default ItemCards;

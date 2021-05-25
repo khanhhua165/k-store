@@ -31,6 +31,13 @@ module.exports = {
         "serif",
       ],
     },
+    screens: {
+      xs: "560px",
+      sm: "870px",
+      md: "1150px",
+      lg: "1388px",
+      xl: "1700px",
+    },
     extend: {},
   },
   variants: {
