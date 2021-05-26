@@ -22,7 +22,7 @@ const Searchbar: React.FC = () => {
         className="w-64 pr-8 bg-gray-100 input-style"
         {...register("productName", { required: true })}
       />
-      <IoSearch className="absolute z-50 w-4 h-4 text-indigo-700 right-3 top-3" />
+      <IoSearch className="absolute z-30 w-4 h-4 text-indigo-700 right-3 top-3" />
     </form>
   );
 };

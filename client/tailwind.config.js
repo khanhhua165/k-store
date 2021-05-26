@@ -38,7 +38,13 @@ module.exports = {
       lg: "1388px",
       xl: "1700px",
     },
-    extend: {},
+    extend: {
+      lineClamp: {
+        7: "7",
+        8: "8",
+        9: "9",
+      },
+    },
   },
   variants: {
     extend: {},

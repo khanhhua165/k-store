@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import React, { useState } from "react";
 import ItemModal from "../modal/ItemModal";
@@ -19,6 +20,10 @@ const ItemCard: React.FC<ItemProps> = ({
 }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
+  const goToProductDetail = (productId: string) => {
+    router.push(`/product/${productId}`);
+  };
   const imageScale = classNames({ "scale-125": showPreview });
   const showTab = classNames(
     { "scale-100": showPreview },
@@ -40,7 +45,8 @@ const ItemCard: React.FC<ItemProps> = ({
             width={250}
             height={250}
             objectFit="contain"
-            className={`transform ${imageScale} transition duration-200`}
+            className={`transform ${imageScale} transition duration-200 cursor-pointer`}
+            onClick={() => goToProductDetail(_id)}
           />
           <div className="absolute flex justify-center w-[250px] top-1/2">
             <div
@@ -52,13 +58,16 @@ const ItemCard: React.FC<ItemProps> = ({
           </div>
         </div>
         <div className="flex flex-col flex-grow px-3 mb-2 space-y-2">
-          <div className="flex flex-wrap text-xl font-bold text-blue-600 uppercase cursor-pointer cap hover:text-red-500 overflow-clip">
+          <div
+            className="flex flex-wrap mt-2 text-lg font-bold text-blue-600 uppercase cursor-pointer hover:text-red-500"
+            onClick={() => goToProductDetail(_id)}
+          >
             {name}
           </div>
           <div className="text-sm line-clamp-3">{description}</div>
         </div>
 
-        <div className="flex items-center self-stretch justify-between px-3 py-2 bg-blue-700 rounded-b-xl">
+        <div className="flex items-center justify-between px-3 py-2 bg-blue-700 rounded-b-xl">
           <div className="text-xl font-bold text-white">${price}</div>
           <div className="px-1 font-bold rounded cursor-pointer bg-gray-50 hover:bg-indigo-100">
             Add to cart

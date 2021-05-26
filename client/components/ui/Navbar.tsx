@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
   console.log(totalItem);
   const cartNumbeOfItem = classNames({ hidden: totalItem === 0 });
   return (
-    <div className="fixed top-0 left-0 z-50 w-full bg-blue-800 shadow-md text-gray-50">
+    <div className="fixed top-0 left-0 z-30 w-full bg-blue-800 shadow-md text-gray-50">
       <div className="flex items-center justify-between px-4 py-4 mx-auto sm:px-14 max-w-[100rem]">
         <div className="flex space-x-5 justify-left">
           <Link href="/">
