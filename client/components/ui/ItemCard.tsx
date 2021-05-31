@@ -1,26 +1,21 @@
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import React, { useState } from "react";
+import { API_URL } from "../../constants/api";
+import CartContainer from "../../containers/cart/CartContainer";
+import { Product } from "../../interfaces/Product.interface";
 import ItemModal from "../modal/ItemModal";
 const classNames = require("classnames");
 export interface ItemProps {
-  _id: string;
-  image: string;
-  name: string;
-  price: number;
-  description: string;
+  product: Product;
 }
 
-const ItemCard: React.FC<ItemProps> = ({
-  _id,
-  image,
-  name,
-  price,
-  description,
-}) => {
+const ItemCard: React.FC<ItemProps> = ({ product }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+  const { addProduct } = CartContainer.useContainer();
+  const { description, image, name, _id, price } = product;
   const goToProductDetail = (productId: string) => {
     router.push(`/product/${productId}`);
   };
@@ -40,7 +35,7 @@ const ItemCard: React.FC<ItemProps> = ({
       >
         <div className="w-[250px] h-[250px] relative">
           <Image
-            src={`http://localhost:5000/${image}`}
+            src={`${API_URL}/${image}`}
             alt={name}
             width={250}
             height={250}
@@ -69,21 +64,20 @@ const ItemCard: React.FC<ItemProps> = ({
 
         <div className="flex items-center justify-between px-3 py-2 bg-blue-700 rounded-b-xl">
           <div className="text-xl font-bold text-white">${price}</div>
-          <div className="px-1 font-bold rounded cursor-pointer bg-gray-50 hover:bg-indigo-100">
+          <div
+            className="px-1 font-bold rounded cursor-pointer bg-gray-50 hover:bg-indigo-100"
+            onClick={() => addProduct(product, 1)}
+          >
             Add to cart
           </div>
         </div>
       </div>
       {showModal ? (
         <ItemModal
-          _id={_id}
+          product={product}
           cb={() => {
             setShowModal(false);
           }}
-          description={description}
-          image={image}
-          name={name}
-          price={price}
         />
       ) : null}
     </>

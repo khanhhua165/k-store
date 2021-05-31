@@ -3,8 +3,6 @@ import { createContainer } from "unstated-next";
 import { HOUR_IN_MILLISECOND } from "../../constants/time";
 import { User } from "../../interfaces/User.interface";
 
-let logoutTimer: NodeJS.Timeout;
-
 const useAuth = () => {
   const [token, setToken] = useState<string | null>(null);
   const [tokenExpirationDate, setTokenExpirationDate] =
@@ -41,29 +39,19 @@ const useAuth = () => {
     setIsLoggedIn(false);
   }, []);
 
-  useEffect(() => {
-    if (token && tokenExpirationDate) {
-      const remainingTime =
-        tokenExpirationDate.getTime() - new Date().getTime();
-      logoutTimer = setTimeout(logout, remainingTime);
-    } else {
-      clearTimeout(logoutTimer);
-    }
-  }, [token, logout, tokenExpirationDate]);
-
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("userData")!);
-    if (
-      storedData &&
-      storedData.token &&
-      new Date(storedData.expiration) > new Date()
-    ) {
-      login(storedData.user, storedData.token, new Date(storedData.expiration));
-    }
-    setIsInitialized(true);
-  }, [login]);
-
-  return { token, login, logout, user, isLoggedIn, isInitialized };
+  return {
+    token,
+    login,
+    logout,
+    user,
+    isLoggedIn,
+    isInitialized,
+    setIsInitialized,
+    setIsLoggedIn,
+    setToken,
+    setTokenExpirationDate,
+    tokenExpirationDate,
+  };
 };
 const UserContainer = createContainer(useAuth);
 export default UserContainer;

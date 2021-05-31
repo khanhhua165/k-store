@@ -5,6 +5,7 @@ import Head from "next/head";
 import UserContainer from "../containers/user/UserContainer";
 import CartContainer from "../containers/cart/CartContainer";
 import WithNavbar from "../components/layout/withNavbar";
+import Initializer from "../components/initializers/Initializer";
 
 function MyApp({ Component, pageProps }: any) {
   const getLayout =
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }: any) {
         <Head>
           <title>K-Store</title>
         </Head>
+        <Initializer />
         {getLayout(<Component {...pageProps} />)}
       </CartContainer.Provider>
     </UserContainer.Provider>

@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import UserContainer from "../../containers/user/UserContainer";
-import useCartAuthenticated from "../../hooks/useCartAuthenticated";
 import { HiOutlineShoppingCart } from "react-icons/hi";
+import CartContainer from "../../containers/cart/CartContainer";
 const classNames = require("classnames");
 
 const Navbar: React.FC = () => {
   const { isLoggedIn, user, logout } = UserContainer.useContainer();
-  const { totalItem } = useCartAuthenticated();
+  const { totalItem, cartItem } = CartContainer.useContainer();
   const navItems = [
     { path: "/shop", name: "Shop" },
     { path: "/blog", name: "Blog" },
@@ -20,7 +20,6 @@ const Navbar: React.FC = () => {
       </a>
     </Link>
   ));
-  console.log(totalItem);
   const cartNumbeOfItem = classNames({ hidden: totalItem === 0 });
   return (
     <div className="fixed top-0 left-0 z-30 w-full bg-blue-800 shadow-md text-gray-50">
@@ -37,11 +36,14 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex items-center justify-center space-x-5 text-lg font-semibold">
           <div className="relative">
-            <HiOutlineShoppingCart className="text-xl cursor-pointer" />
+            <HiOutlineShoppingCart
+              className="text-xl cursor-pointer"
+              onClick={() => console.log(cartItem)}
+            />
             <div
               className={`absolute flex justify-center w-5 h-4 text-xs bg-pink-400 rounded-full -top-2 -right-2 ${cartNumbeOfItem}`}
             >
-              {totalItem}
+              {totalItem < 10 ? totalItem : "9+"}
             </div>
           </div>
           {isLoggedIn && user && user.email === "admin@admin.com" && (

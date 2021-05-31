@@ -5,7 +5,7 @@ import WithNavbar from "./withNavbar";
 const WithSideMenu: React.FC = ({ children }) => {
   return (
     <>
-      <div className="hidden sm:flex space-x-14 mt-36">
+      <div className="justify-center hidden sm:flex space-x-9 mt-36">
         <Menubar />
         {children}
       </div>

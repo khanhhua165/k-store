@@ -2,23 +2,19 @@ import React from "react";
 import { ItemProps } from "../ui/ItemCard";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
+import Backdrop from "../ui/Backdrop";
+import { Product } from "../../interfaces/Product.interface";
+import { API_URL } from "../../constants/api";
+import CartContainer from "../../containers/cart/CartContainer";
 interface Props extends ItemProps {
   cb: () => void;
 }
-const ItemModal: React.FC<Props> = ({
-  cb,
-  description,
-  image,
-  name,
-  price,
-  _id,
-}) => {
+const ItemModal: React.FC<Props> = ({ cb, product }) => {
+  const { _id, description, image, name, price } = product;
+  const { addProduct } = CartContainer.useContainer();
   return (
     <>
-      <div
-        className="fixed inset-0 z-40 hidden bg-gray-800 opacity-70 sm:flex"
-        onClick={cb}
-      ></div>
+      <Backdrop cb={cb} />
       <div className="fixed top-1/2 left-1/2 mt-[-250px] ml-[-350px] z-50 sm:flex flex flex-col w-[700px] h-[500px] bg-gray-50 rounded-xl pr-2">
         <div className="flex justify-end mt-2 mb-1">
           <IoClose
@@ -29,7 +25,7 @@ const ItemModal: React.FC<Props> = ({
         <div className="flex space-x-2">
           <div className="flex-shrink-0 w-[350px]">
             <img
-              src={`http://localhost:5000/${image}`}
+              src={`${API_URL}/${image}`}
               className="object-contain w-[350px] h-[350px]"
               alt={name}
             />
@@ -43,7 +39,10 @@ const ItemModal: React.FC<Props> = ({
               <Link href={`/product/${_id}`}>
                 <a className="self-end mb-4 hover:text-red-600">More Info</a>
               </Link>
-              <div className="self-center px-24 py-2 text-lg font-semibold transition duration-300 border-2 border-blue-500 cursor-pointer rounded-xl hover:bg-red-500 hover:text-gray-50 hover:border-transparent">
+              <div
+                className="self-center px-24 py-2 text-lg font-semibold transition duration-300 border-2 border-blue-500 cursor-pointer rounded-xl hover:bg-red-500 hover:text-gray-50 hover:border-transparent"
+                onClick={() => addProduct(product, 1)}
+              >
                 Add to Cart
               </div>
             </div>

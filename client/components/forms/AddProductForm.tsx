@@ -36,22 +36,26 @@ const AddProductForm: React.FC = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ProductInputs>();
+
   const [currentImageURL, setCurentImageURL] = useState("");
   const imageUploadRef = useRef<HTMLInputElement | null>(null);
+
   const { onChange, ref, ...rest } = register("image", {
     required: "You need to choose a product image",
   });
+
   const fileSelectedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
       setCurentImageURL(URL.createObjectURL(e.target.files![0]));
     }
   };
+
   const onSubmit: SubmitHandler<ProductInputs> = async (
     { description, image, name, price, productType, stock, subType },
     e
   ) => {
     e?.preventDefault();
-    const options = { maxWidthOrHeight: 250 };
+    const options = { maxWidthOrHeight: 800 };
     const resizedImage = await imageCompression(
       (image as FileList)[0],
       options
