@@ -1,8 +1,8 @@
 import axios from "axios";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { getLayoutWithSideMenu } from "../../components/layout/WithSideMenu";
-import ItemCard from "../../components/ui/ItemCard";
-import ItemCards from "../../components/ui/ItemCards";
+import ItemCard from "../../components/ui/product/ItemCard";
+import ItemCards from "../../components/ui/product/ItemCards";
 import { API_URL, PRODUCT_ROUTE } from "../../constants/api";
 import { Product } from "../../interfaces/Product.interface";
 

@@ -7,6 +7,7 @@ const UserSchema: Schema = new Schema({
   email: { type: String, required: true, unique: true },
   address: { type: String },
   phone: { type: String },
+  isAdmin: { type: Boolean, required: true, default: false },
 });
 
 export default model<IUser>("User", UserSchema);

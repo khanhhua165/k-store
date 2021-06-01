@@ -5,12 +5,14 @@ export interface User {
   address?: string;
   phone?: string;
   password?: string;
+  isAdmin: boolean;
 }
 
 export interface UserSignupResponse {
   _id: string;
   name: string;
   email: string;
+  isAdmin: boolean;
 }
 export interface SignupResponse {
   user: UserSignupResponse;

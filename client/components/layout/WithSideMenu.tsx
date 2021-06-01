@@ -1,5 +1,5 @@
 import React from "react";
-import Menubar from "../ui/Menubar";
+import Menubar from "../ui/menu/Menubar";
 import WithNavbar from "./withNavbar";
 
 const WithSideMenu: React.FC = ({ children }) => {

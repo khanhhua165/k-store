@@ -10,8 +10,7 @@ import UserContainer from "../../containers/user/UserContainer";
 type ProductInputs = {
   name: string;
   description: string;
-  productType: "meat" | "organ" | "supplement" | "package";
-  subType:
+  productType:
     | "Beef Steaks"
     | "Beef Whole Cuts"
     | "Ground Beef and Burgers"
@@ -23,7 +22,10 @@ type ProductInputs = {
     | "Fish Products"
     | "Salt"
     | "Honey"
-    | "none";
+    | "Organ"
+    | "Supplement"
+    | "Package";
+  size: string;
   image: FileList | null;
   price: number;
   stock: number;
@@ -51,7 +53,7 @@ const AddProductForm: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<ProductInputs> = async (
-    { description, image, name, price, productType, stock, subType },
+    { description, image, name, price, productType, stock, size },
     e
   ) => {
     e?.preventDefault();
@@ -66,7 +68,7 @@ const AddProductForm: React.FC = () => {
     formData.append("image", resizedImage);
     formData.append("price", price.toString());
     formData.append("productType", productType);
-    formData.append("subType", subType);
+    formData.append("size", size);
     formData.append("stock", stock.toString());
     try {
       const result = await axios.post(`${API_URL}${PRODUCT_ROUTE}`, formData, {
@@ -114,13 +116,6 @@ const AddProductForm: React.FC = () => {
       )}
       <span className="mt-2 label-style">Product Type</span>
       <select className="input-style" {...register("productType")}>
-        <option value="meat">Meat</option>
-        <option value="organ">Organ</option>
-        <option value="supplement">Supplement</option>
-        <option value="package">Package</option>
-      </select>
-      <span className="mt-2 label-style">Product Subtype</span>
-      <select className="input-style" {...register("subType")}>
         <option value="Beef Steaks">Beef Steaks</option>
         <option value="Beef Whole Cuts">Beef Whole Cuts</option>
         <option value="Ground Beef and Burgers">Ground Beef and Burgers</option>
@@ -133,7 +128,23 @@ const AddProductForm: React.FC = () => {
         <option value="Salt">Salt</option>
         <option value="Honey">Honey</option>
         <option value="Fat">Fat</option>
+        <option value="Organ">Organ</option>
+        <option value="Supplement">Supplement</option>
+        <option value="Package">Package</option>
       </select>
+      <span className="label-style">Product Size</span>
+      <input
+        className="input-style"
+        type="text"
+        placeholder="Product Size"
+        {...register("size", { required: "You need to input size" })}
+      />
+      {errors.size && (
+        <p className="input-error">
+          <AiOutlineWarning />
+          <span>{errors.size.message}</span>
+        </p>
+      )}
       <span className="mt-2 label-style">Product Price($)</span>
       <input
         type="text"

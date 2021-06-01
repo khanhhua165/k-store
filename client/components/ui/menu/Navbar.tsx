@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import UserContainer from "../../containers/user/UserContainer";
+import UserContainer from "../../../containers/user/UserContainer";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import CartContainer from "../../containers/cart/CartContainer";
-const classNames = require("classnames");
+import CartContainer from "../../../containers/cart/CartContainer";
+import classNames from "clsx";
 
 const Navbar: React.FC = () => {
   const { isLoggedIn, user, logout } = UserContainer.useContainer();

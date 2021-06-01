@@ -14,7 +14,7 @@ export default function Admin() {
     router.push("/");
   }
 
-  if (isLoggedIn && user!.email === "admin@admin.com") {
+  if (isLoggedIn && user!.isAdmin) {
     return (
       <div className="flex flex-col mt-20">
         <div className="flex ml-5">

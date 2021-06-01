@@ -1,6 +1,4 @@
-import { IOrder } from "./../orders/order.interface";
 import { Document } from "mongoose";
-import { IProduct } from "../products/product.interface";
 
 export interface IUser extends Document {
   name: string;
@@ -8,4 +6,5 @@ export interface IUser extends Document {
   email: string;
   addrress?: string;
   phone?: string;
+  isAdmin: boolean;
 }

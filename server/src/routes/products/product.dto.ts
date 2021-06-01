@@ -10,7 +10,7 @@ export default class AddProductDto {
   public productType!: string;
 
   @IsString()
-  public subType!: string;
+  public size!: string;
 
   @IsNumberString()
   public price!: string;

@@ -3,8 +3,7 @@ import { Document } from "mongoose";
 export interface IProduct extends Document {
   name: string;
   description: string;
-  productType: "meat" | "organ" | "supplement" | "package";
-  subType:
+  productType:
     | "Beef Steaks"
     | "Beef Whole Cuts"
     | "Ground Beef and Burgers"
@@ -16,9 +15,16 @@ export interface IProduct extends Document {
     | "Fish Products"
     | "Salt"
     | "Honey"
-    | "Fat";
+    | "Fat"
+    | "Organ"
+    | "Supplement"
+    | "Package";
   image: string;
+  reviews: string[];
+  size: string;
   price: number;
   stock: number;
   sold: number;
+  rating: number;
+  numReviews: number;
 }

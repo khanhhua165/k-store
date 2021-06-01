@@ -1,5 +1,5 @@
 import React from "react";
-import { ItemProps } from "../ui/ItemCard";
+import { ItemProps } from "../ui/product/ItemCard";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
 import Backdrop from "../ui/Backdrop";
@@ -10,7 +10,7 @@ interface Props extends ItemProps {
   cb: () => void;
 }
 const ItemModal: React.FC<Props> = ({ cb, product }) => {
-  const { _id, description, image, name, price } = product;
+  const { _id, description, image, name, price, size } = product;
   const { addProduct } = CartContainer.useContainer();
   return (
     <>
@@ -32,18 +32,33 @@ const ItemModal: React.FC<Props> = ({ cb, product }) => {
           </div>
           <div className="flex flex-col pr-5 space-y-1">
             <div className="text-2xl font-semibold">{name}</div>
-            <div className="text-xl font-semibold">${price}</div>
+            <div className="flex space-x-3">
+              <div className="px-4 py-2 text-lg font-semibold text-white bg-blue-600 rounded-lg">
+                ${price}
+              </div>
+              <div className="px-4 py-2 text-lg font-semibold text-white bg-blue-600 rounded-lg">
+                {size}
+              </div>
+            </div>
             <div className="flex-grow text-sm line-clamp-8">{description}</div>
             <div className="flex flex-col">
               <div className="w-full h-2 mt-1 border-t border-gray-300"></div>
-              <Link href={`/product/${_id}`}>
-                <a className="self-end mb-4 hover:text-red-600">More Info</a>
-              </Link>
-              <div
-                className="self-center px-24 py-2 text-lg font-semibold transition duration-300 border-2 border-blue-500 cursor-pointer rounded-xl hover:bg-red-500 hover:text-gray-50 hover:border-transparent"
-                onClick={() => addProduct(product, 1)}
-              >
-                Add to Cart
+
+              <div className="flex justify-center mt-3 space-x-3">
+                <div
+                  className="self-center px-6 py-2 font-semibold transition duration-300 border-2 border-blue-500 cursor-pointer rounded-xl hover:bg-red-500 hover:text-gray-50 hover:border-transparent"
+                  onClick={() => addProduct(product, 1)}
+                >
+                  Add to Cart
+                </div>
+                <Link href={`/product/${_id}`}>
+                  <a
+                    className="self-center px-6 py-2 font-semibold text-white transition duration-300 bg-green-500 border-2 border-green-500 cursor-pointer rounded-xl hover:bg-red-500 hover:text-gray-50 hover:border-transparent"
+                    onClick={() => addProduct(product, 1)}
+                  >
+                    More Info
+                  </a>
+                </Link>
               </div>
             </div>
           </div>

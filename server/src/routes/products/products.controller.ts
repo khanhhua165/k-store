@@ -62,6 +62,7 @@ export default class ProductsController implements Controller {
     res: Response,
     next: NextFunction
   ) => {
+    console.log("jesus");
     const id = req.params.id;
     try {
       const product = await this.product.findById(id);
@@ -80,16 +81,15 @@ export default class ProductsController implements Controller {
     res: Response,
     next: NextFunction
   ) => {
-    const { name, description, productType, subType, price, stock }: IProduct =
+    const { name, description, productType, size, price, stock }: IProduct =
       req.body;
     const createdProduct = new this.product({
       name,
       description,
       productType,
-      subType,
+      size,
       price: +price,
       stock: +stock,
-      sold: 0,
       image: req.file.path,
     });
     try {

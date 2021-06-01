@@ -1,11 +1,11 @@
 import { useRouter } from "next/dist/client/router";
 import Image from "next/image";
 import React, { useState } from "react";
-import { API_URL } from "../../constants/api";
-import CartContainer from "../../containers/cart/CartContainer";
-import { Product } from "../../interfaces/Product.interface";
-import ItemModal from "../modal/ItemModal";
-const classNames = require("classnames");
+import { API_URL } from "../../../constants/api";
+import CartContainer from "../../../containers/cart/CartContainer";
+import { Product } from "../../../interfaces/Product.interface";
+import ItemModal from "../../modal/ItemModal";
+import classNames from "clsx";
 export interface ItemProps {
   product: Product;
 }
@@ -59,7 +59,6 @@ const ItemCard: React.FC<ItemProps> = ({ product }) => {
           >
             {name}
           </div>
-          <div className="text-sm line-clamp-3">{description}</div>
         </div>
 
         <div className="flex items-center justify-between px-3 py-2 bg-blue-700 rounded-b-xl">

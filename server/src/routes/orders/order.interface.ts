@@ -3,8 +3,8 @@ import { IProduct } from "../products/product.interface";
 import { IUser } from "../users/user.interface";
 
 export interface IOrder extends Document {
-  userId: string;
-  items: { productId: string; quantity: number }[];
+  user: string;
+  items: { product: string; quantity: number }[];
   firstName: string;
   lastName: string;
   address: string;
@@ -13,4 +13,6 @@ export interface IOrder extends Document {
   status: string;
   createdAt: Schema.Types.Date;
   totalPrice: number;
+  isPaid: boolean;
+  isDelivered: boolean;
 }

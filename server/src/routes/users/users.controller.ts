@@ -57,7 +57,12 @@ export default class UsersController implements Controller {
     });
     const tokenData = this.createToken(user);
     res.status(201).json({
-      user: { _id: user._id, name: user.name, email: user.email },
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
       token: tokenData.token,
     });
   };

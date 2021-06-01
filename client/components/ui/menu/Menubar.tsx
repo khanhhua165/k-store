@@ -1,5 +1,5 @@
 import React from "react";
-import Searchbar from "../forms/Searchbar";
+import Searchbar from "../../forms/Searchbar";
 import { HiChevronUp } from "react-icons/hi";
 import Link from "next/link";
 import { Disclosure, Transition } from "@headlessui/react";

@@ -2,10 +2,10 @@ import { model, Schema } from "mongoose";
 import { IOrder } from "./order.interface";
 
 const orderSchema: Schema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: "User" },
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   items: [
     {
-      productId: {
+      product: {
         type: Schema.Types.ObjectId,
         ref: "Product",
         required: true,
@@ -18,9 +18,10 @@ const orderSchema: Schema = new Schema({
   address: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
-  status: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   totalPrice: { type: Number, required: true },
+  isPaid: { type: Boolean, required: true, default: false },
+  isDelivered: { type: Boolean, required: true, default: false },
 });
 
 export default model<IOrder>("Order", orderSchema);
