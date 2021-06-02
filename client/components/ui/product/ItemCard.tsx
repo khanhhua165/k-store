@@ -6,6 +6,7 @@ import CartContainer from "../../../containers/cart/CartContainer";
 import { Product } from "../../../interfaces/Product.interface";
 import ItemModal from "../../modal/ItemModal";
 import classNames from "clsx";
+import Rating from "./Rating";
 export interface ItemProps {
   product: Product;
 }
@@ -15,7 +16,7 @@ const ItemCard: React.FC<ItemProps> = ({ product }) => {
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
   const { addProduct } = CartContainer.useContainer();
-  const { description, image, name, _id, price } = product;
+  const { numReviews, rating, image, name, _id, price } = product;
   const goToProductDetail = (productId: string) => {
     router.push(`/product/${productId}`);
   };
@@ -52,13 +53,19 @@ const ItemCard: React.FC<ItemProps> = ({ product }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col flex-grow px-3 mb-2 space-y-2">
+        <div className="flex flex-col flex-grow px-3 mb-2 space-y-1">
           <div
             className="flex flex-wrap mt-2 text-lg font-bold text-blue-600 uppercase cursor-pointer hover:text-red-500"
             onClick={() => goToProductDetail(_id)}
           >
             {name}
           </div>
+          <Rating
+            numReviews={numReviews}
+            rating={rating}
+            inline={false}
+            fontSize="text-base"
+          />
         </div>
 
         <div className="flex items-center justify-between px-3 py-2 bg-blue-700 rounded-b-xl">

@@ -2,17 +2,22 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { API_URL } from "../../../constants/api";
 import { Product } from "../../../interfaces/Product.interface";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import CartContainer from "../../../containers/cart/CartContainer";
 import ProductDescription from "./ProductDescription";
+import Rating from "./Rating";
 
 const ItemDetail: React.FC<{ product: Product }> = ({ product }) => {
-  const { image, name } = product;
+  const { image, name, numReviews, rating } = product;
 
   return (
     <div className="flex flex-col max-w-[70rem]">
-      <div className="flex flex-wrap mb-6 text-4xl font-semibold">{name}</div>
-      <div className="flex items-start space-x-6">
+      <div className="flex flex-wrap text-4xl font-semibold">{name}</div>
+      <Rating
+        rating={rating}
+        numReviews={numReviews}
+        inline={true}
+        fontSize="text-xl"
+      />
+      <div className="flex items-start mt-2 space-x-6">
         <div className="flex flex-shrink-0 border border-gray-200 rounded-lg">
           <Image
             src={`${API_URL}/${image}`}

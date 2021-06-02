@@ -3,14 +3,15 @@ import { ItemProps } from "../ui/product/ItemCard";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
 import Backdrop from "../ui/Backdrop";
-import { Product } from "../../interfaces/Product.interface";
 import { API_URL } from "../../constants/api";
 import CartContainer from "../../containers/cart/CartContainer";
+import Rating from "../ui/product/Rating";
 interface Props extends ItemProps {
   cb: () => void;
 }
 const ItemModal: React.FC<Props> = ({ cb, product }) => {
-  const { _id, description, image, name, price, size } = product;
+  const { _id, description, image, name, price, size, rating, numReviews } =
+    product;
   const { addProduct } = CartContainer.useContainer();
   return (
     <>
@@ -30,8 +31,14 @@ const ItemModal: React.FC<Props> = ({ cb, product }) => {
               alt={name}
             />
           </div>
-          <div className="flex flex-col pr-5 space-y-1">
+          <div className="flex flex-col pr-5 space-y-2">
             <div className="text-2xl font-semibold">{name}</div>
+            <Rating
+              rating={rating}
+              numReviews={numReviews}
+              inline={true}
+              fontSize="text-lg"
+            />
             <div className="flex space-x-3">
               <div className="px-4 py-2 text-lg font-semibold text-white bg-blue-600 rounded-lg">
                 ${price}
