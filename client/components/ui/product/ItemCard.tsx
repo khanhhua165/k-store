@@ -78,14 +78,13 @@ const ItemCard: React.FC<ItemProps> = ({ product }) => {
           </div>
         </div>
       </div>
-      {showModal ? (
-        <ItemModal
-          product={product}
-          cb={() => {
-            setShowModal(false);
-          }}
-        />
-      ) : null}
+      <ItemModal
+        product={product}
+        showModal={showModal}
+        cb={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 };
