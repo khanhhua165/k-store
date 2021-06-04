@@ -29,6 +29,11 @@ const ProductDescription: React.FC<{ product: Product }> = ({ product }) => {
       setQuantity((oldQuantity) => oldQuantity + 1);
     }
   };
+
+  const handleClick = () => {
+    const roundedQuantity = Math.floor(quantity);
+    addProduct(product, roundedQuantity);
+  };
   return (
     <div className="flex flex-col py-3 bg-white border border-gray-200 rounded-lg">
       <span className="pb-3 mx-4 text-lg font-semibold uppercase border-b border-gray-200">
@@ -77,7 +82,7 @@ const ProductDescription: React.FC<{ product: Product }> = ({ product }) => {
         </div>
         <div
           className="self-center px-6 py-2 font-semibold transition duration-300 border-2 border-blue-500 cursor-pointer rounded-xl hover:bg-red-500 hover:text-gray-50 hover:border-transparent"
-          onClick={() => addProduct(product, quantity)}
+          onClick={handleClick}
         >
           Add to Cart
         </div>

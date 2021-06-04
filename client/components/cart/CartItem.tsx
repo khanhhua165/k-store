@@ -19,10 +19,10 @@ const CartItem: React.FC<Props> = ({ productInCart }) => {
           className="object-contain w-20 h-20"
         />
       </div>
-      <div className="w-48 pr-2">{name}</div>
-      <div className="font-semibold w-28">${price}</div>
-      <div className="w-32 font-semibold">{quantity}</div>
-      <div className="font-semibold w-36">${totalPrice}</div>
+      <div className="w-48 pr-2 mx-3">{name}</div>
+      <div className="mx-2 font-semibold w-28">${price}</div>
+      <div className="w-32 mx-2 font-semibold">{quantity}</div>
+      <div className="ml-2 font-semibold w-36">${totalPrice}</div>
     </div>
   );
 };

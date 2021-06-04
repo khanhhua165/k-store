@@ -13,40 +13,6 @@ const useCart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItem, setTotalItem] = useState(0);
 
-  const addProduct = useCallback(
-    (product: Product, quantity: number) => {
-      console.log(cartItem);
-      const productExisted = !!cartItem.find(
-        (cartProduct) => cartProduct.product._id === product._id
-      );
-      if (productExisted) {
-        const newCart = cartItem.map((cartProduct) => {
-          if (cartProduct.product._id === product._id) {
-            return {
-              product: cartProduct.product,
-              quantity: cartProduct.quantity + quantity,
-              totalPrice: cartProduct.totalPrice + product.price * quantity,
-            };
-          } else {
-            return cartProduct;
-          }
-        });
-        setCartItem(newCart);
-      } else {
-        const newCart = [
-          ...cartItem,
-          { product, quantity, totalPrice: product.price * quantity },
-        ];
-        setCartItem(newCart);
-      }
-      setTotalItem((oldValue) => {
-        return oldValue + quantity;
-      });
-      setTotalPrice((oldValue) => oldValue + product.price * quantity);
-    },
-    [cartItem, totalItem, totalPrice]
-  );
-
   const removeProduct = useCallback(
     (productId: string) => {
       const product = cartItem.find(
@@ -61,6 +27,47 @@ const useCart = () => {
       setCartItem(newCart);
       setTotalItem((oldValue) => oldValue - quantityLoss);
       setTotalPrice((oldValue) => priceLoss);
+    },
+    [cartItem, totalItem, totalPrice]
+  );
+
+  const addProduct = useCallback(
+    (product: Product, quantity: number) => {
+      const productExisted = cartItem.find(
+        (cartProduct) => cartProduct.product._id === product._id
+      );
+      if (productExisted) {
+        if (productExisted.quantity >= product.stock) return;
+        const newCart = cartItem.map((cartProduct) => {
+          if (cartProduct.product._id === product._id) {
+            const newQuantity = cartProduct.quantity + quantity;
+            const trueNewQuantity =
+              newQuantity >= product.stock ? product.stock : newQuantity;
+            const newPrice = product.price * trueNewQuantity;
+            const quantityDifference = trueNewQuantity - cartProduct.quantity;
+            setTotalItem((oldValue) => oldValue + quantityDifference);
+            setTotalPrice(
+              (oldValue) => oldValue + product.price * quantityDifference
+            );
+            return {
+              product: cartProduct.product,
+              quantity: trueNewQuantity,
+              totalPrice: newPrice,
+            };
+          } else {
+            return cartProduct;
+          }
+        });
+        setCartItem(newCart);
+      } else {
+        const newCart = [
+          ...cartItem,
+          { product, quantity, totalPrice: product.price * quantity },
+        ];
+        setCartItem(newCart);
+        setTotalItem((oldValue) => oldValue + quantity);
+        setTotalPrice((oldValue) => oldValue + product.price * quantity);
+      }
     },
     [cartItem, totalItem, totalPrice]
   );

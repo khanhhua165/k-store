@@ -13,13 +13,13 @@ interface Props {
 const CartModal: React.FC<Props> = ({ cb, showModal }) => {
   const { cartItem, totalItem, totalPrice } = CartContainer.useContainer();
   const itemsDisplayed = cartItem.map((item) => (
-    <CartItem productInCart={item} />
+    <CartItem productInCart={item} key={item.product._id} />
   ));
   return (
     <Transition show={showModal} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 z-30 overflow-y-auto"
+        className="fixed inset-0 z-30 overflow-y-scroll"
         open={showModal}
         onClose={cb}
       >
@@ -64,12 +64,22 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
               <div className="flex flex-col py-3 my-3 border-t border-b">
                 <div className="flex items-center pb-3 text-gray-500">
                   <span className="w-24">Photo</span>
-                  <span className="w-48">Name</span>
-                  <span className="w-28">Price</span>
-                  <span className="w-32">Quantity</span>
-                  <span className="w-36">Total</span>
+                  <span className="w-48 mx-3">Name</span>
+                  <span className="mx-2 w-28">Price</span>
+                  <span className="w-32 mx-2">Quantity</span>
+                  <span className="ml-2 w-36">Total</span>
                 </div>
                 {itemsDisplayed}
+              </div>
+              <div className="flex justify-between w-full pr-5 mb-4 text-lg">
+                <div className="flex space-x-1 font-semibold">
+                  <span className="italic">Total Item:</span>
+                  <span>{totalItem}</span>
+                </div>
+                <div className="flex space-x-3 font-semibold">
+                  <span className="italic">Subtotal: </span>
+                  <span>${totalPrice}</span>
+                </div>
               </div>
               <div className="flex items-center justify-between">
                 <div
