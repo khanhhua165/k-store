@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
             <div className="relative" onClick={() => setShowModal(true)}>
               <HiOutlineShoppingCart className="text-xl cursor-pointer" />
               <div
-                className={`absolute flex justify-center w-5 h-4 text-xs bg-pink-400 rounded-full -top-2 -right-2 ${cartNumbeOfItem}`}
+                className={`absolute flex justify-center w-5 h-4 text-xs bg-pink-500 rounded-full -top-2 -right-2 ${cartNumbeOfItem}`}
               >
                 {totalItem < 10 ? totalItem : "9+"}
               </div>

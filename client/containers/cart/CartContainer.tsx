@@ -13,24 +13,6 @@ const useCart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItem, setTotalItem] = useState(0);
 
-  const removeProduct = useCallback(
-    (productId: string) => {
-      const product = cartItem.find(
-        (cartProduct) => cartProduct.product._id === productId
-      );
-      const quantityLoss = product!.quantity;
-      const priceLoss = product!.product.price * quantityLoss;
-
-      const newCart = cartItem.filter((product) => {
-        return product.product._id !== productId;
-      });
-      setCartItem(newCart);
-      setTotalItem((oldValue) => oldValue - quantityLoss);
-      setTotalPrice((oldValue) => priceLoss);
-    },
-    [cartItem, totalItem, totalPrice]
-  );
-
   const addProduct = useCallback(
     (product: Product, quantity: number) => {
       const productExisted = cartItem.find(
@@ -74,9 +56,34 @@ const useCart = () => {
 
   const updateQuantity = useCallback(
     (productId: string, newQuantity: number) => {
+      if (newQuantity === 0) {
+        const { quantity, totalPrice } = cartItem.find(
+          (cartProduct) => cartProduct.product._id === productId
+        )!;
+        setTotalItem((oldValue) => oldValue - quantity);
+        setTotalPrice((oldValue) => oldValue - totalPrice);
+        const newCart = cartItem.filter(
+          (cartProduct) => cartProduct.product._id !== productId
+        );
+        setCartItem(newCart);
+        return;
+      }
       const newCart = cartItem.map((product) => {
         if (product.product._id === productId) {
-          return { ...product, quantity: newQuantity };
+          const trueNewQuantity =
+            newQuantity >= product.product.stock
+              ? product.product.stock
+              : newQuantity;
+          const quantityDifference = trueNewQuantity - product.quantity;
+          setTotalItem((oldValue) => oldValue + quantityDifference);
+          setTotalPrice(
+            (oldValue) => oldValue + quantityDifference * product.product.price
+          );
+          return {
+            ...product,
+            quantity: trueNewQuantity,
+            totalPrice: trueNewQuantity * product.product.price,
+          };
         } else {
           return product;
         }
@@ -132,7 +139,6 @@ const useCart = () => {
     totalItem,
     totalPrice,
     addProduct,
-    removeProduct,
     updateQuantity,
     clearCart,
     fetchCart,

@@ -5,6 +5,7 @@ import { IoClose } from "react-icons/io5";
 import CartContainer from "../../containers/cart/CartContainer";
 import { IoIosArrowDropleft } from "react-icons/io";
 import CartItem from "../cart/CartItem";
+import { BsFillTrashFill } from "react-icons/bs";
 interface Props {
   showModal: boolean;
   cb: () => void;
@@ -63,21 +64,26 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
               </Dialog.Title>
               <div className="flex flex-col py-3 my-3 border-t border-b">
                 <div className="flex items-center pb-3 text-gray-500">
-                  <span className="w-24">Photo</span>
-                  <span className="w-48 mx-3">Name</span>
-                  <span className="mx-2 w-28">Price</span>
-                  <span className="w-32 mx-2">Quantity</span>
-                  <span className="ml-2 w-36">Total</span>
+                  <span className="flex justify-center w-24">Photo</span>
+                  <span className="flex justify-center w-48 mx-3">Name</span>
+                  <span className="flex justify-center mx-2 w-28">Price</span>
+                  <span className="flex justify-center mx-2 w-36">
+                    Quantity
+                  </span>
+                  <span className="flex justify-center mx-2 w-28">Total</span>
+                  <span className="opacity-0">
+                    <BsFillTrashFill />
+                  </span>
                 </div>
                 {itemsDisplayed}
               </div>
-              <div className="flex justify-between w-full pr-5 mb-4 text-lg">
+              <div className="flex justify-between w-full mb-4 text-lg">
                 <div className="flex space-x-1 font-semibold">
-                  <span className="italic">Total Item:</span>
+                  <span>Total Item:</span>
                   <span>{totalItem}</span>
                 </div>
                 <div className="flex space-x-3 font-semibold">
-                  <span className="italic">Subtotal: </span>
+                  <span>Subtotal: </span>
                   <span>${totalPrice}</span>
                 </div>
               </div>
