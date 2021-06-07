@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import UserContainer from "../../../containers/user/UserContainer";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import CartContainer from "../../../containers/cart/CartContainer";
 import classNames from "clsx";
 import CartModal from "../../modal/CartModal";
+import UserSettingMenu from "../user/UserSettingMenu";
 
 const Navbar: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const { isLoggedIn, user, logout } = UserContainer.useContainer();
-  const { totalItem, cartItem } = CartContainer.useContainer();
+  const { totalItem } = CartContainer.useContainer();
   const navItems = [
     { path: "/shop", name: "Shop" },
     { path: "/blog", name: "Blog" },
@@ -37,16 +36,20 @@ const Navbar: React.FC = () => {
           <div className="flex items-center justify-center space-x-7">
             {NavItems}
           </div>
-          <div className="flex items-center justify-center space-x-5 text-lg font-semibold">
-            <div className="relative" onClick={() => setShowModal(true)}>
-              <HiOutlineShoppingCart className="text-xl cursor-pointer" />
+          <div className="flex items-center justify-center space-x-3 text-lg font-semibold">
+            <div
+              className="relative inline-flex justify-center w-full px-4 py-2 text-white bg-black rounded-md cursor-pointer bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              onClick={() => setShowModal(true)}
+              title="Shopping Cart"
+            >
+              <HiOutlineShoppingCart className="text-xl" />
               <div
                 className={`absolute flex justify-center w-5 h-4 text-xs bg-pink-500 rounded-full -top-2 -right-2 ${cartNumbeOfItem}`}
               >
                 {totalItem < 10 ? totalItem : "9+"}
               </div>
             </div>
-            {isLoggedIn && user && user.email === "admin@admin.com" && (
+            {/* {isLoggedIn && user && user.email === "admin@admin.com" && (
               <Link href="/admin">
                 <a>Admin</a>
               </Link>
@@ -70,7 +73,8 @@ const Navbar: React.FC = () => {
                   <a>SignIn</a>
                 </Link>
               </>
-            )}
+            )} */}
+            <UserSettingMenu />
           </div>
         </div>
       </div>

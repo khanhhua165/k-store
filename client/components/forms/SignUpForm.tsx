@@ -1,4 +1,6 @@
 import axios from "axios";
+import Link from "next/link";
+import { watch } from "node:fs";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
@@ -11,23 +13,28 @@ export type SignUpInputs = {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
 const SignUpForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<SignUpInputs>();
 
   const { login } = UserContainer.useContainer();
   const [mailErr, setMailErr] = useState("");
-  const onSubmit: SubmitHandler<SignUpInputs> = async (data, e) => {
+  const onSubmit: SubmitHandler<SignUpInputs> = async (
+    { email, name, password },
+    e
+  ) => {
     e!.preventDefault();
     try {
       const result = await axios.post<SignupResponse>(
         `${API_URL}${USER_ROUTE}/register`,
-        { ...data }
+        { email, name, password }
       );
       const userSignUpData = result.data.user;
       setMailErr("");
@@ -106,6 +113,27 @@ const SignUpForm: React.FC = () => {
           <span>{errors.password.message}</span>
         </p>
       )}
+      <span className="label-style">Confirm Password</span>
+      <input
+        className="input-style"
+        type="password"
+        placeholder="Confirm Password"
+        {...register("confirmPassword", {
+          required: "You need to input a password",
+          minLength: {
+            value: 6,
+            message: "Password length must be at least 6 characters",
+          },
+          validate: (value) =>
+            value === watch("password") || "The passwords do not match",
+        })}
+      />
+      {errors.confirmPassword && (
+        <p className="input-error">
+          <AiOutlineWarning />
+          <span>{errors.confirmPassword.message}</span>
+        </p>
+      )}
       <button
         disabled={isSubmitting}
         type="submit"
@@ -113,6 +141,12 @@ const SignUpForm: React.FC = () => {
       >
         SIGN UP
       </button>
+      <div className="flex mt-2 space-x-2">
+        <span className="text-gray-500">Already have an account?</span>
+        <Link href="/signin">
+          <a className="font-semibold hover:text-red-500">Sign in</a>
+        </Link>
+      </div>
     </form>
   );
 };

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
+import Link from "next/link";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
@@ -101,6 +102,19 @@ const SignInForm: React.FC = () => {
       >
         SIGN IN
       </button>
+      <div className="flex mt-2 space-x-2">
+        <span className="text-gray-500">New Customer?</span>
+        <Link href="/signup">
+          <a className="font-semibold hover:text-red-500">Sign up</a>
+        </Link>
+      </div>
+      <div className="mt-1">
+        <Link href="/password-recovery">
+          <a className="font-semibold hover:text-red-500">
+            Forgot your password?
+          </a>
+        </Link>
+      </div>
     </form>
   );
 };
