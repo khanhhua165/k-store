@@ -18,7 +18,6 @@ const useAuth = () => {
   }, [token, logout, tokenExpirationDate]);
 
   useEffect(() => {
-    console.log("yo");
     const storedData = JSON.parse(localStorage.getItem("userData")!);
     if (
       storedData &&

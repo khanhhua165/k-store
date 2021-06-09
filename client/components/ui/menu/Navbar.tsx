@@ -49,31 +49,6 @@ const Navbar: React.FC = () => {
                 {totalItem < 10 ? totalItem : "9+"}
               </div>
             </div>
-            {/* {isLoggedIn && user && user.email === "admin@admin.com" && (
-              <Link href="/admin">
-                <a>Admin</a>
-              </Link>
-            )}
-            {isLoggedIn && user && (
-              <>
-                <Link href={`/user/${user!._id}`}>
-                  <a>{user.name}</a>
-                </Link>
-                <div className="cursor-pointer" onClick={logout}>
-                  SignOut
-                </div>
-              </>
-            )}
-            {!isLoggedIn && (
-              <>
-                <Link href="/signup">
-                  <a>SignUp</a>
-                </Link>
-                <Link href="/signin">
-                  <a>SignIn</a>
-                </Link>
-              </>
-            )} */}
             <UserSettingMenu />
           </div>
         </div>
