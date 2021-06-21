@@ -21,7 +21,7 @@ const UserSetting: React.FC = () => {
           Change Password
         </button>
       </div>
-      <div className="mt-2">
+      <div className="flex w-full mt-2">
         {currentTab === "info" ? <UserInfoSetting /> : <UserPasswordChange />}
       </div>
     </div>

@@ -32,11 +32,11 @@ const useAuth = () => {
   );
 
   const logout = useCallback(() => {
+    setIsLoggedIn(false);
     setToken(null);
     setTokenExpirationDate(null);
     setUser(null);
     localStorage.removeItem("userData");
-    setIsLoggedIn(false);
   }, []);
 
   return {
@@ -51,6 +51,7 @@ const useAuth = () => {
     setToken,
     setTokenExpirationDate,
     tokenExpirationDate,
+    setUser,
   };
 };
 const UserContainer = createContainer(useAuth);

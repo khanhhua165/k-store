@@ -4,7 +4,6 @@ import React, { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import { API_URL, PRODUCT_ROUTE } from "../../constants/api";
-import CartContainer from "../../containers/cart/CartContainer";
 import UserContainer from "../../containers/user/UserContainer";
 
 type ProductInputs = {

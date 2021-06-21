@@ -11,6 +11,8 @@ import TokenData from "../../interfaces/tokenData.interface";
 import DataStoredInToken from "../../interfaces/dataStoredInToken";
 import jwt from "jsonwebtoken";
 import cartModel from "../cart/cart.model";
+import RequestWithUserId from "../../interfaces/requestWithUserId.interface";
+import authMiddleware from "../../middlewares/auth.middleware";
 
 export default class UsersController implements Controller {
   public path = "/user";
@@ -32,6 +34,7 @@ export default class UsersController implements Controller {
       validationMiddleware(LogInDto),
       this.loggingIn
     );
+    this.router.patch(`${this.path}/:id`, authMiddleware, this.updateUser);
   }
 
   private registration = async (
@@ -87,6 +90,26 @@ export default class UsersController implements Controller {
     user.password = "";
     const tokenData = this.createToken(user);
     res.status(200).json({ user, token: tokenData.token });
+  };
+
+  private updateUser = async (
+    req: RequestWithUserId,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { name, city, state, address, phone }: IUser = req.body;
+    const { userId } = req;
+    try {
+      const updatedUser = await this.user.findByIdAndUpdate(
+        userId,
+        { name, city, state, address, phone },
+        { new: true }
+      );
+      updatedUser!.password = "";
+      res.status(200).json({ user: updatedUser });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
   };
 
   private createToken(user: IUser): TokenData {

@@ -5,7 +5,7 @@ const useAuthenticated = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { isLoggedIn, isInitialized, user } = UserContainer.useContainer();
   useEffect(() => {
-    if (isInitialized && !isLoggedIn) {
+    if (isInitialized) {
       setIsLoading(false);
     }
   }, [isInitialized]);

@@ -2,6 +2,8 @@ export interface User {
   _id: string;
   name: string;
   email: string;
+  state?: string;
+  city?: string;
   address?: string;
   phone?: string;
   password?: string;
