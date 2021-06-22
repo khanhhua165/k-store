@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import { API_URL, PRODUCT_ROUTE } from "../../constants/api";
 import UserContainer from "../../containers/user/UserContainer";
+import { toast } from "react-toastify";
 
 type ProductInputs = {
   name: string;
@@ -34,6 +35,7 @@ const AddProductForm: React.FC = () => {
   const { token } = UserContainer.useContainer();
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ProductInputs>();
@@ -73,10 +75,12 @@ const AddProductForm: React.FC = () => {
       const result = await axios.post(`${API_URL}${PRODUCT_ROUTE}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(result);
+      toast.success("Product Added!!");
+      reset();
+      setCurentImageURL("");
     } catch (e) {
       if (e.response) {
-        console.log(e.response.data.message);
+        toast.error(e.response.data.message);
       }
     }
   };

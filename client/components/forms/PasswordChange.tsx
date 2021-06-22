@@ -1,15 +1,17 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import { API_URL, USER_ROUTE } from "../../constants/api";
 import UserContainer from "../../containers/user/UserContainer";
+import { toast } from "react-toastify";
 interface Inputs {
   oldPassword: string;
   newPassword: string;
   newPasswordConfirm: string;
 }
 const PasswordChange: React.FC = () => {
+  const [passwordErr, setPasswordErr] = useState("");
   const { token } = UserContainer.useContainer();
   const {
     handleSubmit,
@@ -30,9 +32,18 @@ const PasswordChange: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("dddd");
-    } catch (e: unknown) {
-      console.log(e);
+      toast.success("Password updated successfully!!");
+      setPasswordErr("");
+      reset();
+    } catch (e) {
+      if (e.response) {
+        if (e.response.status === 401) {
+          setPasswordErr("Wrong password!");
+          reset({ oldPassword: "" });
+        } else {
+          toast.error("There was some unexpected error, please try again!!");
+        }
+      }
     }
   };
 
@@ -60,7 +71,12 @@ const PasswordChange: React.FC = () => {
           <span>{errors.oldPassword.message}</span>
         </p>
       )}
-
+      {passwordErr && (
+        <p className="input-error">
+          <AiOutlineWarning />
+          <span>{passwordErr}</span>
+        </p>
+      )}
       <span className="label-style">New Password</span>
       <input
         className="input-style"

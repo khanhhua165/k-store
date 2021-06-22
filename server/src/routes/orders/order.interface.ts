@@ -1,18 +1,18 @@
 import { Schema, Document } from "mongoose";
-import { IProduct } from "../products/product.interface";
-import { IUser } from "../users/user.interface";
 
 export interface IOrder extends Document {
   user: string;
-  items: { product: string; quantity: number }[];
-  firstName: string;
-  lastName: string;
+  order: {
+    items: { product: string; quantity: number; totalPrice: number }[];
+    totalPrice: number;
+    totalItem: number;
+  };
+  name: string;
   address: string;
   email: string;
   phone: string;
-  status: string;
   createdAt: Schema.Types.Date;
-  totalPrice: number;
   isPaid: boolean;
   isDelivered: boolean;
+  note: string;
 }

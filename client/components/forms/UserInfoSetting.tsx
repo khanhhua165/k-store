@@ -8,7 +8,7 @@ import { AiOutlineWarning } from "react-icons/ai";
 import NumberFormat from "react-number-format";
 import axios from "axios";
 import { API_URL, USER_ROUTE } from "../../constants/api";
-
+import { toast } from "react-toastify";
 export type Inputs = {
   name: string;
   phone: string;
@@ -24,7 +24,7 @@ const cityOptions = csc.getStatesOfCountry("VN").map(({ name, isoCode }) => ({
 
 const UserInfoSetting: React.FC = () => {
   const { user, token, setUser } = UserContainer.useContainer();
-  const { name, address, phone, city, state, _id } = user!;
+  const { name, address, phone, city, state } = user!;
   const {
     handleSubmit,
     control,
@@ -65,8 +65,9 @@ const UserInfoSetting: React.FC = () => {
         phone,
         state: state.value,
       }));
+      toast.success("Profile updated successfully!!");
     } catch (e: unknown) {
-      console.log(e);
+      toast.warning("There was some unexpected error, please try again!!");
     }
   };
   return (

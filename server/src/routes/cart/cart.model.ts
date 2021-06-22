@@ -2,7 +2,7 @@ import { ICart } from "./cart.interface";
 import { model, Schema } from "mongoose";
 
 const OrderSchema: Schema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   items: [
     {
       product: {
