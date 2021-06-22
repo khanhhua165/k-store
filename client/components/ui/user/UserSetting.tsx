@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import PasswordChange from "../../forms/PasswordChange";
 import UserInfoSetting from "../../forms/UserInfoSetting";
-import UserPasswordChange from "../../forms/UserPasswordChange";
 
 const UserSetting: React.FC = () => {
   const [currentTab, setCurrentTab] = useState("info");
@@ -22,7 +22,7 @@ const UserSetting: React.FC = () => {
         </button>
       </div>
       <div className="flex w-full mt-2">
-        {currentTab === "info" ? <UserInfoSetting /> : <UserPasswordChange />}
+        {currentTab === "info" ? <UserInfoSetting /> : <PasswordChange />}
       </div>
     </div>
   );

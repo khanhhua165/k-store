@@ -1,6 +1,7 @@
 import React from "react";
 import csc from "country-state-city";
 import Select from "react-select";
+import Creatable from "react-select/creatable";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import UserContainer from "../../containers/user/UserContainer";
 import { AiOutlineWarning } from "react-icons/ai";
@@ -40,7 +41,6 @@ const UserInfoSetting: React.FC = () => {
         : undefined,
     },
   });
-  console.log(state);
   const watchState = watch("state");
   const onSubmit: SubmitHandler<Inputs> = async ({
     address,
@@ -51,13 +51,12 @@ const UserInfoSetting: React.FC = () => {
   }) => {
     try {
       await axios.patch(
-        `${API_URL}${USER_ROUTE}/${_id}`,
+        `${API_URL}${USER_ROUTE}/update`,
         { address, city: city.value, name, phone, state: state.value },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("hehe");
       setUser((oldUser) => ({
         ...oldUser!,
         address,
@@ -154,7 +153,7 @@ const UserInfoSetting: React.FC = () => {
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
-              <Select
+              <Creatable
                 {...field}
                 className="text-base border border-blue-600"
                 isClearable={true}

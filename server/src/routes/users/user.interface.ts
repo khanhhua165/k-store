@@ -10,3 +10,8 @@ export interface IUser extends Document {
   phone?: string;
   isAdmin: boolean;
 }
+
+export interface IPasswordChange {
+  password: string;
+  newPassword: string;
+}

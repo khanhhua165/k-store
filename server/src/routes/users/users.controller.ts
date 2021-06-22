@@ -1,4 +1,4 @@
-import { IUser } from "./user.interface";
+import { IPasswordChange, IUser } from "./user.interface";
 import express, { Request, Response, NextFunction } from "express";
 import Controller from "../../interfaces/controller.interface";
 import userModel from "./user.model";
@@ -13,6 +13,8 @@ import jwt from "jsonwebtoken";
 import cartModel from "../cart/cart.model";
 import RequestWithUserId from "../../interfaces/requestWithUserId.interface";
 import authMiddleware from "../../middlewares/auth.middleware";
+import UpdateUserDto from "./updateUser.dto";
+import PasswordChangeDto from "./passwordChange.dto";
 
 export default class UsersController implements Controller {
   public path = "/user";
@@ -34,7 +36,18 @@ export default class UsersController implements Controller {
       validationMiddleware(LogInDto),
       this.loggingIn
     );
-    this.router.patch(`${this.path}/:id`, authMiddleware, this.updateUser);
+    this.router.patch(
+      `${this.path}/update`,
+      authMiddleware,
+      validationMiddleware(UpdateUserDto),
+      this.updateUser
+    );
+    this.router.patch(
+      `${this.path}/password-change`,
+      authMiddleware,
+      validationMiddleware(PasswordChangeDto),
+      this.changePassword
+    );
   }
 
   private registration = async (
@@ -107,6 +120,31 @@ export default class UsersController implements Controller {
       );
       updatedUser!.password = "";
       res.status(200).json({ user: updatedUser });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
+  private changePassword = async (
+    req: RequestWithUserId,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { newPassword, password }: IPasswordChange = req.body;
+    const { userId } = req;
+    try {
+      const user = await this.user.findById(userId);
+      if (!user) {
+        return next(new HttpError(401, "Wrong credentials provided"));
+      }
+      const isPasswordMatching = await bcrypt.compare(password, user.password);
+      if (!isPasswordMatching) {
+        return next(new HttpError(401, "Wrong credentials provided"));
+      }
+      user.password = await bcrypt.hash(newPassword, 10);
+      await user.save();
+      user.password = "";
+      res.status(200).json({ user });
     } catch (e: unknown) {
       return next(new HttpError());
     }
