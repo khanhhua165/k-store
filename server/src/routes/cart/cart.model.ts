@@ -1,7 +1,7 @@
 import { ICart } from "./cart.interface";
 import { model, Schema } from "mongoose";
 
-const OrderSchema: Schema = new Schema({
+const CartSchema: Schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   items: [
     {
@@ -18,4 +18,4 @@ const OrderSchema: Schema = new Schema({
   totalItem: { type: Number, required: true },
 });
 
-export default model<ICart>("Cart", OrderSchema);
+export default model<ICart>("Cart", CartSchema);

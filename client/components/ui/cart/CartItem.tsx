@@ -1,13 +1,16 @@
 import React from "react";
-import { API_URL } from "../../constants/api";
-import CartContainer from "../../containers/cart/CartContainer";
-import { ProductCartItem } from "../../interfaces/Product.interface";
+import { API_URL } from "../../../constants/api";
+import CartContainer from "../../../containers/cart/CartContainer";
+import { ProductCartItem } from "../../../interfaces/Product.interface";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
+import { useRouter } from "next/router";
 interface Props {
   productInCart: ProductCartItem;
+  cb: () => void;
 }
-const CartItem: React.FC<Props> = ({ productInCart }) => {
+const CartItem: React.FC<Props> = ({ productInCart, cb }) => {
+  const router = useRouter();
   const { updateQuantity } = CartContainer.useContainer();
   const { product, quantity, totalPrice } = productInCart;
   const { _id, image, name, price } = product;
@@ -24,6 +27,11 @@ const CartItem: React.FC<Props> = ({ productInCart }) => {
     updateQuantity(_id, 0);
   };
 
+  const handleClickName = (id: string) => {
+    cb();
+    router.push(`/product/${id}`);
+  };
+
   return (
     <div className="flex items-center py-2 border-t">
       <div className="flex items-center justify-center w-24 border rounded-lg">
@@ -33,7 +41,10 @@ const CartItem: React.FC<Props> = ({ productInCart }) => {
           className="object-contain w-20 h-20"
         />
       </div>
-      <div className="flex justify-center w-48 pr-2 mx-3 text-blue-700">
+      <div
+        className="flex justify-center w-48 pr-2 mx-3 text-blue-700 cursor-pointer"
+        onClick={() => handleClickName(_id)}
+      >
         {name}
       </div>
       <div className="flex justify-center mx-2 font-semibold w-28">

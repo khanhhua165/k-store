@@ -62,7 +62,6 @@ export default class ProductsController implements Controller {
     res: Response,
     next: NextFunction
   ) => {
-    console.log("jesus");
     const id = req.params.id;
     try {
       const product = await this.product.findById(id);

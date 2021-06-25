@@ -1,87 +1,96 @@
-import React from "react";
 import csc from "country-state-city";
-import Select from "react-select";
-import Creatable from "react-select/creatable";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import UserContainer from "../../containers/user/UserContainer";
+import React from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
 import NumberFormat from "react-number-format";
-import axios from "axios";
-import { API_URL, USER_ROUTE } from "../../constants/api";
-import { toast } from "react-toastify";
+import Select from "react-select";
+import Creatable from "react-select/creatable";
+import CheckoutContainer from "../../containers/checkout/CheckoutContainer";
+import UserContainer from "../../containers/user/UserContainer";
 
 type Inputs = {
   name: string;
   phone: string;
+  email: string;
   state: { label: string; value: string };
   city: { label: string; value: string };
   address: string;
 };
 
+interface Props {
+  cb: (showInfo: boolean) => void;
+}
+
 const cityOptions = csc.getStatesOfCountry("VN").map(({ name, isoCode }) => ({
   value: isoCode,
   label: name,
 }));
-
-const UserInfoSetting: React.FC = () => {
-  const { user, token, setUser } = UserContainer.useContainer();
-  const { name, address, phone, city, state } = user!;
+const ShippingInfo: React.FC<Props> = ({ cb }) => {
   const {
-    handleSubmit,
+    address,
+    city,
+    email,
+    name,
+    phone,
+    state,
+    setAddress,
+    setCity,
+    setEmail,
+    setName,
+    setPhone,
+    setState,
+  } = CheckoutContainer.useContainer();
+  const { user } = UserContainer.useContainer();
+
+  const defaultState = state || user?.state || null;
+
+  const {
     control,
+    formState: { errors, isSubmitting },
+    handleSubmit,
     register,
     watch,
-    formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     defaultValues: {
-      state: state
+      state: defaultState
         ? {
-            value: state,
-            label: csc.getStateByCodeAndCountry(state, "VN").name,
+            value: defaultState,
+            label: csc.getStateByCodeAndCountry(defaultState, "VN").name,
           }
         : undefined,
     },
   });
   const watchState = watch("state");
-  const onSubmit: SubmitHandler<Inputs> = async ({
-    address,
-    city,
-    name,
-    phone,
-    state,
-  }) => {
-    try {
-      await axios.patch(
-        `${API_URL}${USER_ROUTE}/update`,
-        { address, city: city.value, name, phone, state: state.value },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setUser((oldUser) => ({
-        ...oldUser!,
-        address,
-        city: city.value,
-        name,
-        phone,
-        state: state.value,
-      }));
-      toast.success("Profile updated successfully!!");
-    } catch (e: unknown) {
-      toast.warning("There was some unexpected error, please try again!!");
-    }
+  const defaultName = name || user?.name || "";
+  const defaultEmail = email || user?.email || "";
+  const defaultPhone = phone || user?.phone || "";
+  const defaultCity = city || user?.city || "";
+  const defaultAddress = address || user?.address || "";
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setName(data.name);
+    setEmail(data.email);
+    setPhone(data.phone);
+    setState(data.state.value);
+    setCity(data.city.value);
+    setAddress(data.address);
+    cb(false);
   };
+
   return (
     <form
-      className="flex flex-col w-3/4 max-w-md mx-auto mb-4 sm:text-lg"
+      className="flex flex-col w-full max-w-md sm:text-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <div className="flex pb-2 text-xl border-b-2 border-gray-700">
+        Recipient
+      </div>
       <span className="label-style">Name</span>
       <input
         className="input-style"
         type="text"
         placeholder="Your Name"
-        defaultValue={name}
+        {...(defaultName ? { defaultValue: defaultName } : {})}
         {...register("name", {
           required: "You need to input your name",
         })}
@@ -93,29 +102,55 @@ const UserInfoSetting: React.FC = () => {
         </p>
       )}
 
-      <span className="label-style">Phone Number</span>
-      <Controller
-        name="phone"
-        {...(phone ? { defaultValue: phone } : {})}
-        control={control}
-        rules={{ pattern: /^[0-9]*$/ }}
-        render={({ field }) => (
-          <NumberFormat
-            {...field}
-            isNumericString={true}
-            format="##########"
-            allowEmptyFormatting
-            mask="_"
+      <div className="flex flex-col w-full xs:flex-row xs:space-x-2">
+        <div className="flex flex-col xs:w-3/5">
+          <span className="label-style">Email</span>
+          <input
+            type="text"
+            placeholder="Email"
             className="input-style"
+            {...(defaultEmail ? { defaultValue: defaultEmail } : {})}
+            {...register("email", {
+              required: "You need to input an email",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "You need to input a valid email",
+              },
+            })}
           />
-        )}
-      />
-      {errors.phone && (
-        <p className="input-error">
-          <AiOutlineWarning />
-          <span>You need to input a valid phone number</span>
-        </p>
-      )}
+          {errors.email && (
+            <p className="input-error">
+              <AiOutlineWarning />
+              <span>{errors.email.message}</span>
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col xs:w-2/5">
+          <span className="label-style">Phone Number</span>
+          <Controller
+            name="phone"
+            {...(defaultPhone ? { defaultValue: defaultPhone } : {})}
+            control={control}
+            rules={{ pattern: /^[0-9]*$/ }}
+            render={({ field }) => (
+              <NumberFormat
+                {...field}
+                isNumericString={true}
+                format="##########"
+                allowEmptyFormatting
+                mask="_"
+                className="input-style"
+              />
+            )}
+          />
+          {errors.phone && (
+            <p className="input-error">
+              <AiOutlineWarning />
+              <span>Invalid phone</span>
+            </p>
+          )}
+        </div>
+      </div>
 
       <span className="mb-1 label-style">State</span>
       <Controller
@@ -143,11 +178,11 @@ const UserInfoSetting: React.FC = () => {
         <>
           <span className="mb-1 label-style">City</span>
           <Controller
-            {...(city
+            {...(defaultCity
               ? {
                   defaultValue: {
-                    value: city,
-                    label: city,
+                    value: defaultCity,
+                    label: defaultCity,
                   },
                 }
               : {})}
@@ -177,11 +212,10 @@ const UserInfoSetting: React.FC = () => {
           )}
         </>
       )}
-
       <span className="label-style">Address</span>
       <input
         className="input-style"
-        {...(address ? { defaultValue: address } : {})}
+        {...(defaultAddress ? { defaultValue: defaultAddress } : {})}
         type="text"
         placeholder="Your Address"
         {...register("address", {
@@ -199,10 +233,10 @@ const UserInfoSetting: React.FC = () => {
         type="submit"
         className="flex justify-center py-2 mt-3 bg-blue-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 hover:bg-blue-700 focus:bg-blue-800"
       >
-        Save Changes
+        Continue to Payment
       </button>
     </form>
   );
 };
 
-export default UserInfoSetting;
+export default ShippingInfo;

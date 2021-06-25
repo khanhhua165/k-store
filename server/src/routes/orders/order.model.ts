@@ -3,21 +3,19 @@ import { IOrder } from "./order.interface";
 
 const orderSchema: Schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },
-  cart: {
-    items: [
-      {
-        product: {
-          type: Schema.Types.ObjectId,
-          ref: "Product",
-          required: true,
-        },
-        quantity: { type: Number, required: true },
-        totalPrice: { type: Number, required: true },
+  cart: [
+    {
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
       },
-    ],
-    totalPrice: { type: Number, required: true },
-    totalItem: { type: Number, required: true },
-  },
+      quantity: { type: Number, required: true },
+      totalPrice: { type: Number, required: true },
+    },
+  ],
+  totalPrice: { type: Number, required: true },
+  totalItem: { type: Number, required: true },
   name: { type: String, required: true },
   state: { type: String, required: true },
   city: { type: String, required: true },
@@ -27,7 +25,6 @@ const orderSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
   isPaid: { type: Boolean, required: true, default: false },
   isDelivered: { type: Boolean, required: true, default: false },
-  note: { type: String, required: true },
 });
 
 export default model<IOrder>("Order", orderSchema);

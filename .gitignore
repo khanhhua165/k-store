@@ -10,3 +10,7 @@
 /server/.vscode
 #uploads
 /server/uploads
+#keys
+/server/cert.pem
+/server/keytmp.pem
+/server/key.pem

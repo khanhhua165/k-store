@@ -12,6 +12,7 @@ const useCart = () => {
   const [cartItem, setCartItem] = useState<ProductCartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItem, setTotalItem] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   const addProduct = useCallback(
     (product: Product, quantity: number) => {
@@ -143,6 +144,8 @@ const useCart = () => {
     clearCart,
     fetchCart,
     saveCartToDatabase,
+    showModal,
+    setShowModal,
   };
 };
 

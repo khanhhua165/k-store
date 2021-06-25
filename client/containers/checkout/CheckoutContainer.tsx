@@ -8,17 +8,16 @@ const useCheckout = () => {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const [isCOD, setIsCOD] = useState(true);
+
   const resetInfo = useCallback(() => {
     setName("");
     setEmail("");
     setPhone("");
-    setPhone("");
     setState("");
     setCity("");
     setAddress("");
-    setIsCOD(true);
   }, []);
+
   return {
     name,
     setName,
@@ -30,8 +29,6 @@ const useCheckout = () => {
     setCity,
     address,
     setAddress,
-    isCOD,
-    setIsCOD,
     email,
     setEmail,
     resetInfo,

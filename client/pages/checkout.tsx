@@ -1,4 +1,4 @@
-import CheckoutPage from "../components/checkout/CheckoutPage";
+import CheckoutPage from "../components/ui/checkout/CheckoutPage";
 
 function Checkout() {
   return <CheckoutPage />;

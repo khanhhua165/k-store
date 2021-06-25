@@ -9,6 +9,11 @@ import Initializer from "../components/initializers/Initializer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CheckoutContainer from "../containers/checkout/CheckoutContainer";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { STRIPE_KEY } from "../constants/stripeKey";
+
+const stripePromise = loadStripe(STRIPE_KEY);
 
 function MyApp({ Component, pageProps }: any) {
   const getLayout =
@@ -22,8 +27,10 @@ function MyApp({ Component, pageProps }: any) {
             <Head>
               <title>K-Store</title>
             </Head>
-            <Initializer />
-            {getLayout(<Component {...pageProps} />)}
+            <Elements stripe={stripePromise}>
+              <Initializer />
+              {getLayout(<Component {...pageProps} />)}
+            </Elements>
           </CheckoutContainer.Provider>
         </CartContainer.Provider>
       </UserContainer.Provider>

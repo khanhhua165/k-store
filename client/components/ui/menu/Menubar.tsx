@@ -3,30 +3,15 @@ import Searchbar from "../../forms/Searchbar";
 import { HiChevronUp } from "react-icons/hi";
 import Link from "next/link";
 import { Disclosure, Transition } from "@headlessui/react";
+import { meatMenu, supplementMenu } from "../../../constants/routes";
 
 const Menubar: React.FC = () => {
-  const meatMenu = [
-    { url: "/shop/meat/beef-steaks", name: "Beef Steaks" },
-    { url: "/shop/meat/beef-whole-cuts", name: "Beef Whole Cuts" },
-    {
-      url: "/shop/meat/ground-beef-and-burgers",
-      name: "Ground Beef and Burgers",
-    },
-    { url: "/shop/meat/poultry", name: "Poultry" },
-    { url: "/shop/meat/lamb", name: "Lamb" },
-    { url: "/shop/meat/veal", name: "Veal" },
-  ];
   const meatLinks = meatMenu.map((meatItem) => (
     <Link href={meatItem.url} key={meatItem.name}>
       <a className="hover:text-blue-700">{meatItem.name}</a>
     </Link>
   ));
-  const supplementMenu = [
-    { url: "/shop/sup/cheese", name: "Cheese" },
-    { url: "/shop/sup/salt", name: "Salt" },
-    { url: "/shop/sup/honey", name: "Honey" },
-    { url: "/shop/sup/fish-products", name: "Fish Products" },
-  ];
+
   const supplementLinks = supplementMenu.map((supItem) => (
     <Link href={supItem.url} key={supItem.name}>
       <a className="hover:text-blue-700">{supItem.name}</a>

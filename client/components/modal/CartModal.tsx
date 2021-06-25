@@ -4,8 +4,9 @@ import React, { Fragment } from "react";
 import { IoClose } from "react-icons/io5";
 import CartContainer from "../../containers/cart/CartContainer";
 import { IoIosArrowDropleft } from "react-icons/io";
-import CartItem from "../cart/CartItem";
+import CartItem from "../ui/cart/CartItem";
 import { BsFillTrashFill } from "react-icons/bs";
+import { useRouter } from "next/router";
 interface Props {
   showModal: boolean;
   cb: () => void;
@@ -13,9 +14,16 @@ interface Props {
 
 const CartModal: React.FC<Props> = ({ cb, showModal }) => {
   const { cartItem, totalItem, totalPrice } = CartContainer.useContainer();
+  const router = useRouter();
   const itemsDisplayed = cartItem.map((item) => (
-    <CartItem productInCart={item} key={item.product._id} />
+    <CartItem productInCart={item} key={item.product._id} cb={cb} />
   ));
+  const handleCheckoutClick = () => {
+    if (router.pathname !== "/checkout") {
+      router.push("/checkout");
+    }
+    cb();
+  };
   return (
     <Transition show={showModal} as={Fragment}>
       <Dialog
@@ -97,11 +105,12 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
                   </span>
                   <span>Continue Shopping</span>
                 </div>
-                <Link href="/checkout">
-                  <a className="px-2 py-2 font-semibold transition border border-blue-500 rounded-md hover:bg-red-500 active:bg-red-600 hover:text-white hover:border-transparent">
-                    Checkout
-                  </a>
-                </Link>
+                <button
+                  className="px-2 py-2 font-semibold transition border border-blue-500 rounded-md hover:bg-red-500 active:bg-red-600 hover:text-white hover:border-transparent"
+                  onClick={handleCheckoutClick}
+                >
+                  Checkout
+                </button>
               </div>
             </div>
           </Transition.Child>

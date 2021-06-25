@@ -5,15 +5,11 @@ import CartContainer from "../../../containers/cart/CartContainer";
 import classNames from "clsx";
 import CartModal from "../../modal/CartModal";
 import UserSettingMenu from "../user/UserSettingMenu";
+import { navItems } from "../../../constants/routes";
 
 const Navbar: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-  const { totalItem } = CartContainer.useContainer();
-  const navItems = [
-    { path: "/shop", name: "Shop" },
-    { path: "/blog", name: "Blog" },
-    { path: "/about", name: "About us" },
-  ];
+  const { totalItem, showModal, setShowModal } = CartContainer.useContainer();
+
   const NavItems = navItems.map((navItem) => (
     <Link href={navItem.path} key={navItem.name}>
       <a className="text-xl font-semibold transition border-b-2 border-transparent hover:border-gray-50">
