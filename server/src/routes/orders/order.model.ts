@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import { productTypes } from "../../constants/productTypes";
 import { IOrder } from "./order.interface";
 
 const orderSchema: Schema = new Schema({
@@ -6,9 +7,16 @@ const orderSchema: Schema = new Schema({
   cart: [
     {
       product: {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
+        name: { type: String, required: true },
+        description: { type: String, required: true },
+        productType: {
+          type: String,
+          enum: productTypes,
+          required: true,
+        },
+        size: { type: String, required: true },
+        image: { type: String, required: true },
+        price: { type: Number, required: true },
       },
       quantity: { type: Number, required: true },
       totalPrice: { type: Number, required: true },

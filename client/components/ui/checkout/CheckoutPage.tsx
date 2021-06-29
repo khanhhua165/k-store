@@ -1,10 +1,23 @@
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { FiCheck } from "react-icons/fi";
+import CartContainer from "../../../containers/cart/CartContainer";
 import PaymentInfo from "../../forms/PaymentInfo";
 import ShippingInfo from "../../forms/ShippingInfo";
+import CardCheckoutDisclosure from "../cart/CardCheckoutDisclosure";
 import CartCheckout from "../cart/CartCheckout";
 const CheckoutPage = () => {
+  const { totalItem } = CartContainer.useContainer();
   const [isInInfo, setIsInInfo] = useState(true);
+  const router = useRouter();
+  useEffect(() => {
+    if (totalItem === 0) router.push("/");
+  }, [totalItem]);
+
+  if (totalItem === 0) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col w-11/12 mx-auto mt-24 mb-4">
       <div className="flex items-end justify-between w-64 mx-auto mb-3 space-x-3 xs:w-96">
@@ -27,13 +40,16 @@ const CheckoutPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center mx-auto xs:flex-row xs:space-x-12">
+      <div className="flex flex-col justify-center xs:flex-row xs:space-x-12">
         {isInInfo ? (
           <ShippingInfo cb={setIsInInfo} />
         ) : (
           <PaymentInfo cb={setIsInInfo} />
         )}
-        <CartCheckout />
+        <div className="hidden xs:block">
+          <CartCheckout />
+        </div>
+        <CardCheckoutDisclosure />
       </div>
     </div>
   );

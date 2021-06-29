@@ -102,8 +102,8 @@ const ShippingInfo: React.FC<Props> = ({ cb }) => {
         </p>
       )}
 
-      <div className="flex flex-col w-full xs:flex-row xs:space-x-2">
-        <div className="flex flex-col xs:w-3/5">
+      <div className="flex flex-col sm:flex-row sm:space-x-2">
+        <div className="flex flex-col sm:w-3/5">
           <span className="label-style">Email</span>
           <input
             type="text"
@@ -125,7 +125,7 @@ const ShippingInfo: React.FC<Props> = ({ cb }) => {
             </p>
           )}
         </div>
-        <div className="flex flex-col xs:w-2/5">
+        <div className="flex flex-col sm:w-2/5">
           <span className="label-style">Phone Number</span>
           <Controller
             name="phone"

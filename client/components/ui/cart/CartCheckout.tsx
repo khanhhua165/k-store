@@ -15,8 +15,8 @@ const CartCheckout = () => {
     )
   );
   return (
-    <div className="flex flex-col w-full max-w-[19rem] space-y-3">
-      <div className="flex items-center justify-end pb-2 space-x-2 border-b-2 border-gray-700">
+    <div className="flex flex-col w-full max-w-[25rem] xs:max-w-[18rem] space-y-3">
+      <div className="items-center justify-end hidden pb-2 space-x-2 border-b-2 border-gray-700 xs:flex">
         <div className="text-lg text-semibold">Your Order</div>
         <div
           className="cursor-pointer hover:text-red-600 active:text-red-700"

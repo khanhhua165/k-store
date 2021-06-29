@@ -17,11 +17,24 @@ export interface IOrder extends Document {
   isDelivered: boolean;
 }
 
+interface CartOrder {
+  product: {
+    name: string;
+    description: string;
+    productType: string;
+    size: string;
+    image: string;
+    price: string;
+  };
+  quantity: number;
+  totalPrice: string;
+}
+
 export interface StripeCheckout {
   id: string;
   amount: number;
-  cart: { productId: string; quantity: number; totalPrice: number }[];
-  userId?: string;
+  cart: CartOrder[];
+  userId: string;
   totalPrice: number;
   totalItem: number;
   name: string;

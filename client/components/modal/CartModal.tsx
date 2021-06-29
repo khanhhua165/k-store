@@ -96,7 +96,7 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <div
+                <button
                   className="flex items-center px-2 py-2 space-x-1 font-semibold text-white transition bg-blue-500 rounded-md cursor-pointer hover:bg-red-500 active:bg-red-600"
                   onClick={cb}
                 >
@@ -104,10 +104,11 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
                     <IoIosArrowDropleft />
                   </span>
                   <span>Continue Shopping</span>
-                </div>
+                </button>
                 <button
                   className="px-2 py-2 font-semibold transition border border-blue-500 rounded-md hover:bg-red-500 active:bg-red-600 hover:text-white hover:border-transparent"
                   onClick={handleCheckoutClick}
+                  disabled={totalItem === 0}
                 >
                   Checkout
                 </button>
