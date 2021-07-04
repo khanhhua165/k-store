@@ -3,11 +3,11 @@ import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AiOutlineWarning } from "react-icons/ai";
 import { API_URL, USER_ROUTE } from "../../constants/api";
 import { HOUR_IN_MILLISECOND } from "../../constants/time";
 import UserContainer from "../../containers/user/UserContainer";
 import { SigninResponse } from "../../interfaces/User.interface";
+import { ImSpinner8 } from "react-icons/im";
 
 export type SignInInputs = {
   email: string;
@@ -32,7 +32,6 @@ const SignInForm: React.FC = () => {
       );
       const userSignUpData = result.data.user;
       setLoginErr("");
-      console.log(result.data.token);
       login(
         userSignUpData,
         result.data.token,
@@ -47,7 +46,7 @@ const SignInForm: React.FC = () => {
   };
   return (
     <form
-      className="flex flex-col w-3/4 max-w-md mx-auto mb-4 mt-28 sm:text-lg"
+      className="flex flex-col w-11/12 max-w-md px-3 py-4 mx-auto mb-4 border border-gray-200 rounded-md shadow-md xs:w-3/4 mt-28 sm:text-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
       <span className="label-style">Email</span>
@@ -65,7 +64,6 @@ const SignInForm: React.FC = () => {
       />
       {errors.email && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.email.message}</span>
         </p>
       )}
@@ -85,13 +83,11 @@ const SignInForm: React.FC = () => {
       />
       {errors.password && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.password.message}</span>
         </p>
       )}
       {loginErr && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{loginErr}</span>
         </p>
       )}
@@ -100,7 +96,13 @@ const SignInForm: React.FC = () => {
         type="submit"
         className="flex justify-center py-2 mt-3 bg-blue-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 hover:bg-blue-700 focus:bg-blue-800"
       >
-        SIGN IN
+        {isSubmitting ? (
+          <span className="duration-300 animate-spin">
+            <ImSpinner8 />
+          </span>
+        ) : (
+          "SIGN IN"
+        )}
       </button>
       <div className="flex mt-2 space-x-2">
         <span className="text-gray-500">New Customer?</span>

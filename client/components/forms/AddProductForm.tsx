@@ -121,7 +121,7 @@ const AddProductForm: React.FC = () => {
       <select className="input-style" {...register("productType")}>
         <option value="Beef Steaks">Beef Steaks</option>
         <option value="Beef Whole Cuts">Beef Whole Cuts</option>
-        <option value="Ground Beef and Burgers">Ground Beef and Burgers</option>
+        <option value="Ground Beef And Burgers">Ground Beef And Burgers</option>
         <option value="Poultry">Poultry</option>
         <option value="Pork">Pork</option>
         <option value="Lamb">Lamb</option>
@@ -131,8 +131,7 @@ const AddProductForm: React.FC = () => {
         <option value="Salt">Salt</option>
         <option value="Honey">Honey</option>
         <option value="Fat">Fat</option>
-        <option value="Organ">Organ</option>
-        <option value="Supplement">Supplement</option>
+        <option value="Organs">Organs</option>
         <option value="Package">Package</option>
       </select>
       <span className="label-style">Product Size</span>

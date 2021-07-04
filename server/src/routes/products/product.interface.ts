@@ -3,22 +3,7 @@ import { Document } from "mongoose";
 export interface IProduct extends Document {
   name: string;
   description: string;
-  productType:
-    | "Beef Steaks"
-    | "Beef Whole Cuts"
-    | "Ground Beef and Burgers"
-    | "Poultry"
-    | "Pork"
-    | "Lamb"
-    | "Veal"
-    | "Cheese"
-    | "Fish Products"
-    | "Salt"
-    | "Honey"
-    | "Fat"
-    | "Organ"
-    | "Supplement"
-    | "Package";
+  productType: string;
   image: string;
   reviews: string[];
   size: string;

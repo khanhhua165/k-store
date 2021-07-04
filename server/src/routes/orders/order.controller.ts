@@ -113,6 +113,14 @@ export default class OrderController implements Controller {
         ...(userId && { user: new mongoose.Types._ObjectId(userId) }),
       });
       const newOrder = await order.save();
+      const msg = {
+        to: email, // Change to your recipient
+        from: "huukhanh.hua@gmail.com", // Change to your verified sender
+        subject: "Order Success",
+        text: `Please save this order code: ${newOrder._id}`,
+        html: `<p>Please save this order code: <strong>${newOrder._id}</strong></p>`,
+      };
+      await sgMail.send(msg);
       res.status(200).json({ orderId: newOrder._id });
     } catch (e: unknown) {
       return next(new HttpError());

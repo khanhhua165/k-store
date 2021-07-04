@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import { productTypes } from "../../constants/productTypes";
 import { IOrder } from "./order.interface";
 
 const orderSchema: Schema = new Schema({
@@ -11,7 +10,6 @@ const orderSchema: Schema = new Schema({
         description: { type: String, required: true },
         productType: {
           type: String,
-          enum: productTypes,
           required: true,
         },
         size: { type: String, required: true },

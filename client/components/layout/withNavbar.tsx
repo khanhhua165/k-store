@@ -5,8 +5,8 @@ const WithNavbar: React.FC = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div className="mt-16"></div>
-      <div className="mx-3">{children}</div>
+      <div className="mt-14"></div>
+      <div className="">{children}</div>
     </>
   );
 };

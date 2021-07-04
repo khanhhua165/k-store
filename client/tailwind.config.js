@@ -22,7 +22,7 @@ module.exports = {
         "Noto Color Emoji",
       ],
       cursive: [
-        "Rock Salt",
+        "Merienda",
         "ui-serif",
         "Georgia",
         "Cambria",

@@ -1,4 +1,3 @@
-import { productTypes } from "../../constants/productTypes";
 import { Schema, model } from "mongoose";
 import { IProduct } from "./product.interface";
 
@@ -20,7 +19,6 @@ const productSchema: Schema = new Schema({
   description: { type: String, required: true },
   productType: {
     type: String,
-    enum: productTypes,
     required: true,
   },
   size: { type: String, required: true },

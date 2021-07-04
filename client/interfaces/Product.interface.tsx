@@ -27,3 +27,8 @@ export interface CartResponse {
   totalPrice: number;
   totalItem: number;
 }
+
+export interface ProductsResponse {
+  products: Product[];
+  totalPage: number;
+}

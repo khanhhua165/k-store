@@ -6,13 +6,15 @@ import classNames from "clsx";
 import CartModal from "../../modal/CartModal";
 import UserSettingMenu from "../user/UserSettingMenu";
 import { navItems } from "../../../constants/routes";
+import { GiHamburgerMenu } from "react-icons/gi";
+import NavbarMenuDropdown from "./NavbarDropdown";
 
 const Navbar: React.FC = () => {
   const { totalItem, showModal, setShowModal } = CartContainer.useContainer();
 
   const NavItems = navItems.map((navItem) => (
     <Link href={navItem.path} key={navItem.name}>
-      <a className="text-xl font-semibold transition border-b-2 border-transparent hover:border-gray-50">
+      <a className="font-semibold transition border-b-2 border-transparent xs:text-xl hover:border-gray-50">
         {navItem.name}
       </a>
     </Link>
@@ -21,18 +23,22 @@ const Navbar: React.FC = () => {
   return (
     <>
       <div className="fixed top-0 left-0 z-30 w-full bg-blue-800 shadow-md text-gray-50">
-        <div className="flex items-center justify-between px-4 py-4 mx-auto sm:px-14 max-w-[100rem]">
-          <div className="flex space-x-5 justify-left">
+        <div className="flex items-center justify-between px-4 py-3 mx-auto sm:px-14 max-w-[100rem]">
+          <NavbarMenuDropdown />
+          <Link href="/">
+            <a className="text-xl font-bold tracking-widest uppercase xs:hidden font-cursive">
+              V-Mart
+            </a>
+          </Link>
+          <div className="items-center hidden space-x-6 divide-x-2 xs:flex">
             <Link href="/">
               <a className="text-2xl font-bold tracking-widest uppercase font-cursive">
-                V-Store
+                V-Mart
               </a>
             </Link>
+            <div className="flex pl-6 space-x-5">{NavItems}</div>
           </div>
-          <div className="flex items-center justify-center space-x-7">
-            {NavItems}
-          </div>
-          <div className="flex items-center justify-center space-x-3 text-lg font-semibold">
+          <div className="flex items-center justify-end space-x-2 text-lg font-semibold xs:space-x-3">
             <div
               className="relative inline-flex justify-center w-full px-4 py-2 text-white bg-black rounded-md cursor-pointer bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
               onClick={() => setShowModal(true)}

@@ -8,31 +8,26 @@ import { Product, ProductsResponse } from "../../interfaces/Product.interface";
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const query = context.query;
-  console.log(query);
-  const page = query.page ? query.page : "1";
-  let products: Product[] = [];
-  let totalPage: number;
+  let data: Product[] = [];
+  const { type } = context.params!;
+
   try {
-    const data = (
-      await axios.get<ProductsResponse>(
-        `${API_URL}${PRODUCT_ROUTE}?page=${page}`
-      )
-    ).data;
-    products = data.products;
-    totalPage = data.totalPage;
+    const response = await axios.get<ProductsResponse>(
+      `${API_URL}${PRODUCT_ROUTE}/type/${type}`
+    );
+    data = response.data.products;
   } catch (e: unknown) {}
   return {
-    props: { products },
+    props: { data },
   };
 };
 
-const Shop = ({
-  products,
+const ShopByType = ({
+  data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  return <ItemCards items={products} />;
+  return <ItemCards items={data} />;
 };
 
-Shop.getLayout = getLayoutWithSideMenu;
+ShopByType.getLayout = getLayoutWithSideMenu;
 
-export default Shop;
+export default ShopByType;
