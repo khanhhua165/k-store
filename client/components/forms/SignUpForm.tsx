@@ -4,6 +4,7 @@ import { watch } from "node:fs";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineWarning } from "react-icons/ai";
+import { ImSpinner8 } from "react-icons/im";
 import { API_URL, USER_ROUTE } from "../../constants/api";
 import { HOUR_IN_MILLISECOND } from "../../constants/time";
 import UserContainer from "../../containers/user/UserContainer";
@@ -51,7 +52,7 @@ const SignUpForm: React.FC = () => {
   };
   return (
     <form
-      className="flex flex-col w-3/4 max-w-md mx-auto mb-4 mt-28 sm:text-lg"
+      className="flex flex-col w-11/12 max-w-md px-3 py-4 mx-auto mb-4 border border-gray-200 rounded-md shadow-md xs:w-3/4 mt-28 sm:text-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
       <span className="label-style">Name</span>
@@ -139,7 +140,13 @@ const SignUpForm: React.FC = () => {
         type="submit"
         className="flex justify-center py-2 mt-3 bg-blue-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 hover:bg-blue-700 focus:bg-blue-800"
       >
-        SIGN UP
+        {isSubmitting ? (
+          <span className="duration-300 animate-spin">
+            <ImSpinner8 />
+          </span>
+        ) : (
+          "SIGN UP"
+        )}
       </button>
       <div className="flex mt-2 space-x-2">
         <span className="text-gray-500">Already have an account?</span>

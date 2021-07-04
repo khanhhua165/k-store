@@ -19,7 +19,7 @@ const ImageHeader = () => {
             claim your health
           </div>
           <Link href="/shop">
-            <a className="flex items-center justify-center h-10 font-semibold transition bg-blue-600 border-gray-600 rounded-r-md text-gray-50 hover:bg-blue-700 active:bg-blue-800">
+            <a className="flex items-center justify-center h-10 font-semibold transition bg-blue-600 border-gray-600 rounded-md shadow-md xs:shadow-none xs:rounded-r-md text-gray-50 hover:bg-blue-700 active:bg-blue-800">
               Shop Now
             </a>
           </Link>

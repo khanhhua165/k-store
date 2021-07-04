@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 function ProductById({ data }: { data: Product }) {
   return (
-    <div className="flex justify-center mt-24">
+    <div className="flex justify-center mt-24 mb-6">
       <ItemDetail product={data} />
     </div>
   );

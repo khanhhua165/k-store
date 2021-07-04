@@ -59,7 +59,7 @@ const ItemModal: React.FC<Props> = ({ cb, product, showModal }) => {
                 />
               </div>
               <div className="flex space-x-2">
-                <div className="flex-shrink-0 w-[330px]">
+                <div className="w-1/2">
                   <Image
                     objectFit="contain"
                     width="330"
@@ -68,7 +68,7 @@ const ItemModal: React.FC<Props> = ({ cb, product, showModal }) => {
                     alt={name}
                   />
                 </div>
-                <div className="flex flex-col pr-5 space-y-2">
+                <div className="flex flex-col w-1/2 pr-5 space-y-2">
                   <Dialog.Title className="text-2xl font-semibold">
                     {name}
                   </Dialog.Title>

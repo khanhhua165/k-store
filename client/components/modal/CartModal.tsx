@@ -70,8 +70,8 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
               <Dialog.Title className="text-xl font-semibold">
                 Shopping Cart
               </Dialog.Title>
-              <div className="flex flex-col py-3 my-3 border-t border-b">
-                <div className="flex items-center pb-3 text-gray-500">
+              <div className="flex flex-col py-3 my-3 border-b xs:border-t">
+                <div className="items-center hidden pb-3 text-gray-500 xs:flex">
                   <span className="flex justify-center w-24">Photo</span>
                   <span className="flex justify-center w-48 mx-3">Name</span>
                   <span className="flex justify-center mx-2 w-28">Price</span>
@@ -85,7 +85,7 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
                 </div>
                 {itemsDisplayed}
               </div>
-              <div className="flex justify-between w-full mb-4 text-lg">
+              <div className="flex justify-between w-full mb-4 xs:text-lg">
                 <div className="flex space-x-1 font-semibold">
                   <span>Total Item:</span>
                   <span>{totalItem}</span>
@@ -95,9 +95,9 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
                   <span>${totalPrice}</span>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col items-center justify-center xs:flex-row xs:justify-between">
                 <button
-                  className="flex items-center px-2 py-2 space-x-1 font-semibold text-white transition bg-blue-500 rounded-md cursor-pointer hover:bg-red-500 active:bg-red-600"
+                  className="flex items-center order-2 px-2 py-2 space-x-1 font-semibold text-white transition bg-blue-500 rounded-md cursor-pointer xs:order-1 hover:bg-red-500 active:bg-red-600"
                   onClick={cb}
                 >
                   <span className="text-2xl">
@@ -106,7 +106,7 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
                   <span>Continue Shopping</span>
                 </button>
                 <button
-                  className="px-2 py-2 font-semibold transition border border-blue-500 rounded-md hover:bg-red-500 active:bg-red-600 hover:text-white hover:border-transparent"
+                  className="order-1 px-2 py-2 mb-3 font-semibold transition border border-blue-500 rounded-md xs:mb-0 xs:order-2 hover:bg-red-500 active:bg-red-600 hover:text-white hover:border-transparent"
                   onClick={handleCheckoutClick}
                   disabled={totalItem === 0}
                 >

@@ -11,7 +11,6 @@ export default function Home() {
       <ImageHeader />
       <SecondSection />
       <ThirdSection />
-      <Footer />
     </div>
   );
 }

@@ -19,20 +19,30 @@ const Footer = () => {
         Keep in Touch
       </div>
       <div className="flex items-center justify-center space-x-3">
-        <div className="px-2 py-2 rounded-full cursor-pointer text-gray-600 bg-white hover:text-gray-50 hover:bg-[#3b5998] border border-gray-400">
+        <div className="px-2 py-2 rounded-full cursor-pointer text-gray-600 bg-white hover:text-gray-50 hover:bg-[#3b5998] border border-gray-300">
           <GrFacebookOption />
         </div>
-        <div className="px-2 py-2 rounded-full cursor-pointer text-gray-600 bg-white hover:text-gray-50 hover:bg-[#00acee] border border-gray-400">
+        <div className="px-2 py-2 rounded-full cursor-pointer text-gray-600 bg-white hover:text-gray-50 hover:bg-[#00acee] border border-gray-300">
           <GrTwitter />
         </div>
-        <div className="px-2 py-2 rounded-full cursor-pointer text-gray-600 bg-white hover:text-gray-50 hover:bg-[#FF0000] border border-gray-400">
+        <div className="px-2 py-2 rounded-full cursor-pointer text-gray-600 bg-white hover:text-gray-50 hover:bg-[#FF0000] border border-gray-300">
           <GrYoutube />
         </div>
-        <div className="px-2 py-2 rounded-full cursor-pointer text-gray-600 bg-white hover:text-gray-50 hover:bg-[#e95950] border border-gray-400">
+        <div className="px-2 py-2 rounded-full cursor-pointer text-gray-600 bg-white hover:text-gray-50 hover:bg-[#e95950] border border-gray-300">
           <GrInstagram />
         </div>
       </div>
-      <div className="flex justify-center mt-4">© 2021 V-mart</div>
+      <div className="flex justify-center mt-4 space-x-2">
+        <span>© 2021 V-mart</span>
+        <span>-</span>
+        <a
+          href="https://github.com/khanhhua165"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Khanh Hua
+        </a>
+      </div>
     </div>
   );
 };

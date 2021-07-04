@@ -8,7 +8,6 @@ const ProductDescription: React.FC<{ product: Product }> = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const { stock, description, price, size } = product;
   const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(stock);
     const newValue = +e.target.value;
     if (newValue === 0) setQuantity(1);
     if (newValue > stock) {
@@ -35,21 +34,21 @@ const ProductDescription: React.FC<{ product: Product }> = ({ product }) => {
     addProduct(product, roundedQuantity);
   };
   return (
-    <div className="flex flex-col py-3 bg-white border border-gray-200 rounded-lg">
-      <span className="pb-3 mx-4 text-lg font-semibold uppercase border-b border-gray-200">
+    <div className="flex flex-col py-3 bg-white border border-gray-200 rounded-lg sm:w-7/12">
+      <span className="pb-3 mx-4 text-lg font-semibold text-center uppercase border-b border-gray-200 xs:text-left">
         Product Description
       </span>
-      <div className="pt-3 mx-4">{description}</div>
-      <div className="flex mx-4 mt-3 space-x-3">
-        <div className="px-3 py-1 font-semibold text-white bg-blue-600 rounded-md">
+      <div className="pt-3 mx-4 text-center xs:text-left">{description}</div>
+      <div className="flex flex-col items-center mx-4 mt-3 space-y-3 xs:flex-row xs:space-y-0 xs:space-x-3">
+        <div className="px-3 py-1 font-semibold text-white bg-blue-600 rounded-md ">
           {size}
         </div>
         <div className="px-3 py-1 font-semibold text-white bg-blue-600 rounded-md">
           {stock} {stock > 1 ? "Products" : "Product"} In Stock
         </div>
       </div>
-      <div className="flex justify-between mx-4 mt-4">
-        <div className="flex items-center space-x-3">
+      <div className="flex flex-col items-center mx-4 mt-4 space-y-1 xs:space-y-0 xs:flex-row xs:justify-between">
+        <div className="flex flex-col items-center space-y-1 xs:flex-row xs:space-y-0 xs:space-x-3">
           <form
             onSubmit={(e) => {
               e.preventDefault();
