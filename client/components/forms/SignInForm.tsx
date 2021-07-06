@@ -8,6 +8,7 @@ import { HOUR_IN_MILLISECOND } from "../../constants/time";
 import UserContainer from "../../containers/user/UserContainer";
 import { SigninResponse } from "../../interfaces/User.interface";
 import { ImSpinner8 } from "react-icons/im";
+import { toast } from "react-toastify";
 
 export type SignInInputs = {
   email: string;
@@ -37,6 +38,7 @@ const SignInForm: React.FC = () => {
         result.data.token,
         new Date(new Date().getTime() + HOUR_IN_MILLISECOND)
       );
+      toast.success("Login successful!");
       router.push("/");
     } catch (e) {
       if (e.response) {

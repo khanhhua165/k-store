@@ -23,7 +23,7 @@ const WithSideMenu: React.FC = ({ children }) => {
         </div>
       </div>
 
-      <div className="mt-5 mb-16 text-5xl font-semibold sm:hidden">{title}</div>
+      <div className="mt-5 mb-12 text-5xl font-semibold sm:hidden">{title}</div>
       <div className="flex justify-center mb-4 sm:hidden">{children}</div>
     </div>
   );

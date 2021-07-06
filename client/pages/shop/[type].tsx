@@ -1,31 +1,59 @@
 import axios from "axios";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import React from "react";
 import { getLayoutWithSideMenu } from "../../components/layout/WithSideMenu";
 import ItemCards from "../../components/ui/product/ItemCards";
+import Pagination from "../../components/ui/product/Pagination";
 import { API_URL, PRODUCT_ROUTE } from "../../constants/api";
 import { Product, ProductsResponse } from "../../interfaces/Product.interface";
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  let data: Product[] = [];
+  let products: Product[] = [];
+  let totalPage: number;
   const { type } = context.params!;
+  const page = context.query.page ? context.query.page : "1";
 
   try {
-    const response = await axios.get<ProductsResponse>(
-      `${API_URL}${PRODUCT_ROUTE}/type/${type}`
-    );
-    data = response.data.products;
-  } catch (e: unknown) {}
+    const data = (
+      await axios.get<ProductsResponse>(
+        `${API_URL}${PRODUCT_ROUTE}/type/${type}?page=${page}`
+      )
+    ).data;
+    products = data.products;
+    totalPage = data.totalPage;
+  } catch (e: unknown) {
+    return {
+      notFound: true,
+    };
+  }
   return {
-    props: { data },
+    props: {
+      products,
+      currentPage: +page,
+      totalPage,
+      currentURL: `/shop/${type}`,
+    },
   };
 };
 
 const ShopByType = ({
-  data,
+  products,
+  currentPage,
+  currentURL,
+  totalPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  return <ItemCards items={data} />;
+  return (
+    <div className="flex flex-col items-center w-full">
+      <ItemCards items={products} />
+      <Pagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        currentURL={currentURL}
+      />
+    </div>
+  );
 };
 
 ShopByType.getLayout = getLayoutWithSideMenu;

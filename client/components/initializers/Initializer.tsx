@@ -1,10 +1,10 @@
 import React from "react";
 import useAuth from "../../hooks/useAuth";
-import useCartAuthenticated from "../../hooks/useCartAuthenticated";
+import useCartInitialized from "../../hooks/useCartInitialized";
 import useCheckoutAuthenticated from "../../hooks/useCheckoutAuthenticated";
 const Initializer: React.FC = () => {
   useAuth();
-  useCartAuthenticated();
+  useCartInitialized();
   useCheckoutAuthenticated();
   return null;
 };

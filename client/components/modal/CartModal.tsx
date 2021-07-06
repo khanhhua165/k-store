@@ -1,5 +1,4 @@
 import { Dialog, Transition } from "@headlessui/react";
-import Link from "next/link";
 import React, { Fragment } from "react";
 import { IoClose } from "react-icons/io5";
 import CartContainer from "../../containers/cart/CartContainer";
@@ -25,7 +24,7 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
     cb();
   };
   return (
-    <Transition show={showModal} as={Fragment}>
+    <Transition appear show={showModal} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-30 overflow-y-scroll"
@@ -106,7 +105,9 @@ const CartModal: React.FC<Props> = ({ cb, showModal }) => {
                   <span>Continue Shopping</span>
                 </button>
                 <button
-                  className="order-1 px-2 py-2 mb-3 font-semibold transition border border-blue-500 rounded-md xs:mb-0 xs:order-2 hover:bg-red-500 active:bg-red-600 hover:text-white hover:border-transparent"
+                  className={`order-1 px-2 py-2 mb-3 font-semibold transition border border-blue-500 rounded-md xs:mb-0 xs:order-2 hover:bg-red-500 active:bg-red-600 hover:text-white hover:border-transparent ${
+                    totalItem === 0 && "cursor-not-allowed"
+                  }`}
                   onClick={handleCheckoutClick}
                   disabled={totalItem === 0}
                 >

@@ -7,6 +7,7 @@ import ItemModal from "../../modal/ItemModal";
 import classNames from "clsx";
 import Rating from "./Rating";
 import Link from "next/link";
+import { useRouter } from "next/router";
 export interface ItemProps {
   product: Product;
 }
@@ -14,6 +15,7 @@ export interface ItemProps {
 const ItemCard: React.FC<ItemProps> = ({ product }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
   const { addProduct } = CartContainer.useContainer();
   const { numReviews, rating, image, name, _id, price } = product;
 
@@ -32,16 +34,15 @@ const ItemCard: React.FC<ItemProps> = ({ product }) => {
         onMouseLeave={() => setShowPreview(false)}
       >
         <div className="w-[250px] h-[250px] relative">
-          <Link href={`/product/${_id}`}>
-            <Image
-              src={`${API_URL}/${image}`}
-              alt={name}
-              width={250}
-              height={250}
-              objectFit="contain"
-              className={`transform ${imageScale} transition duration-200 cursor-pointer`}
-            />
-          </Link>
+          <Image
+            src={`${API_URL}/${image}`}
+            alt={name}
+            width={250}
+            height={250}
+            objectFit="contain"
+            className={`transform ${imageScale} transition duration-200 cursor-pointer`}
+            onClick={() => router.push(`/product/${_id}`)}
+          />
 
           <div className="absolute flex justify-center w-[250px] top-1/2">
             <div

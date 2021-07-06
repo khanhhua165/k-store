@@ -118,22 +118,11 @@ const useCart = () => {
     }
   }, []);
 
-  const saveCartToDatabase = useCallback(
-    async (userId: string) => {
-      try {
-        const response = await axios.post(`${API_URL}${CART_ROUTE}`, {
-          userId,
-          items: cartItem,
-          totalPrice: totalPrice,
-          totalItem: totalItem,
-        });
-        console.log(response);
-      } catch (e) {
-        if (e.response) console.log(e.response.data.message);
-      }
-    },
-    [cartItem, totalItem, totalPrice]
-  );
+  const saveCartToLocalStorage = useCallback(() => {
+    localStorage.setItem("cartItem", JSON.stringify(cartItem));
+    localStorage.setItem("totalItem", totalItem.toString());
+    localStorage.setItem("totalPrice", totalPrice.toString());
+  }, [cartItem, totalItem, totalPrice]);
 
   return {
     cartItem,
@@ -143,9 +132,12 @@ const useCart = () => {
     updateQuantity,
     clearCart,
     fetchCart,
-    saveCartToDatabase,
     showModal,
     setShowModal,
+    saveCartToLocalStorage,
+    setCartItem,
+    setTotalItem,
+    setTotalPrice,
   };
 };
 

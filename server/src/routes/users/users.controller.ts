@@ -10,17 +10,21 @@ import LogInDto from "./logIn.dto";
 import TokenData from "../../interfaces/tokenData.interface";
 import DataStoredInToken from "../../interfaces/dataStoredInToken";
 import jwt from "jsonwebtoken";
-import cartModel from "../cart/cart.model";
 import RequestWithUserId from "../../interfaces/requestWithUserId.interface";
 import authMiddleware from "../../middlewares/auth.middleware";
 import UpdateUserDto from "./updateUser.dto";
 import PasswordChangeDto from "./passwordChange.dto";
+import crypto from "crypto";
 
+import sgMail from "@sendgrid/mail";
+
+sgMail.setApiKey(process.env.SENDGRID_KEY!);
+
+const TTL_IN_MILISECOND = 600000;
 export default class UsersController implements Controller {
   public path = "/user";
   public router = express.Router();
   private user = userModel;
-  private cart = cartModel;
   constructor() {
     this.initializeRoutes();
   }
@@ -31,17 +35,31 @@ export default class UsersController implements Controller {
       validationMiddleware(CreateUserDto),
       this.registration
     );
+
     this.router.post(
       `${this.path}/login`,
       validationMiddleware(LogInDto),
       this.loggingIn
     );
+
     this.router.patch(
       `${this.path}/update`,
       authMiddleware,
       validationMiddleware(UpdateUserDto),
       this.updateUser
     );
+
+    this.router.post(`${this.path}/password-recovery`, this.passwordReset);
+    this.router.get(
+      `${this.path}/password-recovery/:code`,
+      this.getResetPasswordRequest
+    );
+
+    this.router.post(
+      `${this.path}/password-recovery/reset`,
+      this.getNewPassword
+    );
+
     this.router.patch(
       `${this.path}/password-change`,
       authMiddleware,
@@ -64,12 +82,6 @@ export default class UsersController implements Controller {
       ...userData,
       password: hashedPassword,
       favorite: [],
-    });
-    await this.cart.create({
-      userId: user._id,
-      items: [],
-      totalPrice: 0,
-      totalItem: 0,
     });
     const tokenData = this.createToken(user);
     res.status(201).json({
@@ -146,6 +158,87 @@ export default class UsersController implements Controller {
       user.password = "";
       res.status(200).json({ user });
     } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
+  private passwordReset = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const email: string = req.body.email;
+    crypto.randomBytes(32, async (err, buffer) => {
+      if (err) {
+        return next(new HttpError());
+      }
+      const code = buffer.toString("hex");
+      try {
+        const user = await this.user.findOne({ email });
+        if (!user) {
+          return next(new HttpError(404, "Wrong credentials provided"));
+        }
+        user.recoveryCode = code;
+        user.recoveryCodeExpiration = Date.now() + TTL_IN_MILISECOND;
+        await user.save();
+        const msg = {
+          to: email, // Change to your recipient
+          from: "huukhanh.hua@gmail.com", // Change to your verified sender
+          subject: "Password Reset",
+          html: `
+            <p>You requested a password reset from V-mart</p>
+            <p>Click this <a href="${process.env
+              .CLIENT_URL!}/password-recovery/${code}">link</a> to set a new password.</p>
+          `,
+        };
+        await sgMail.send(msg);
+        res.status(200).json({ message: "successful" });
+      } catch (e: unknown) {
+        return next(new HttpError());
+      }
+    });
+  };
+
+  private getResetPasswordRequest = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const code: string = req.params.code;
+    try {
+      const user = await this.user.findOne({
+        recoveryCode: code,
+        recoveryCodeExpiration: { $gt: Date.now() },
+      });
+      if (!user) {
+        return next(new HttpError(402, "No user found or code expired"));
+      }
+      res.status(200).json({ message: "success" });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
+  private getNewPassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const code: string = req.body.code;
+    const newPassword: string = req.body.newPassword;
+    try {
+      const user = await this.user.findOne({
+        recoveryCode: code,
+        recoveryCodeExpiration: { $gt: Date.now() },
+      });
+      if (!user) {
+        return next(new HttpError(404, "Time expired, PLease do it again"));
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      await user.save();
+      res.status(200).json({ message: "successful" });
+    } catch (e) {
       return next(new HttpError());
     }
   };

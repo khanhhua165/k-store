@@ -10,6 +10,8 @@ const UserSchema: Schema = new Schema({
   address: { type: String },
   phone: { type: String },
   isAdmin: { type: Boolean, required: true, default: false },
+  recoveryCode: { type: String },
+  recoveryCodeExpiration: { type: Date },
 });
 
 export default model<IUser>("User", UserSchema);

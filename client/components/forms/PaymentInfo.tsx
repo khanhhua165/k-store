@@ -11,6 +11,7 @@ import RecipientInfo from "../ui/checkout/RecipientInfo";
 import RecipientInfoDisclosure from "../ui/checkout/RecipientInfoDisclosure";
 import { OrderSuccessResponse } from "../../interfaces/Order.interface";
 import { useRouter } from "next/router";
+import { ImSpinner8 } from "react-icons/im";
 
 type Inputs = {
   method: string;
@@ -152,7 +153,15 @@ const PaymentInfo: React.FC<Props> = ({ cb }) => {
         type="submit"
         className="flex justify-center px-2 py-2 mt-3 bg-blue-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 hover:bg-blue-700 focus:bg-blue-800"
       >
-        {watch("method") === "Card" ? `Pay $${totalPrice}` : "Order Now"}
+        {isSubmitting ? (
+          <span className="duration-300 animate-spin">
+            <ImSpinner8 />
+          </span>
+        ) : watch("method") === "Card" ? (
+          `Pay $${totalPrice}`
+        ) : (
+          "Order Now"
+        )}
       </button>
       <div className="hidden xs:flex xs:flex-col">
         <div className="flex items-center pb-2 mt-2 space-x-2 text-xl border-b-2 border-gray-700">

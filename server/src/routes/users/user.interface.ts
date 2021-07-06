@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export interface IUser extends Document {
   name: string;
@@ -9,6 +9,8 @@ export interface IUser extends Document {
   address?: string;
   phone?: string;
   isAdmin: boolean;
+  recoveryCode?: string;
+  recoveryCodeExpiration?: Date | number;
 }
 
 export interface IPasswordChange {

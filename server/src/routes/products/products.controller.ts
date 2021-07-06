@@ -48,11 +48,7 @@ export default class ProductsController implements Controller {
     res: Response,
     next: NextFunction
   ) => {
-    let page = req.query.page;
-    if (!page) {
-      page = "1";
-    }
-    const currentPage = +page;
+    const currentPage = +req.query.page!;
     if (Number.isNaN(currentPage)) {
       return next(new HttpError(400, "Query is wrong!!"));
     }
@@ -66,6 +62,10 @@ export default class ProductsController implements Controller {
         .find()
         .skip((currentPage - 1) * PRODUCTS_PER_PAGE)
         .limit(PRODUCTS_PER_PAGE);
+      if (!allProducts) {
+        const error = new HttpError(404, "Couldn't find any products");
+        return next(error);
+      }
       const totalPage = Math.ceil(productCount / PRODUCTS_PER_PAGE);
       res.status(200).json({ products: allProducts, totalPage });
     } catch (e: unknown) {
@@ -79,11 +79,7 @@ export default class ProductsController implements Controller {
     next: NextFunction
   ) => {
     const type = req.params.type;
-    let page = req.query.page;
-    if (!page) {
-      page = "1";
-    }
-    const currentPage = +page;
+    const currentPage = +req.query.page!;
     if (Number.isNaN(currentPage)) {
       return next(new HttpError(400, "Query is wrong!!"));
     }
@@ -99,6 +95,10 @@ export default class ProductsController implements Controller {
         .find({ productType: getTitle(type) })
         .skip((currentPage - 1) * PRODUCTS_PER_PAGE)
         .limit(PRODUCTS_PER_PAGE);
+      if (!products) {
+        const error = new HttpError(404, "Couldn't find any products");
+        return next(error);
+      }
       const totalPage = Math.ceil(productCount / PRODUCTS_PER_PAGE);
       res.status(200).json({ products, totalPage });
     } catch (e: unknown) {

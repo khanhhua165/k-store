@@ -1,10 +1,9 @@
 import axios from "axios";
 import Link from "next/link";
-import { watch } from "node:fs";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AiOutlineWarning } from "react-icons/ai";
 import { ImSpinner8 } from "react-icons/im";
+import { toast } from "react-toastify";
 import { API_URL, USER_ROUTE } from "../../constants/api";
 import { HOUR_IN_MILLISECOND } from "../../constants/time";
 import UserContainer from "../../containers/user/UserContainer";
@@ -44,6 +43,7 @@ const SignUpForm: React.FC = () => {
         result.data.token,
         new Date(new Date().getTime() + HOUR_IN_MILLISECOND)
       );
+      toast.success("Signup successful!");
     } catch (e) {
       if (e.response) {
         setMailErr(e.response.data.message);
@@ -66,7 +66,6 @@ const SignUpForm: React.FC = () => {
       />
       {errors.name && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.name.message}</span>
         </p>
       )}
@@ -85,13 +84,11 @@ const SignUpForm: React.FC = () => {
       />
       {errors.email && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.email.message}</span>
         </p>
       )}
       {mailErr && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{mailErr}</span>
         </p>
       )}
@@ -110,7 +107,6 @@ const SignUpForm: React.FC = () => {
       />
       {errors.password && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.password.message}</span>
         </p>
       )}
@@ -131,7 +127,6 @@ const SignUpForm: React.FC = () => {
       />
       {errors.confirmPassword && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.confirmPassword.message}</span>
         </p>
       )}
