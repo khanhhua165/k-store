@@ -24,6 +24,7 @@ export default class OrderController implements Controller {
   private initializeRoutes() {
     this.router.post(`${this.path}/stripe`, this.stripeCheckout);
     this.router.post(this.path, this.CODCheckout);
+    this.router.post(`${this.path}/search-order`, this.getOrder);
   }
 
   private CODCheckout = async (
@@ -62,7 +63,6 @@ export default class OrderController implements Controller {
         to: email, // Change to your recipient
         from: "huukhanh.hua@gmail.com", // Change to your verified sender
         subject: "Order Success",
-        text: `Please save this order code: ${newOrder._id}`,
         html: `<p>Please save this order code: <strong>${newOrder._id}</strong></p>`,
       };
       await sgMail.send(msg);
@@ -92,7 +92,7 @@ export default class OrderController implements Controller {
       totalPrice,
     }: StripeCheckout = req.body;
     try {
-      const payment = await stripe.paymentIntents.create({
+      await stripe.paymentIntents.create({
         amount,
         currency: "USD",
         description: "Organic Meat Selling Company",
@@ -117,11 +117,28 @@ export default class OrderController implements Controller {
         to: email, // Change to your recipient
         from: "huukhanh.hua@gmail.com", // Change to your verified sender
         subject: "Order Success",
-        text: `Please save this order code: ${newOrder._id}`,
         html: `<p>Please save this order code: <strong>${newOrder._id}</strong></p>`,
       };
       await sgMail.send(msg);
       res.status(200).json({ orderId: newOrder._id });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
+  private getOrder = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const orderCode: string = req.body.code;
+    const email: string = req.body.email;
+    try {
+      const order = await this.order.findOne({ email, _id: orderCode });
+      if (!order) {
+        return next(new HttpError(404, "No order found"));
+      }
+      res.status(200).json({ order });
     } catch (e: unknown) {
       return next(new HttpError());
     }

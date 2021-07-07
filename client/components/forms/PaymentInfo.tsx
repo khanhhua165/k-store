@@ -12,6 +12,7 @@ import RecipientInfoDisclosure from "../ui/checkout/RecipientInfoDisclosure";
 import { OrderSuccessResponse } from "../../interfaces/Order.interface";
 import { useRouter } from "next/router";
 import { ImSpinner8 } from "react-icons/im";
+import { toast } from "react-toastify";
 
 type Inputs = {
   method: string;
@@ -62,7 +63,7 @@ const PaymentInfo: React.FC<Props> = ({ cb }) => {
         const { orderId } = response.data;
         router.push(`checkout/success/${orderId}`);
       } catch (e: unknown) {
-        console.log(e);
+        toast.warning("there was some unexpected error, please try again.");
       }
     }
     if (method === "Card") {
@@ -89,7 +90,7 @@ const PaymentInfo: React.FC<Props> = ({ cb }) => {
             const { orderId } = response.data;
             router.push(`checkout/success/${orderId}`);
           } catch (e) {
-            console.log(e);
+            toast.warning("there was some unexpected error, please try again.");
           }
         }
       }

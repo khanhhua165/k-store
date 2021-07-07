@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AiOutlineWarning } from "react-icons/ai";
 import { API_URL, USER_ROUTE } from "../../constants/api";
 import UserContainer from "../../containers/user/UserContainer";
 import { toast } from "react-toastify";
+import { ImSpinner8 } from "react-icons/im";
 interface Inputs {
   oldPassword: string;
   newPassword: string;
@@ -67,13 +67,11 @@ const PasswordChange: React.FC = () => {
       />
       {errors.oldPassword && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.oldPassword.message}</span>
         </p>
       )}
       {passwordErr && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{passwordErr}</span>
         </p>
       )}
@@ -92,7 +90,6 @@ const PasswordChange: React.FC = () => {
       />
       {errors.newPassword && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.newPassword.message}</span>
         </p>
       )}
@@ -110,7 +107,6 @@ const PasswordChange: React.FC = () => {
       />
       {errors.newPasswordConfirm && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.newPasswordConfirm.message}</span>
         </p>
       )}
@@ -119,7 +115,13 @@ const PasswordChange: React.FC = () => {
         type="submit"
         className="flex justify-center py-2 mt-3 bg-blue-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 hover:bg-blue-700 focus:bg-blue-800"
       >
-        Save Changes
+        {isSubmitting ? (
+          <span className="duration-300 animate-spin">
+            <ImSpinner8 />
+          </span>
+        ) : (
+          "Save Changes"
+        )}
       </button>
     </form>
   );

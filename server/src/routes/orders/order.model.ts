@@ -6,6 +6,7 @@ const orderSchema: Schema = new Schema({
   cart: [
     {
       product: {
+        _id: { type: String, required: true },
         name: { type: String, required: true },
         description: { type: String, required: true },
         productType: {

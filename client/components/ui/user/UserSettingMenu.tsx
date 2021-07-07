@@ -83,6 +83,20 @@ const UserSettingMenu: React.FC = () => {
                   </Menu.Item>
                 </div>
               )}
+              <div className="px-1 py-1">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? "bg-blue-600 text-white" : "text-gray-900"
+                      } flex rounded-md items-center w-full px-2 py-2 text-base`}
+                      onClick={() => router.push("/find-order")}
+                    >
+                      Find Order
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
               {isLoggedIn && (
                 <>
                   <div className="px-1 py-1">

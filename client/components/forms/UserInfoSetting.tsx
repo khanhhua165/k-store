@@ -4,11 +4,11 @@ import Select from "react-select";
 import Creatable from "react-select/creatable";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import UserContainer from "../../containers/user/UserContainer";
-import { AiOutlineWarning } from "react-icons/ai";
 import NumberFormat from "react-number-format";
 import axios from "axios";
 import { API_URL, USER_ROUTE } from "../../constants/api";
 import { toast } from "react-toastify";
+import { ImSpinner8 } from "react-icons/im";
 
 type Inputs = {
   name: string;
@@ -88,7 +88,6 @@ const UserInfoSetting: React.FC = () => {
       />
       {errors.name && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.name.message}</span>
         </p>
       )}
@@ -112,7 +111,6 @@ const UserInfoSetting: React.FC = () => {
       />
       {errors.phone && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>You need to input a valid phone number</span>
         </p>
       )}
@@ -134,7 +132,6 @@ const UserInfoSetting: React.FC = () => {
       />
       {errors.state && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>You need to choose a state</span>
         </p>
       )}
@@ -171,7 +168,6 @@ const UserInfoSetting: React.FC = () => {
           />
           {errors.city && (
             <p className="input-error">
-              <AiOutlineWarning />
               <span>You need to choose a city</span>
             </p>
           )}
@@ -190,7 +186,6 @@ const UserInfoSetting: React.FC = () => {
       />
       {errors.address && (
         <p className="input-error">
-          <AiOutlineWarning />
           <span>{errors.address.message}</span>
         </p>
       )}
@@ -199,7 +194,13 @@ const UserInfoSetting: React.FC = () => {
         type="submit"
         className="flex justify-center py-2 mt-3 bg-blue-600 border-2 border-gray-300 rounded-md cursor-pointer text-gray-50 hover:bg-blue-700 focus:bg-blue-800"
       >
-        Save Changes
+        {isSubmitting ? (
+          <span className="duration-300 animate-spin">
+            <ImSpinner8 />
+          </span>
+        ) : (
+          "Save Changes"
+        )}
       </button>
     </form>
   );

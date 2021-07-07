@@ -15,7 +15,6 @@ import authMiddleware from "../../middlewares/auth.middleware";
 import UpdateUserDto from "./updateUser.dto";
 import PasswordChangeDto from "./passwordChange.dto";
 import crypto from "crypto";
-
 import sgMail from "@sendgrid/mail";
 
 sgMail.setApiKey(process.env.SENDGRID_KEY!);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import CartContainer from "../../../containers/cart/CartContainer";
@@ -6,7 +6,6 @@ import classNames from "clsx";
 import CartModal from "../../modal/CartModal";
 import UserSettingMenu from "../user/UserSettingMenu";
 import { navItems } from "../../../constants/routes";
-import { GiHamburgerMenu } from "react-icons/gi";
 import NavbarMenuDropdown from "./NavbarDropdown";
 
 const Navbar: React.FC = () => {

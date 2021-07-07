@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { createContainer } from "unstated-next";
-import { API_URL, CART_ROUTE } from "../../constants/api";
+import { API_URL } from "../../constants/api";
 import {
   CartResponse,
   Product,
@@ -100,24 +100,6 @@ const useCart = () => {
     setTotalItem(0);
   }, []);
 
-  const fetchCart = useCallback(async (userId: string, tokenString: string) => {
-    console.log(tokenString);
-    try {
-      const data = (
-        await axios.get<{ userCart: CartResponse }>(`${API_URL}${CART_ROUTE}`, {
-          headers: { Authorization: `Bearer ${tokenString}` },
-        })
-      ).data.userCart;
-      setCartItem(data.items);
-      setTotalPrice(data.totalPrice);
-      setTotalItem(data.totalItem);
-    } catch (e) {
-      if (e.response) {
-        console.log(e.response.data.message);
-      }
-    }
-  }, []);
-
   const saveCartToLocalStorage = useCallback(() => {
     localStorage.setItem("cartItem", JSON.stringify(cartItem));
     localStorage.setItem("totalItem", totalItem.toString());
@@ -131,7 +113,6 @@ const useCart = () => {
     addProduct,
     updateQuantity,
     clearCart,
-    fetchCart,
     showModal,
     setShowModal,
     saveCartToLocalStorage,

@@ -15,7 +15,7 @@ function OrderSuccess() {
   const router = useRouter();
   const { id } = router.query;
   return (
-    <div className="flex flex-col items-center justify-center mt-40 space-y-2 text-lg xs:text-xl">
+    <div className="flex flex-col items-center justify-center mx-4 mt-40 space-y-2 text-lg xs:text-xl">
       <span className="text-5xl font-semibold text-blue-700">
         <FaCheckCircle />
       </span>

@@ -19,6 +19,7 @@ export interface IOrder extends Document {
 
 interface CartOrder {
   product: {
+    _id: string;
     name: string;
     description: string;
     productType: string;

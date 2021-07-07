@@ -28,7 +28,7 @@ const PasswordRecovery: React.FC = () => {
 
   return (
     <form
-      className="flex flex-col w-3/4 max-w-md px-3 py-4 mx-auto mb-4 border border-gray-200 rounded-md shadow-md mt-28 sm:text-lg"
+      className="flex flex-col w-11/12 max-w-md px-3 py-4 mx-auto mb-4 border border-gray-200 rounded-md shadow-md mt-28 sm:text-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex flex-wrap">

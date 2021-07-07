@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { API_URL } from "../../../constants/api";
 interface Props {
@@ -5,12 +6,14 @@ interface Props {
   name: string;
   quantity: number;
   totalPrice: number;
+  productId: string;
 }
 const CartItemCheckout: React.FC<Props> = ({
   image,
   name,
   quantity,
   totalPrice,
+  productId,
 }) => {
   return (
     <div className="flex items-center justify-between space-x-3">
@@ -25,7 +28,9 @@ const CartItemCheckout: React.FC<Props> = ({
             {quantity < 10 ? quantity : "9+"}
           </div>
         </div>
-        <div className="flex flex-wrap">{name}</div>
+        <Link href={`/product/${productId}`}>
+          <a className="flex flex-wrap">{name}</a>
+        </Link>
       </div>
 
       <div className="">${totalPrice}</div>
