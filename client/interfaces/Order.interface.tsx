@@ -15,4 +15,5 @@ export interface OrderResponse {
   createdAt: string;
   isPaid: boolean;
   isDelivered: boolean;
+  email: string;
 }

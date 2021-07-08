@@ -1,6 +1,5 @@
 import axios from "axios";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { useState } from "react";
 import { getLayoutWithSideMenu } from "../../components/layout/WithSideMenu";
 import ItemCards from "../../components/ui/product/ItemCards";
 import Pagination from "../../components/ui/product/Pagination";

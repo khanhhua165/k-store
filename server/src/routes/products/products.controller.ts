@@ -49,17 +49,22 @@ export default class ProductsController implements Controller {
     next: NextFunction
   ) => {
     const currentPage = +req.query.page!;
+    const searchString = req.query.search
+      ? { name: { $regex: req.query.search as string, $options: "i" } }
+      : {};
     if (Number.isNaN(currentPage)) {
       return next(new HttpError(400, "Query is wrong!!"));
     }
     try {
-      const productCount = await this.product.find().countDocuments();
+      const productCount = await this.product
+        .find({ ...searchString })
+        .countDocuments();
       if (productCount === 0) {
         const error = new HttpError(404, "Couldn't find any products");
         return next(error);
       }
       const allProducts = await this.product
-        .find()
+        .find({ ...searchString })
         .skip((currentPage - 1) * PRODUCTS_PER_PAGE)
         .limit(PRODUCTS_PER_PAGE);
       if (!allProducts) {

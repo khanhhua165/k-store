@@ -10,9 +10,9 @@ type SearchInput = {
 const Searchbar: React.FC = () => {
   const { handleSubmit, register } = useForm<SearchInput>();
   const router = useRouter();
-  const onSubmit: SubmitHandler<SearchInput> = (data, e) => {
+  const onSubmit: SubmitHandler<SearchInput> = ({ productName }, e) => {
     e!.preventDefault();
-    router.push("/");
+    router.push(`/shop/search/${productName}`);
   };
   return (
     <form className="relative" onSubmit={handleSubmit(onSubmit)}>

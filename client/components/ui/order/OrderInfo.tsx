@@ -1,6 +1,6 @@
 import { OrderResponse } from "../../../interfaces/Order.interface";
 import CartItemCheckout from "../cart/CarItemCheckout";
-
+import csc from "country-state-city";
 interface Props {
   order: OrderResponse;
 }
@@ -18,6 +18,7 @@ const OrderInfo: React.FC<Props> = ({ order }) => {
     state,
     totalItem,
     totalPrice,
+    email,
   } = order;
 
   const orderDate = new Date(Date.parse(createdAt)).toLocaleDateString(
@@ -53,8 +54,13 @@ const OrderInfo: React.FC<Props> = ({ order }) => {
             <span className="font-semibold">Recipient:</span> {name}
           </div>
           <div className="">
+            <span className="font-semibold">Email:</span> {email}
+          </div>
+          <div className="">
             <span className="font-semibold">Shipping Address:</span>
-            {` ${address}, ${city}, ${state}.`}
+            {` ${address}, ${city}, ${
+              csc.getStateByCodeAndCountry(state, "VN").name
+            }.`}
           </div>
           <div className="">
             <span className="font-semibold">Phone:</span> {phone}

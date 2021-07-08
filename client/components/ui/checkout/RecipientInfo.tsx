@@ -1,4 +1,5 @@
 import CheckoutContainer from "../../../containers/checkout/CheckoutContainer";
+import csc from "country-state-city";
 
 const RecipientInfo = () => {
   const { address, city, email, name, phone, state } =
@@ -10,7 +11,10 @@ const RecipientInfo = () => {
       <div className="">Phone number: {phone}</div>
       <div className="">Email: {email}</div>
       <div className="">
-        Address: {`${address}, ${city}, ${state}, Vietnam.`}
+        Address:{" "}
+        {`${address}, ${city}, ${
+          csc.getStateByCodeAndCountry(state, "VN").name
+        }, Vietnam.`}
       </div>
     </div>
   );

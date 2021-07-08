@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { GiConsoleController } from "react-icons/gi";
 import { getTitle } from "../../helpers/slugToTitle";
 import Menubar from "../ui/menu/Menubar";
 import WithNavbar from "./withNavbar";
@@ -8,13 +9,15 @@ const WithSideMenu: React.FC = ({ children }) => {
   const router = useRouter();
   const query = router.query;
   let title: string;
-  if (Object.keys(query).length === 0 || !query.type) {
+  if (Object.keys(query).length === 0) {
     title = "All Products";
-  } else {
+  } else if (query.type) {
     title = getTitle(query.type as string);
+  } else {
+    title = `Search for ${query.searchString}`;
   }
   return (
-    <div className="flex flex-col items-center mt-28">
+    <div className="flex flex-col items-center mx-2 mt-28">
       <div className="flex-col hidden mx-auto sm:flex">
         <div className="text-5xl font-semibold">{title}</div>
         <div className="flex items-start mt-5 mb-4 space-x-9">
