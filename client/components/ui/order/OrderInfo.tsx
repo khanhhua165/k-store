@@ -1,6 +1,7 @@
 import { OrderResponse } from "../../../interfaces/Order.interface";
 import CartItemCheckout from "../cart/CarItemCheckout";
 import csc from "country-state-city";
+import clsx from "clsx";
 interface Props {
   order: OrderResponse;
 }
@@ -20,7 +21,14 @@ const OrderInfo: React.FC<Props> = ({ order }) => {
     totalPrice,
     email,
   } = order;
-
+  const deliveryClasses = clsx({
+    "text-yellow-500": !isDelivered,
+    "text-green-500": isDelivered,
+  });
+  const paidClasses = clsx({
+    "text-yellow-500": !isPaid,
+    "text-green-500": isPaid,
+  });
   const orderDate = new Date(Date.parse(createdAt)).toLocaleDateString(
     undefined,
     {
@@ -67,11 +75,15 @@ const OrderInfo: React.FC<Props> = ({ order }) => {
           </div>
           <div className="">
             <span className="font-semibold">Delivery Status:</span>
-            {isDelivered ? " Shipped" : " Delivering"}
+            <span className={deliveryClasses}>
+              {isDelivered ? " Shipped" : " Delivering"}
+            </span>
           </div>
-          <div className="">
+          <div>
             <span className="font-semibold">Payment Status:</span>
-            {isPaid ? " Paid" : " Not Yet Paid"}
+            <span className={paidClasses}>
+              {isPaid ? " Paid" : " Not Yet Paid"}
+            </span>
           </div>
         </div>
         <div className="flex flex-col xs:w-5/12 max-w-[25rem] space-y-3">

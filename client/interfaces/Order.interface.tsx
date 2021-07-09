@@ -5,6 +5,7 @@ export interface OrderSuccessResponse {
 }
 export interface OrderResponse {
   cart: ProductCartItem[];
+  _id: string;
   totalPrice: number;
   totalItem: number;
   name: string;
@@ -16,4 +17,10 @@ export interface OrderResponse {
   isPaid: boolean;
   isDelivered: boolean;
   email: string;
+}
+
+export interface UserOrderResponse {
+  orderId: string;
+  orderDate: string;
+  orderTotal: number;
 }

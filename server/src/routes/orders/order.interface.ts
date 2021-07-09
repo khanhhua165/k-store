@@ -1,4 +1,3 @@
-import { IProduct } from "./../products/product.interface";
 import { Schema, Document } from "mongoose";
 
 export interface IOrder extends Document {

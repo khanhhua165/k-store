@@ -1,4 +1,4 @@
-import { Document, Types } from "mongoose";
+import { Document, Schema } from "mongoose";
 
 export interface IUser extends Document {
   name: string;
@@ -10,6 +10,11 @@ export interface IUser extends Document {
   phone?: string;
   isAdmin: boolean;
   recoveryCode?: string;
+  orders: {
+    orderId: string;
+    orderDate: Schema.Types.Date | number;
+    orderTotal: number;
+  }[];
   recoveryCodeExpiration?: Date | number;
 }
 

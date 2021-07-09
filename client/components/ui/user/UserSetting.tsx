@@ -9,13 +9,17 @@ const UserSetting: React.FC = () => {
     <div className="flex flex-col items-center mx-auto mt-24">
       <div className="flex mb-3 space-x-3">
         <button
-          className="px-4 py-1 text-lg text-white bg-blue-500 rounded-xl hover:bg-blue-600 active:bg-blue-700"
+          className={`px-4 py-1 text-lg text-white rounded-xl hover:bg-blue-600 active:bg-blue-700 ${
+            currentTab === "info" ? "bg-blue-600" : "bg-blue-500"
+          }`}
           onClick={() => setCurrentTab("info")}
         >
           Edit Profile
         </button>
         <button
-          className="px-4 py-1 text-lg text-white bg-blue-500 rounded-xl hover:bg-blue-600 active:bg-blue-700"
+          className={`px-4 py-1 text-lg text-white rounded-xl hover:bg-blue-600 active:bg-blue-700 ${
+            currentTab === "password" ? "bg-blue-600" : "bg-blue-500"
+          }`}
           onClick={() => setCurrentTab("password")}
         >
           Change Password

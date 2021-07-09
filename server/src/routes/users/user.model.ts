@@ -10,6 +10,13 @@ const UserSchema: Schema = new Schema({
   address: { type: String },
   phone: { type: String },
   isAdmin: { type: Boolean, required: true, default: false },
+  orders: [
+    {
+      orderId: { type: String, required: true },
+      orderDate: { type: Date, required: true },
+      orderTotal: { type: Number, required: true },
+    },
+  ],
   recoveryCode: { type: String },
   recoveryCodeExpiration: { type: Date },
 });

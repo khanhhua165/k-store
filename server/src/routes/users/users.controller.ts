@@ -49,10 +49,13 @@ export default class UsersController implements Controller {
     );
 
     this.router.post(`${this.path}/password-recovery`, this.passwordReset);
+
     this.router.get(
       `${this.path}/password-recovery/:code`,
       this.getResetPasswordRequest
     );
+
+    this.router.get(`${this.path}/orders`, authMiddleware, this.getUserOrders);
 
     this.router.post(
       `${this.path}/password-recovery/reset`,
@@ -80,7 +83,7 @@ export default class UsersController implements Controller {
     const user = await this.user.create({
       ...userData,
       password: hashedPassword,
-      favorite: [],
+      orders: [],
     });
     const tokenData = this.createToken(user);
     res.status(201).json({
@@ -238,6 +241,23 @@ export default class UsersController implements Controller {
       await user.save();
       res.status(200).json({ message: "successful" });
     } catch (e) {
+      return next(new HttpError());
+    }
+  };
+
+  private getUserOrders = async (
+    req: RequestWithUserId,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const userId = req.userId;
+    try {
+      const user = await this.user.findById(userId);
+      if (!user) {
+        return next(new HttpError(404, "Token expired, please try again"));
+      }
+      res.status(200).json({ orders: user.orders });
+    } catch (e: unknown) {
       return next(new HttpError());
     }
   };

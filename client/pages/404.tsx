@@ -3,7 +3,7 @@ import React from "react";
 
 const ErrorPage = () => {
   return (
-    <div className="flex flex-col items-center w-full pt-48 space-y-3 text-center">
+    <div className="flex flex-col items-center w-full px-4 pt-48 space-y-3 text-center">
       <div className="text-5xl font-semibold font-cursive">Oh No!</div>
       <div className="text-3xl font-semibold">
         This page hasn't finished cooking

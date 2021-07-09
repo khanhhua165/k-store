@@ -1,7 +1,7 @@
-import OrderView from "../components/ui/order/OrderView";
+import OrderSearchView from "../components/ui/order/OrderSearchView";
 
 const FindOrderPage = () => {
-  return <OrderView />;
+  return <OrderSearchView />;
 };
 
 export default FindOrderPage;

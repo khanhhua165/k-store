@@ -6,35 +6,34 @@ import { API_URL, ORDER_ROUTE } from "../../constants/api";
 import { OrderResponse } from "../../interfaces/Order.interface";
 
 type Inputs = {
-  email: string;
   code: string;
 };
 
 interface Props {
-  setOrder: (order: OrderResponse | null) => void;
+  setOrderId: (orderId: string) => void;
   setOrderState: (state: "not found" | "found" | null) => void;
 }
 
-const FindOrderForm: React.FC<Props> = ({ setOrder, setOrderState }) => {
+const FindOrderForm: React.FC<Props> = ({ setOrderId, setOrderState }) => {
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
     register,
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ code, email }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ code }) => {
     try {
-      const cartData = (
+      const orderData = (
         await axios.post<{ order: OrderResponse }>(
           `${API_URL}${ORDER_ROUTE}/search-order`,
-          { code, email }
+          { code }
         )
       ).data.order;
-      setOrder(cartData);
+      setOrderId(orderData._id);
       setOrderState("found");
     } catch (e: unknown) {
       setOrderState("not found");
-      setOrder(null);
+      setOrderId("");
     }
   };
 
@@ -47,44 +46,20 @@ const FindOrderForm: React.FC<Props> = ({ setOrder, setOrderState }) => {
         Please fill the form below with the order code you received when
         successfully placed an order.
       </div>
-      <div className="flex flex-col sm:flex-row sm:space-x-2">
-        <div className="flex flex-col sm:w-5/12">
-          <span className="label-style">Email</span>
-          <input
-            type="text"
-            placeholder="Email"
-            className="input-style"
-            {...register("email", {
-              required: "You need to input an email",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "You need to input a valid email",
-              },
-            })}
-          />
-          {errors.email && (
-            <p className="input-error">
-              <span>{errors.email.message}</span>
-            </p>
-          )}
-        </div>
-        <div className="flex flex-col sm:w-7/12">
-          <span className="label-style">Order Code</span>
-          <input
-            className="input-style"
-            type="text"
-            placeholder="Your Order Code"
-            {...register("code", {
-              required: "You need to input an order code",
-            })}
-          />
-          {errors.code && (
-            <p className="input-error">
-              <span>{errors.code.message}</span>
-            </p>
-          )}
-        </div>
-      </div>
+      <span className="label-style">Order Code</span>
+      <input
+        className="input-style"
+        type="text"
+        placeholder="Your Order Code"
+        {...register("code", {
+          required: "You need to input an order code",
+        })}
+      />
+      {errors.code && (
+        <p className="input-error">
+          <span>{errors.code.message}</span>
+        </p>
+      )}
 
       <button
         disabled={isSubmitting}

@@ -6,7 +6,7 @@ import useAuthenticated from "../hooks/useAuthenticated";
 export default function SignUp() {
   const router = useRouter();
   const { isLoading, isLoggedIn } = useAuthenticated();
-  if (isLoggedIn) router.push("/");
+  if (isLoggedIn) router.replace("/");
   if (isLoading) return null;
   if (!isLoading && isLoggedIn) return null;
   return <SignInForm />;
