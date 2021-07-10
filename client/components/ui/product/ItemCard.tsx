@@ -44,7 +44,7 @@ const ItemCard: React.FC<ItemProps> = ({ product }) => {
             onClick={() => router.push(`/product/${_id}`)}
           />
 
-          <div className="absolute flex justify-center w-[250px] top-1/2">
+          <div className="absolute xs:flex justify-center w-[250px] top-1/2 hidden">
             <div
               className={`py-1 bg-blue-500 rounded-3xl px-9 text-gray-50 transform transition ${showTab} duration-300 hover:bg-red-500 shadow-xl cursor-pointer`}
               onClick={() => setShowModal(true)}

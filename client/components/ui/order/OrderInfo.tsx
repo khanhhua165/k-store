@@ -55,31 +55,31 @@ const OrderInfo: React.FC<Props> = ({ order }) => {
           <div className="flex items-center justify-start pb-2 space-x-2 border-b-2 border-gray-700">
             <div className="text-lg font-semibold">Your Information</div>
           </div>
-          <div className="">
+          <div className="pr-2">
             <span className="font-semibold">Order Date:</span> {orderDate}
           </div>
-          <div className="">
+          <div className="pr-2">
             <span className="font-semibold">Recipient:</span> {name}
           </div>
-          <div className="">
+          <div className="pr-2">
             <span className="font-semibold">Email:</span> {email}
           </div>
-          <div className="">
+          <div className="pr-2">
             <span className="font-semibold">Shipping Address:</span>
             {` ${address}, ${city}, ${
               csc.getStateByCodeAndCountry(state, "VN").name
             }.`}
           </div>
-          <div className="">
+          <div className="pr-2">
             <span className="font-semibold">Phone:</span> {phone}
           </div>
-          <div className="">
+          <div className="pr-2">
             <span className="font-semibold">Delivery Status:</span>
             <span className={deliveryClasses}>
               {isDelivered ? " Shipped" : " Delivering"}
             </span>
           </div>
-          <div>
+          <div className="pr-2">
             <span className="font-semibold">Payment Status:</span>
             <span className={paidClasses}>
               {isPaid ? " Paid" : " Not Yet Paid"}

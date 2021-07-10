@@ -29,7 +29,7 @@ const ResetPassword: React.FC<Props> = ({ code }) => {
         newPassword: password,
       });
       toast.success("Password reset successfully!");
-      router.push("/signin");
+      router.replace("/signin");
     } catch (e: unknown) {
       toast.warning("Something went wrong, please try again.");
     }

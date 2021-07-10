@@ -238,6 +238,7 @@ export default class UsersController implements Controller {
       }
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;
+      user.recoveryCode = "";
       await user.save();
       res.status(200).json({ message: "successful" });
     } catch (e) {
