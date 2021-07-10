@@ -32,7 +32,6 @@ const CartItemCheckout: React.FC<Props> = ({
           <a className="flex flex-wrap">{name}</a>
         </Link>
       </div>
-
       <div className="">${totalPrice}</div>
     </div>
   );
