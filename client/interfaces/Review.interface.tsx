@@ -1,7 +1,5 @@
-import { User } from "./User.interface";
-
 export interface Review {
-  user: User;
+  name: string;
   rating: number;
   comment: string;
 }

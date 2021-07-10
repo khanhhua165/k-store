@@ -1,4 +1,5 @@
 import axios from "axios";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -38,9 +39,14 @@ const Order = () => {
     );
   }
   return (
-    <div className="flex flex-col items-center">
-      <OrderInfo order={order!} />
-    </div>
+    <>
+      <Head>
+        <title>V-Mart | View your order</title>
+      </Head>
+      <div className="flex flex-col items-center">
+        <OrderInfo order={order!} />
+      </div>
+    </>
   );
 };
 

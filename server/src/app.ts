@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import Controller from "./interfaces/controller.interface";
 import errorMiddleware from "./middlewares/error.middleware";
+import morgan from "morgan";
 
 class App {
   public app: express.Application;
@@ -26,6 +27,7 @@ class App {
       "/uploads/images",
       express.static(path.join("uploads", "images"))
     );
+    this.app.use(morgan("dev"));
   }
 
   private initializeControllers(controllers: Controller[]) {

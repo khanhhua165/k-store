@@ -24,7 +24,11 @@ function MyApp({ Component, pageProps }: any) {
         <CartContainer.Provider>
           <CheckoutContainer.Provider>
             <Head>
-              <title>K-Store</title>
+              <title>V-Mart</title>
+              <meta
+                name="description"
+                content="The best place to get your animal nutrition"
+              />
             </Head>
             <Elements stripe={stripePromise}>
               <Initializer />

@@ -39,7 +39,7 @@ const SignInForm: React.FC = () => {
         new Date(new Date().getTime() + HOUR_IN_MILLISECOND)
       );
       toast.success("Login successful!");
-      router.push("/");
+      router.back();
     } catch (e) {
       if (e.response) {
         setLoginErr("Cannot sign in with current credentials!");

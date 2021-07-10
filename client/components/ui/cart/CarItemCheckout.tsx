@@ -25,7 +25,7 @@ const CartItemCheckout: React.FC<Props> = ({
             className="object-contain w-16 h-16 rounded-lg"
           />
           <div className="absolute flex justify-center w-5 h-4 text-xs bg-pink-500 rounded-full -top-2 -right-2">
-            {quantity < 10 ? quantity : "9+"}
+            {quantity}
           </div>
         </div>
         <Link href={`/product/${productId}`}>

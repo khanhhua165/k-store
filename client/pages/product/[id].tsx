@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import ItemDetail from "../../components/ui/product/ItemDetail";
 import { API_URL, PRODUCT_ROUTE } from "../../constants/api";
 import { Product } from "../../interfaces/Product.interface";
@@ -24,9 +25,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 function ProductById({ data }: { data: Product }) {
   return (
-    <div className="flex justify-center mt-24 mb-6">
-      <ItemDetail product={data} />
-    </div>
+    <>
+      <Head>
+        <title>V-Mart | {data.name}</title>
+        <meta name="description" content={data.description} />
+      </Head>
+      <div className="flex justify-center mt-24 mb-6">
+        <ItemDetail product={data} />
+      </div>
+    </>
   );
 }
 

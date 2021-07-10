@@ -9,7 +9,7 @@ export interface Product {
   image: string;
   price: number;
   stock: number;
-  sold: string;
+  sold: number;
   reviews: Review[];
   rating: number;
   numReviews: number;

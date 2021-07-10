@@ -24,7 +24,8 @@ const cityOptions = csc.getStatesOfCountry("VN").map(({ name, isoCode }) => ({
 }));
 
 const UserInfoSetting: React.FC = () => {
-  const { user, token, setUser } = UserContainer.useContainer();
+  const { user, token, setUser, tokenExpirationDate } =
+    UserContainer.useContainer();
   const { name, address, phone, city, state } = user!;
   const {
     handleSubmit,
@@ -58,14 +59,23 @@ const UserInfoSetting: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setUser((oldUser) => ({
-        ...oldUser!,
+      const newUser = {
+        ...user!,
         address,
         city: city.value,
         name,
         phone,
         state: state.value,
-      }));
+      };
+      setUser(newUser);
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          user: newUser,
+          token,
+          expiration: tokenExpirationDate!.toISOString(),
+        })
+      );
       toast.success("Profile updated successfully!!");
     } catch (e: unknown) {
       toast.warning("There was some unexpected error, please try again!!");

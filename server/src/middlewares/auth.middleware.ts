@@ -19,6 +19,7 @@ export default function authMiddleware(
       process.env.JWT_SECRET!
     ) as DataStoredInToken;
     req.userId = decodedToken._id;
+    req.name = decodedToken.name;
     next();
   } catch (e: unknown) {
     return next(new HttpError(401, "Authentication failed"));

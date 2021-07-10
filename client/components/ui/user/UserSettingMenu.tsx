@@ -108,7 +108,7 @@ const UserSettingMenu: React.FC = () => {
                           } flex rounded-md items-center w-full px-2 py-2 text-base`}
                           onClick={() => router.push("/user/profile")}
                         >
-                          My Profile
+                          Profile Setting
                         </button>
                       )}
                     </Menu.Item>

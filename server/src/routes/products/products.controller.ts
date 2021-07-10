@@ -1,6 +1,6 @@
 import { PRODUCTS_PER_PAGE } from "./../../constants/product";
 import { getTitle } from "./../../helpers/slugToTitle";
-import { IProduct } from "./product.interface";
+import { CreateProductReview, IProduct } from "./product.interface";
 import express, { NextFunction, Request, Response } from "express";
 import HttpError from "../../exceptions/httpError";
 import Controller from "../../interfaces/controller.interface";
@@ -9,6 +9,8 @@ import validationMiddleware from "../../middlewares/validation.middleware";
 import AddProductDto from "./product.dto";
 import authMiddleware from "../../middlewares/auth.middleware";
 import fileUpload from "../../middlewares/file-upload.middleware";
+import RequestWithUserId from "../../interfaces/requestWithUserId.interface";
+import mongoose from "mongoose";
 
 export default class ProductsController implements Controller {
   public path = "/products";
@@ -30,6 +32,13 @@ export default class ProductsController implements Controller {
       validationMiddleware(AddProductDto),
       this.addProduct
     );
+
+    this.router.post(
+      `${this.path}/review`,
+      authMiddleware,
+      this.createProductReview
+    );
+
     this.router.patch(
       `${this.path}/:id`,
       authMiddleware,
@@ -148,6 +157,41 @@ export default class ProductsController implements Controller {
     try {
       const savedProduct = await createdProduct.save();
       res.status(201).json({ product: savedProduct });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
+  private createProductReview = async (
+    req: RequestWithUserId,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { rating, comment, productId }: CreateProductReview = req.body;
+    try {
+      const product = await this.product.findById(productId);
+      if (!product) {
+        return next(new HttpError(4004, "Product not Found"));
+      }
+      const alreadyReviewed = product.reviews.find(
+        (review) => review.user.toString() === req.userId
+      );
+      if (alreadyReviewed) {
+        return next(new HttpError(400, "Product already reviewed"));
+      }
+      const newReview = {
+        rating: +rating,
+        comment,
+        user: mongoose.Types.ObjectId(req.userId!),
+        name: req.name!,
+      };
+      product.reviews.push(newReview);
+      product.numReviews = product.reviews.length;
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+      await product.save();
+      res.status(201).json({ message: "Review added" });
     } catch (e: unknown) {
       return next(new HttpError());
     }

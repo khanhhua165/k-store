@@ -265,7 +265,10 @@ export default class UsersController implements Controller {
   private createToken(user: IUser): TokenData {
     const expiresIn = 60 * 60;
     const secret = process.env.JWT_SECRET;
-    const dataStoredInToken: DataStoredInToken = { _id: user._id };
+    const dataStoredInToken: DataStoredInToken = {
+      _id: user._id,
+      name: user.name,
+    };
     return {
       expiresIn,
       token: jwt.sign(dataStoredInToken, secret!, { expiresIn }),
