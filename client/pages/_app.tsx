@@ -29,6 +29,7 @@ function MyApp({ Component, pageProps }: any) {
                 name="description"
                 content="The best place to get your animal nutrition"
               />
+              <link rel="shortcut icon" href="/favicon.ico" />
             </Head>
             <Elements stripe={stripePromise}>
               <Initializer />

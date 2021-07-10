@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "watch": "tsc -w",
-    "start": "nodemon build/server.js"
+    "start": "node build/server.js",
+    "dev": "nodemon build/server.js"
   },
   "keywords": [],
   "author": "",

@@ -1,9 +1,15 @@
+# client build
+/client/build
+/client/.next
+/client/next-config.js
+
 # dependencies
 /client/node_modules
 /server/node_modules
 
 # build
 /server/build
+/server/.gitignore
 # Env variables
 /server/nodemon.json
 #vscode
