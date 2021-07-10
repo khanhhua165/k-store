@@ -1,7 +1,4 @@
-export const API_URL: string =
-  process.env.MODE === "development"
-    ? "http://localhost:5000"
-    : process.env.API_URL!;
+export const API_URL = "https://v-mart.herokuapp.com";
 
 export const USER_ROUTE = "/user";
 export const ORDER_ROUTE = "/order";
