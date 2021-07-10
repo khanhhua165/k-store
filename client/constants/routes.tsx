@@ -7,7 +7,6 @@ export const meatMenu = [
   },
   { url: "/shop/poultry", name: "Poultry" },
   { url: "/shop/lamb", name: "Lamb" },
-  { url: "/shop/veal", name: "Veal" },
 ];
 
 export const supplementMenu = [

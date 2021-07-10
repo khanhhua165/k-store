@@ -1,6 +1,7 @@
 # client build
 /client/build
 /client/.next
+/client/.env.local
 
 # dependencies
 /client/node_modules

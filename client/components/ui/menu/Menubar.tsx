@@ -29,7 +29,7 @@ const Menubar: React.FC = () => {
         <Disclosure>
           {({ open }) => (
             <>
-              <Disclosure.Button className="flex justify-between w-full px-3 py-2 text-left bg-blue-200 rounded-lg hover:bg-blue-300 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
+              <Disclosure.Button className="flex justify-between w-full px-3 py-2 mb-2 text-left bg-blue-200 rounded-lg hover:bg-blue-300 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
                 <span>Meats</span>
                 <HiChevronUp
                   className={`${
@@ -53,11 +53,7 @@ const Menubar: React.FC = () => {
             </>
           )}
         </Disclosure>
-        <Link href="/shop/organs">
-          <a className="py-2 pl-3 mt-2 mb-2 bg-blue-200 rounded-lg hover:bg-blue-300">
-            Organs
-          </a>
-        </Link>
+
         <Disclosure>
           {({ open }) => (
             <>
@@ -85,9 +81,9 @@ const Menubar: React.FC = () => {
             </>
           )}
         </Disclosure>
-        <Link href="/shop/packages">
+        <Link href="/shop/organs">
           <a className="py-2 pl-3 mt-2 mb-2 bg-blue-200 rounded-lg hover:bg-blue-300">
-            Packages
+            Organs
           </a>
         </Link>
       </div>

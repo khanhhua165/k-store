@@ -125,14 +125,12 @@ const AddProductForm: React.FC = () => {
         <option value="Poultry">Poultry</option>
         <option value="Pork">Pork</option>
         <option value="Lamb">Lamb</option>
-        <option value="Veal">Veal</option>
         <option value="Cheese">Cheese</option>
         <option value="Fish Products">Fish Products</option>
         <option value="Salt">Salt</option>
         <option value="Honey">Honey</option>
         <option value="Fat">Fat</option>
         <option value="Organs">Organs</option>
-        <option value="Package">Package</option>
       </select>
       <span className="label-style">Product Size</span>
       <input
