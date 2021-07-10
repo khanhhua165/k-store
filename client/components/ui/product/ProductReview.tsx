@@ -33,7 +33,7 @@ const ProductReview: React.FC<Props> = ({
         className="px-3 py-2 mx-4 mt-4 text-white bg-blue-700 rounded-md hover:bg-blue-800 active:bg-blue-900"
         onClick={() => setIsWritingReview(!isWritingReview)}
       >
-        {isWritingReview ? "Cancel review" : "Wrtite a review"}
+        {isWritingReview ? "Cancel review" : "Write a review"}
       </button>
       <div className={`${!isWritingReview ? "hidden" : "w-full"}`}>
         <ProductReviewForm
