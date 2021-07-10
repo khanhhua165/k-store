@@ -9,12 +9,15 @@ const WithSideMenu: React.FC = ({ children }) => {
   const router = useRouter();
   const query = router.query;
   let title: string;
+  console.log(query);
   if (Object.keys(query).length === 0) {
     title = "All Products";
   } else if (query.type) {
     title = getTitle(query.type as string);
-  } else {
+  } else if (query.searchString) {
     title = `Search for ${query.searchString}`;
+  } else {
+    title = "All Products";
   }
   return (
     <div className="flex flex-col items-center mx-2 mt-28">
