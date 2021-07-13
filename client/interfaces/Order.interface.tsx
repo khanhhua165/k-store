@@ -24,3 +24,11 @@ export interface UserOrderResponse {
   orderDate: string;
   orderTotal: number;
 }
+
+export interface AdminOrder {
+  _id: string;
+  totalPrice: number;
+  createdAt: string;
+  isPaid: boolean;
+  isDelivered: boolean;
+}

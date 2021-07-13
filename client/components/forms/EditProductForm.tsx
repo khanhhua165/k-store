@@ -5,6 +5,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { API_URL, PRODUCT_ROUTE } from "../../constants/api";
 import UserContainer from "../../containers/user/UserContainer";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { Product } from "../../interfaces/Product.interface";
+import router from "next/router";
+import { ImSpinner2 } from "react-icons/im";
 
 type ProductInputs = {
   name: string;
@@ -30,8 +34,39 @@ type ProductInputs = {
   stock: number;
 };
 
-const AddProductForm: React.FC = () => {
-  const { token } = UserContainer.useContainer();
+interface Props {
+  productId: string;
+}
+
+const EditProductForm: React.FC<Props> = ({ productId }) => {
+  const [hasFetched, setHasFetched] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [currentImageURL, setCurentImageURL] = useState("");
+  const imageUploadRef = useRef<HTMLInputElement | null>(null);
+  const initialImageURL = useRef("");
+  const { token, isLoggedIn } = UserContainer.useContainer();
+
+  useEffect(() => {
+    if (token && isLoggedIn && !hasFetched) {
+      (async () => {
+        try {
+          const data = (
+            await axios.get<{ product: Product }>(
+              `${API_URL}${PRODUCT_ROUTE}/${productId}`
+            )
+          ).data.product;
+          setProduct(data);
+          setCurentImageURL(`${API_URL}/${data.image}`);
+          initialImageURL.current = `${API_URL}/${data.image}`;
+          setHasFetched(true);
+        } catch (e: unknown) {
+          toast.error("Something went wrong. Please try again!");
+          router.push("/admin/products");
+        }
+      })();
+    }
+  }, [token, isLoggedIn, hasFetched]);
+
   const {
     register,
     reset,
@@ -39,12 +74,7 @@ const AddProductForm: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<ProductInputs>();
 
-  const [currentImageURL, setCurentImageURL] = useState("");
-  const imageUploadRef = useRef<HTMLInputElement | null>(null);
-
-  const { onChange, ref, ...rest } = register("image", {
-    required: "You need to choose a product image",
-  });
+  const { onChange, ref, ...rest } = register("image");
 
   const fileSelectedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -57,32 +87,48 @@ const AddProductForm: React.FC = () => {
     e
   ) => {
     e?.target.blur();
-    const options = { maxWidthOrHeight: 800 };
-    const resizedImage = await imageCompression(
-      (image as FileList)[0],
-      options
-    );
     const formData = new FormData();
+    if (currentImageURL !== initialImageURL.current) {
+      const options = { maxWidthOrHeight: 800 };
+      const resizedImage = await imageCompression(
+        (image as FileList)[0],
+        options
+      );
+      formData.append("image", resizedImage);
+    }
+
     formData.append("name", name);
     formData.append("description", description);
-    formData.append("image", resizedImage);
     formData.append("price", price.toString());
     formData.append("productType", productType);
     formData.append("size", size);
     formData.append("stock", stock.toString());
+    formData.append(
+      "haveImage",
+      (currentImageURL !== initialImageURL.current).toString()
+    );
     try {
-      await axios.post(`${API_URL}${PRODUCT_ROUTE}`, formData, {
+      await axios.patch(`${API_URL}${PRODUCT_ROUTE}/${productId}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast.success("Product Added!!");
-      reset();
-      setCurentImageURL("");
+      toast.success("Product Saved!!");
+      initialImageURL.current = currentImageURL;
     } catch (e) {
       if (e.response) {
         toast.error(e.response.data.message);
       }
     }
   };
+
+  if (!hasFetched || !product) {
+    return (
+      <div className="flex flex-col items-center mx-4 mt-20 mb-8">
+        <div className="flex flex-col items-center text-6xl pt-14">
+          <ImSpinner2 className="duration-500 animate-spin" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -94,6 +140,7 @@ const AddProductForm: React.FC = () => {
         className="input-style"
         type="text"
         placeholder="Product Name"
+        defaultValue={product.name}
         {...register("name", { required: "You need to input a product name" })}
       />
       {errors.name && (
@@ -105,6 +152,7 @@ const AddProductForm: React.FC = () => {
       <textarea
         className="input-style"
         placeholder="Product Description"
+        defaultValue={product.description}
         {...register("description", {
           required: "You need to input a description",
         })}
@@ -115,7 +163,11 @@ const AddProductForm: React.FC = () => {
         </p>
       )}
       <span className="mt-2 label-style">Product Type</span>
-      <select className="input-style" {...register("productType")}>
+      <select
+        className="input-style"
+        {...register("productType")}
+        defaultValue={product.productType}
+      >
         <option value="Beef Steaks">Beef Steaks</option>
         <option value="Beef Whole Cuts">Beef Whole Cuts</option>
         <option value="Ground Beef And Burgers">Ground Beef And Burgers</option>
@@ -134,6 +186,7 @@ const AddProductForm: React.FC = () => {
         className="input-style"
         type="text"
         placeholder="Product Size"
+        defaultValue={product.size}
         {...register("size", { required: "You need to input size" })}
       />
       {errors.size && (
@@ -146,6 +199,7 @@ const AddProductForm: React.FC = () => {
         type="text"
         className="input-style"
         placeholder="Product Price"
+        defaultValue={product.price}
         {...register("price", {
           required: "You must input a price",
           valueAsNumber: true,
@@ -163,6 +217,7 @@ const AddProductForm: React.FC = () => {
         type="text"
         className="input-style"
         placeholder="Stock Value"
+        defaultValue={product.stock}
         {...register("stock", {
           required: "You need to input a stock value",
           valueAsNumber: true,
@@ -211,7 +266,7 @@ const AddProductForm: React.FC = () => {
         <input
           className="flex justify-start flex-1 p-2 bg-blue-500 outline-none cursor-pointer rounded-xl hover:bg-blue-600 active:bg-blue-700 text-gray-50"
           type="submit"
-          value="Add New Product"
+          value="Save Changes"
           disabled={isSubmitting}
         />
       </div>
@@ -219,4 +274,4 @@ const AddProductForm: React.FC = () => {
   );
 };
 
-export default AddProductForm;
+export default EditProductForm;

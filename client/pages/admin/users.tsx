@@ -1,9 +1,9 @@
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import { getLayoutWithoutFooter } from "../../components/layout/WithoutFooter";
-import AdminSummary from "../../components/ui/admin/AdminSummary";
+import UserList from "../../components/ui/admin/UserList";
 import useAuthenticated from "../../hooks/useAuthenticated";
 
-const Admin = () => {
+const AdminUserList = () => {
   const router = useRouter();
   const { isLoading, isLoggedIn, user } = useAuthenticated();
   if (isLoggedIn && !user!.isAdmin) {
@@ -14,11 +14,11 @@ const Admin = () => {
   }
 
   if (isLoggedIn && user!.isAdmin) {
-    return <AdminSummary />;
+    return <UserList />;
   }
   return null;
 };
 
-Admin.getLayout = getLayoutWithoutFooter;
+AdminUserList.getLayout = getLayoutWithoutFooter;
 
-export default Admin;
+export default AdminUserList;

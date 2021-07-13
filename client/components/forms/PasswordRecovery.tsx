@@ -15,7 +15,8 @@ const PasswordRecovery: React.FC = () => {
     register,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = async ({ email }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ email }, e) => {
+    e?.target.blur();
     try {
       await axios.post(`${API_URL}${USER_ROUTE}/password-recovery`, { email });
       toast.success("Email has been sent. Please check your inbox!");

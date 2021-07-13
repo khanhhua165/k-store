@@ -51,11 +51,12 @@ const PaymentInfo: React.FC<Props> = ({ cb }) => {
     totalItem,
     ...(user?._id && { userId: user._id }),
   };
-  const onSubmit: SubmitHandler<Inputs> = async ({ method }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ method }, e) => {
+    e?.target.blur();
     if (method === "Cash") {
       try {
         const response = await axios.post<OrderSuccessResponse>(
-          `${API_URL}${ORDER_ROUTE}`,
+          `${API_URL}${ORDER_ROUTE}/cod`,
           {
             ...paymentInfo,
           }

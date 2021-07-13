@@ -1,6 +1,10 @@
 import { PRODUCTS_PER_PAGE } from "./../../constants/product";
 import { getTitle } from "./../../helpers/slugToTitle";
-import { CreateProductReview, IProduct } from "./product.interface";
+import {
+  CreateProductReview,
+  IProduct,
+  IProductModify,
+} from "./product.interface";
 import express, { NextFunction, Request, Response } from "express";
 import HttpError from "../../exceptions/httpError";
 import Controller from "../../interfaces/controller.interface";
@@ -11,6 +15,7 @@ import authMiddleware from "../../middlewares/auth.middleware";
 import fileUpload from "../../middlewares/file-upload.middleware";
 import RequestWithUserId from "../../interfaces/requestWithUserId.interface";
 import mongoose from "mongoose";
+import adminAuthMiddleware from "../../middlewares/adminAuth.middleware";
 
 export default class ProductsController implements Controller {
   public path = "/products";
@@ -28,6 +33,7 @@ export default class ProductsController implements Controller {
     this.router.post(
       this.path,
       authMiddleware,
+      adminAuthMiddleware,
       fileUpload.single("image"),
       validationMiddleware(AddProductDto),
       this.addProduct
@@ -42,12 +48,14 @@ export default class ProductsController implements Controller {
     this.router.patch(
       `${this.path}/:id`,
       authMiddleware,
+      fileUpload.single("image"),
       validationMiddleware(AddProductDto, true),
       this.modifyProduct
     );
     this.router.delete(
-      `${this.router}/:id`,
+      `${this.path}/:id`,
       authMiddleware,
+      adminAuthMiddleware,
       this.deleteProduct
     );
   }
@@ -162,6 +170,46 @@ export default class ProductsController implements Controller {
     }
   };
 
+  private modifyProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const id = req.params.id;
+    const {
+      name,
+      description,
+      productType,
+      size,
+      price,
+      stock,
+      haveImage,
+    }: IProductModify = req.body;
+    const hasImage = haveImage === "true";
+    try {
+      const updatedProduct = await this.product.findByIdAndUpdate(
+        id,
+        {
+          name,
+          description,
+          productType,
+          size,
+          price: +price,
+          stock: +stock,
+          ...(hasImage ? { image: req.file.path } : {}),
+        },
+        { new: true }
+      );
+      if (!updatedProduct) {
+        const error = new HttpError(404, "Product not found");
+        return next(error);
+      }
+      res.status(201).json({ product: updatedProduct });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
   private createProductReview = async (
     req: RequestWithUserId,
     res: Response,
@@ -192,29 +240,6 @@ export default class ProductsController implements Controller {
         product.reviews.length;
       await product.save();
       res.status(201).json({ message: "Review added" });
-    } catch (e: unknown) {
-      return next(new HttpError());
-    }
-  };
-
-  private modifyProduct = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    const id = req.params.id;
-    const productData: IProduct = req.body;
-    try {
-      const updatedProduct = await this.product.findByIdAndUpdate(
-        id,
-        productData,
-        { new: true }
-      );
-      if (!updatedProduct) {
-        const error = new HttpError(404, "Product not found");
-        return next(error);
-      }
-      res.status(200).json({ product: updatedProduct });
     } catch (e: unknown) {
       return next(new HttpError());
     }

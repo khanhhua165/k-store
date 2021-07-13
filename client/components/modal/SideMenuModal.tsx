@@ -14,7 +14,7 @@ const SideMenuModal: React.FC<Props> = ({ cb, showModal }) => {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 h-screen transition transform duration-[700ms] shadow-md z-50 overflow-y-scroll pt-14 px-4 sm:hidden ${modalClasses} bg-gray-100`}
+        className={`fixed top-0 left-0 h-screen transition transform duration-[700ms] shadow-md z-50 overflow-y-auto pt-14 px-4 sm:hidden ${modalClasses} bg-gray-100`}
       >
         <div className="flex justify-end w-full mb-4">
           <MdCancel

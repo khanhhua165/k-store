@@ -25,3 +25,7 @@ export interface CreateProductReview {
   rating: number;
   comment: string;
 }
+
+export interface IProductModify extends IProduct {
+  haveImage: string;
+}

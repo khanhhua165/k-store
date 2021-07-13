@@ -21,12 +21,12 @@ const FindOrderForm: React.FC<Props> = ({ setOrderId, setOrderState }) => {
     register,
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ code }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ code }, e) => {
+    e?.target.blur();
     try {
       const orderData = (
-        await axios.post<{ order: OrderResponse }>(
-          `${API_URL}${ORDER_ROUTE}/search-order`,
-          { code }
+        await axios.get<{ order: OrderResponse }>(
+          `${API_URL}${ORDER_ROUTE}/${code}`
         )
       ).data.order;
       setOrderId(orderData._id);

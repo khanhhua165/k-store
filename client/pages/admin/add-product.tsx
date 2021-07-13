@@ -1,9 +1,9 @@
 import { useRouter } from "next/dist/client/router";
+import AddProductForm from "../../components/forms/AddProductForm";
 import { getLayoutWithoutFooter } from "../../components/layout/WithoutFooter";
-import AdminSummary from "../../components/ui/admin/AdminSummary";
 import useAuthenticated from "../../hooks/useAuthenticated";
 
-const Admin = () => {
+const AddProduct = () => {
   const router = useRouter();
   const { isLoading, isLoggedIn, user } = useAuthenticated();
   if (isLoggedIn && !user!.isAdmin) {
@@ -14,11 +14,15 @@ const Admin = () => {
   }
 
   if (isLoggedIn && user!.isAdmin) {
-    return <AdminSummary />;
+    return (
+      <div className="flex flex-col mt-20">
+        <AddProductForm />
+      </div>
+    );
   }
   return null;
 };
 
-Admin.getLayout = getLayoutWithoutFooter;
+AddProduct.getLayout = getLayoutWithoutFooter;
 
-export default Admin;
+export default AddProduct;

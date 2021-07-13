@@ -16,10 +16,12 @@ import UpdateUserDto from "./updateUser.dto";
 import PasswordChangeDto from "./passwordChange.dto";
 import crypto from "crypto";
 import sgMail from "@sendgrid/mail";
+import adminAuthMiddleware from "../../middlewares/adminAuth.middleware";
 
 sgMail.setApiKey(process.env.SENDGRID_KEY!);
 
 const TTL_IN_MILISECOND = 600000;
+
 export default class UsersController implements Controller {
   public path = "/user";
   public router = express.Router();
@@ -67,6 +69,27 @@ export default class UsersController implements Controller {
       authMiddleware,
       validationMiddleware(PasswordChangeDto),
       this.changePassword
+    );
+
+    this.router.get(
+      this.path,
+      authMiddleware,
+      adminAuthMiddleware,
+      this.getAllUsers
+    );
+
+    this.router.delete(
+      `${this.path}/:id`,
+      authMiddleware,
+      adminAuthMiddleware,
+      this.deleteUser
+    );
+
+    this.router.patch(
+      `${this.path}/update-type`,
+      authMiddleware,
+      adminAuthMiddleware,
+      this.changeUserType
     );
   }
 
@@ -132,7 +155,32 @@ export default class UsersController implements Controller {
         { name, city, state, address, phone },
         { new: true }
       );
-      updatedUser!.password = "";
+      if (!updatedUser) {
+        return next(new HttpError(400, "No User Found!"));
+      }
+      updatedUser.password = "";
+      res.status(200).json({ user: updatedUser });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
+  private changeUserType = async (
+    req: RequestWithUserId,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { isAdmin, id }: IUser = req.body;
+    try {
+      const updatedUser = await this.user.findByIdAndUpdate(
+        id,
+        { isAdmin },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return next(new HttpError(400, "No User Found!"));
+      }
+      updatedUser.password = "";
       res.status(200).json({ user: updatedUser });
     } catch (e: unknown) {
       return next(new HttpError());
@@ -263,12 +311,43 @@ export default class UsersController implements Controller {
     }
   };
 
+  private getAllUsers = async (
+    req: RequestWithUserId,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const users = await this.user.find({});
+      res.status(200).json({ users });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
+  private deleteUser = async (
+    req: RequestWithUserId,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const userId = req.params.id;
+    try {
+      const deletedUser = await this.user.findByIdAndDelete(userId);
+      if (!deletedUser) {
+        return next(new HttpError(404, "User not Found"));
+      }
+      res.status(200).json({ message: "Delete Succeeded" });
+    } catch (e: unknown) {
+      return next(new HttpError());
+    }
+  };
+
   private createToken(user: IUser): TokenData {
     const expiresIn = 60 * 60;
     const secret = process.env.JWT_SECRET;
     const dataStoredInToken: DataStoredInToken = {
       _id: user._id,
       name: user.name,
+      isAdmin: user.isAdmin,
     };
     return {
       expiresIn,

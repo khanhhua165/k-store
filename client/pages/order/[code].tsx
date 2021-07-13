@@ -18,9 +18,8 @@ const Order = () => {
       (async () => {
         try {
           const orderData = (
-            await axios.post<{ order: OrderResponse }>(
-              `${API_URL}${ORDER_ROUTE}/search-order`,
-              { code: orderCode }
+            await axios.get<{ order: OrderResponse }>(
+              `${API_URL}${ORDER_ROUTE}/${orderCode}`
             )
           ).data.order;
           setOrder(orderData);

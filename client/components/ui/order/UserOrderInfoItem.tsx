@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { isoDateToString } from "../../../helpers/isoDateToString";
 import { UserOrderResponse } from "../../../interfaces/Order.interface";
 
 interface Props {
@@ -13,11 +14,7 @@ const UserOrderInfoItem: React.FC<Props> = ({ order }) => {
         {order.orderId}
       </td>
       <td className="px-3 py-3 border-b border-gray-200">
-        {new Date(Date.parse(order.orderDate)).toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        {isoDateToString(order.orderDate)}
       </td>
       <td className="hidden px-3 py-3 break-all border-b border-gray-200 xs:table-cell">
         ${order.orderTotal}

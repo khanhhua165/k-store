@@ -1,19 +1,33 @@
 import { OrderResponse } from "../../../interfaces/Order.interface";
 import CartItemCheckout from "../cart/CarItemCheckout";
-import csc from "country-state-city";
 import clsx from "clsx";
+import UserContainer from "../../../containers/user/UserContainer";
+import React, { useState } from "react";
+import axios from "axios";
+import { API_URL, ORDER_ROUTE } from "../../../constants/api";
+import { toast } from "react-toastify";
+import { ImSpinner8 } from "react-icons/im";
+import { isoDateToString } from "../../../helpers/isoDateToString";
+import { getStateName } from "../../../helpers/getStateName";
 interface Props {
   order: OrderResponse;
 }
 
 const OrderInfo: React.FC<Props> = ({ order }) => {
+  const [realIsPaid, setRealIsPaid] = useState(order.isPaid);
+  const [realIsDelivered, setRealIsDelivered] = useState(order.isDelivered);
+  const [isTogglingPaid, setIsTogglingPaid] = useState(false);
+  const [isTogglingDelivered, setIsTogglingDelivered] = useState(false);
+  const { token, user } = UserContainer.useContainer();
+  let isAdmin: boolean = false;
+  if (user) {
+    isAdmin = user.isAdmin;
+  }
   const {
     address,
     cart,
     city,
     createdAt,
-    isDelivered,
-    isPaid,
     name,
     phone,
     state,
@@ -22,21 +36,51 @@ const OrderInfo: React.FC<Props> = ({ order }) => {
     email,
   } = order;
   const deliveryClasses = clsx({
-    "text-yellow-500": !isDelivered,
-    "text-green-500": isDelivered,
+    "text-yellow-500": !realIsDelivered,
+    "text-green-500": realIsDelivered,
   });
   const paidClasses = clsx({
-    "text-yellow-500": !isPaid,
-    "text-green-500": isPaid,
+    "text-yellow-500": !realIsPaid,
+    "text-green-500": realIsPaid,
   });
-  const orderDate = new Date(Date.parse(createdAt)).toLocaleDateString(
-    undefined,
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+  const orderDate = isoDateToString(createdAt);
+
+  const handlePaid = async () => {
+    setIsTogglingPaid(true);
+    try {
+      await axios.patch(
+        `${API_URL}${ORDER_ROUTE}`,
+        { id: order._id, isPaid: true, isDelivered: realIsDelivered },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setRealIsPaid(true);
+      setIsTogglingPaid(false);
+    } catch (e) {
+      setIsTogglingPaid(false);
+      toast.error("There was an unexpected error. Please try again!");
     }
-  );
+  };
+
+  const handleDelivered = async () => {
+    setIsTogglingDelivered(true);
+    try {
+      await axios.patch(
+        `${API_URL}${ORDER_ROUTE}`,
+        { id: order._id, isPaid: realIsPaid, isDelivered: true },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setRealIsDelivered(true);
+      setIsTogglingDelivered(false);
+    } catch (e) {
+      setIsTogglingDelivered(false);
+      toast.error("There was an unexpected error. Please try again!");
+    }
+  };
+
   const items = cart.map(({ product, quantity, totalPrice }) => (
     <CartItemCheckout
       image={product.image}
@@ -55,36 +99,56 @@ const OrderInfo: React.FC<Props> = ({ order }) => {
           <div className="flex items-center justify-start pb-2 space-x-2 border-b-2 border-gray-700">
             <div className="text-lg font-semibold">Your Information</div>
           </div>
-          <div className="pr-3">
+          <div className="mr-3">
             <span className="font-semibold">Order Date:</span> {orderDate}
           </div>
-          <div className="pr-3">
+          <div className="mr-3">
             <span className="font-semibold">Recipient:</span> {name}
           </div>
-          <div className="pr-3">
+          <div className="mr-3">
             <span className="font-semibold">Email:</span> {email}
           </div>
-          <div className="pr-3">
+          <div className="mr-3">
             <span className="font-semibold">Shipping Address:</span>
-            {` ${address}, ${city}, ${
-              csc.getStateByCodeAndCountry(state, "VN").name
-            }.`}
+            {` ${address}, ${city}, ${getStateName(state, "VN")}.`}
           </div>
-          <div className="pr-3">
+          <div className="mr-3">
             <span className="font-semibold">Phone:</span> {phone}
           </div>
+          <div className="mr-3">
+            <span className="font-semibold">Payment Status:</span>
+            <span className={paidClasses}>
+              {realIsPaid ? " Paid" : " Not Yet Paid"}
+            </span>
+          </div>
+          {!realIsPaid && user && isAdmin && (
+            <button
+              className="flex items-center self-start px-2 py-2 space-x-2 text-white bg-blue-700 rounded-md hover:bg-blue-800"
+              onClick={handlePaid}
+            >
+              <span>Mark as Paid</span>
+              {isTogglingPaid && (
+                <ImSpinner8 className="duration-300 animate-spin" />
+              )}
+            </button>
+          )}
           <div className="pr-3">
             <span className="font-semibold">Delivery Status:</span>
             <span className={deliveryClasses}>
-              {isDelivered ? " Shipped" : " Delivering"}
+              {realIsDelivered ? " Shipped" : " Delivering"}
             </span>
           </div>
-          <div className="pr-3">
-            <span className="font-semibold">Payment Status:</span>
-            <span className={paidClasses}>
-              {isPaid ? " Paid" : " Not Yet Paid"}
-            </span>
-          </div>
+          {!realIsDelivered && realIsPaid && user && isAdmin && (
+            <button
+              className="flex items-center self-start px-2 py-2 space-x-2 text-white bg-blue-700 rounded-md hover:bg-blue-800"
+              onClick={handleDelivered}
+            >
+              <span>Mark as Delivered</span>
+              {isTogglingDelivered && (
+                <ImSpinner8 className="duration-300 animate-spin" />
+              )}
+            </button>
+          )}
         </div>
         <div className="flex flex-col xs:w-5/12 w-full xs:max-w-[22rem] space-y-3">
           <div className="flex items-center justify-start pb-2 space-x-2 border-b-2 border-gray-700 xs:justify-end">

@@ -11,8 +11,18 @@ import CheckoutContainer from "../containers/checkout/CheckoutContainer";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { STRIPE_KEY } from "../constants/stripeKey";
+import NProgress from "nprogress";
+import Router from "next/router";
 
 const stripePromise = loadStripe(STRIPE_KEY);
+NProgress.configure({ showSpinner: false });
+
+Router.events.on("routeChangeStart", (url) => {
+  console.log(`Loading: ${url}`);
+  NProgress.start();
+});
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }: any) {
   const getLayout =
