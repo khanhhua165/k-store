@@ -2,13 +2,13 @@
 
 **Project Link** - https://v-mart.vercel.app/
 
-K-Store, or the name in app is V-mart (requested by my girlfriend), is an online market for top quality animal product.
+- K-Store, or the name in app is V-mart (requested by my girlfriend), is an online market for top quality animal product.
 
-The web app is fully responsive so you can get your meat from any device.
+- The web app is fully responsive so you can get your meat from any device.
 
-Powered by NextJS, you'll get the feel of React App while still SEO optimized using Next's Server Side Rendering.
+- Powered by NextJS, you'll get the feel of React App while still SEO optimized using Next's Server Side Rendering.
 
-If you want to checkout with Credit Card, use card number 4242 4242 424242 (Stripe test card)
+- If you want to checkout with Credit Card, use card number 4242 4242 4242 (Stripe test card)
 
 ## Table of contents
 
@@ -109,6 +109,10 @@ cd client && npm run dev
 
 ![checkout-1](https://user-images.githubusercontent.com/63698721/125417243-99353205-6d00-4913-89a3-f3892035e50e.png)
 ![checkout-2](https://user-images.githubusercontent.com/63698721/125417768-2c809bab-0f69-4f94-a588-8c7ac4b2954d.png)
+
+### Order Page
+
+![order](https://user-images.githubusercontent.com/63698721/125428880-0d3b8f58-b6e1-4ab9-851c-70a5b16f60af.png)
 
 ### Admin Dashboard
 
