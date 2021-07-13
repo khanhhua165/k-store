@@ -8,7 +8,11 @@ type SearchInput = {
 };
 
 const Searchbar: React.FC = () => {
-  const { handleSubmit, register } = useForm<SearchInput>();
+  const {
+    handleSubmit,
+    register,
+    formState: { isSubmitting },
+  } = useForm<SearchInput>();
   const router = useRouter();
   const onSubmit: SubmitHandler<SearchInput> = ({ productName }) => {
     router.push(`/shop/search/${productName}`);
@@ -21,7 +25,13 @@ const Searchbar: React.FC = () => {
         className="w-64 pr-8 bg-gray-100 input-style"
         {...register("productName", { required: true })}
       />
-      <IoSearch className="absolute z-30 w-4 h-4 text-indigo-700 right-3 top-3" />
+      <button
+        disabled={isSubmitting}
+        type="submit"
+        className="absolute z-30 w-4 h-4 text-indigo-700 right-3 top-3"
+      >
+        <IoSearch />
+      </button>
     </form>
   );
 };
