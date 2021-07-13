@@ -1,0 +1,11 @@
+{
+  "env": {
+    "MONGO_USER": "your-username",
+    "MONGO_PASSWORD": "mongo-pass",
+    "MONGO_DB": "shop",
+    "JWT_SECRET": "this is secret",
+    "STRIPE_SECRET_TEST": "sk_test_asdg",
+    "SENDGRID_KEY": "SG.nhJPdsa",
+    "CLIENT_URL": "http://localhost:3000"
+  }
+} 
