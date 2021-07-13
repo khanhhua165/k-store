@@ -9,6 +9,7 @@ import axios from "axios";
 import { API_URL, USER_ROUTE } from "../../constants/api";
 import { toast } from "react-toastify";
 import { ImSpinner8 } from "react-icons/im";
+import { getStateName } from "../../helpers/getStateName";
 
 type Inputs = {
   name: string;
@@ -38,7 +39,7 @@ const UserInfoSetting: React.FC = () => {
       state: state
         ? {
             value: state,
-            label: csc.getStateByCodeAndCountry(state, "VN").name,
+            label: getStateName(state, "VN"),
           }
         : undefined,
     },

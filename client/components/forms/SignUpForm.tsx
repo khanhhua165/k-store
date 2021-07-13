@@ -26,11 +26,11 @@ const SignUpForm: React.FC = () => {
 
   const { login } = UserContainer.useContainer();
   const [mailErr, setMailErr] = useState("");
-  const onSubmit: SubmitHandler<SignUpInputs> = async (
-    { email, name, password },
-    e
-  ) => {
-    e!.preventDefault();
+  const onSubmit: SubmitHandler<SignUpInputs> = async ({
+    email,
+    name,
+    password,
+  }) => {
     try {
       const result = await axios.post<SignupResponse>(
         `${API_URL}${USER_ROUTE}/register`,

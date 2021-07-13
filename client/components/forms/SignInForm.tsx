@@ -24,8 +24,7 @@ const SignInForm: React.FC = () => {
   const router = useRouter();
   const { login } = UserContainer.useContainer();
   const [loginErr, setLoginErr] = useState("");
-  const onSubmit: SubmitHandler<SignInInputs> = async (data, e) => {
-    e?.preventDefault();
+  const onSubmit: SubmitHandler<SignInInputs> = async (data) => {
     try {
       const result = await axios.post<SigninResponse>(
         `${API_URL}${USER_ROUTE}/login`,

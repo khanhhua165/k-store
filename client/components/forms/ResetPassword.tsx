@@ -22,7 +22,7 @@ const ResetPassword: React.FC<Props> = ({ code }) => {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ password }, e) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ password }) => {
     try {
       await axios.post(`${API_URL}${USER_ROUTE}/password-recovery/reset`, {
         code,

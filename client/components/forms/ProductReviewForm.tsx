@@ -52,8 +52,7 @@ const ProductReviewForm: React.FC<Props> = ({
     />
   ));
 
-  const onSubmit: SubmitHandler<Input> = async ({ comment }, e) => {
-    e?.target.blur();
+  const onSubmit: SubmitHandler<Input> = async ({ comment }) => {
     if (!isLoggedIn || !token) {
       return toast.warning("You need to login before placing a review!");
     }

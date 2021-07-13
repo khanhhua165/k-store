@@ -52,11 +52,15 @@ const AddProductForm: React.FC = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<ProductInputs> = async (
-    { description, image, name, price, productType, stock, size },
-    e
-  ) => {
-    e?.target.blur();
+  const onSubmit: SubmitHandler<ProductInputs> = async ({
+    description,
+    image,
+    name,
+    price,
+    productType,
+    stock,
+    size,
+  }) => {
     const options = { maxWidthOrHeight: 800 };
     const resizedImage = await imageCompression(
       (image as FileList)[0],

@@ -82,11 +82,15 @@ const EditProductForm: React.FC<Props> = ({ productId }) => {
     }
   };
 
-  const onSubmit: SubmitHandler<ProductInputs> = async (
-    { description, image, name, price, productType, stock, size },
-    e
-  ) => {
-    e?.target.blur();
+  const onSubmit: SubmitHandler<ProductInputs> = async ({
+    description,
+    image,
+    name,
+    price,
+    productType,
+    stock,
+    size,
+  }) => {
     const formData = new FormData();
     if (currentImageURL !== initialImageURL.current) {
       const options = { maxWidthOrHeight: 800 };

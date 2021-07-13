@@ -20,11 +20,10 @@ const PasswordChange: React.FC = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = async (
-    { newPassword, oldPassword },
-    e
-  ) => {
-    e?.target.blur();
+  const onSubmit: SubmitHandler<Inputs> = async ({
+    newPassword,
+    oldPassword,
+  }) => {
     try {
       await axios.patch(
         `${API_URL}${USER_ROUTE}/password-change`,

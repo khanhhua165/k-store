@@ -21,8 +21,7 @@ const FindOrderForm: React.FC<Props> = ({ setOrderId, setOrderState }) => {
     register,
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ code }, e) => {
-    e?.target.blur();
+  const onSubmit: SubmitHandler<Inputs> = async ({ code }) => {
     try {
       const orderData = (
         await axios.get<{ order: OrderResponse }>(
