@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { createContainer } from "unstated-next";
 import { HOUR_IN_MILLISECOND } from "../../constants/time";
 import { User } from "../../interfaces/User.interface";
 
 const useAuth = () => {
   const [token, setToken] = useState<string | null>(null);
-  const [tokenExpirationDate, setTokenExpirationDate] =
-    useState<Date | null>(null);
+  const [tokenExpirationDate, setTokenExpirationDate] = useState<Date | null>(
+    null
+  );
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -37,6 +39,7 @@ const useAuth = () => {
     setTokenExpirationDate(null);
     setUser(null);
     localStorage.removeItem("userData");
+    toast.info("You have signed out!");
   }, []);
 
   return {
