@@ -25,6 +25,9 @@ export const getServerSideProps = async (
   } catch (e: unknown) {
     return { notFound: true };
   }
+  if (products.length === 0) {
+    return { notFound: true };
+  }
   return {
     props: { products, currentPage: +page, totalPage, currentURL: "/shop" },
   };

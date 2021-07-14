@@ -30,6 +30,9 @@ export const getServerSideProps = async (
       notFound: true,
     };
   }
+  if (products.length === 0) {
+    return { notFound: true };
+  }
   return {
     props: {
       products,
